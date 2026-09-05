@@ -1,0 +1,166 @@
+\section{The theorems}
+\label{sec:theorems}
+
+\subsection{The finite-width theorem}
+
+\begin{proof}[Proof of \cref{thm:finite}]
+Take $p=\theta n$ in \cref{prop:master}. The first inequality in \cref{eq:main-finite} is Markov's inequality on the event $\{K>1\}$, as in the proof of \cref{eq:master-tail}. For the second, \cref{lem:h} gives $\E(X_n^{(\alpha)})^{\theta n}\le e^{nh_\alpha(\theta)}$, so
+\[
+\E K_{n,L}(\alpha)^{2\theta n}\le C_{n,L}\,5^n\,4^{\theta n}\,e^{nLh_\alpha(\theta)},
+\]
+and \cref{lem:C-entropy} bounds $C_{n,L}\le 2e^{nLH(1/L)}$ for $L\ge2$. Multiplying out,
+\[
+C_{n,L}5^n4^{\theta n}e^{nLh_\alpha(\theta)}\le 2\exp\bigl(n[LH(1/L)+\log5+\theta\log4+Lh_\alpha(\theta)]\bigr)=2e^{nB_L(\alpha,\theta)}.
+\]
+For $L=1$, $C_{n,1}=2^n=2\cdot2^{n-1}\le2e^{n\log2}$ and the same computation applies with $\log2$ in place of $LH(1/L)$.
+\end{proof}
+
+\Cref{cor:width} is the theorem with the best $\theta$. The function $\theta\mapsto-B_L(\alpha,\theta)$ is continuous on $(0,1/4)$, tends to $-\infty$ as $\theta\uparrow1/4$, where $(1-4\theta)^{-1/2}$ blows up, and tends to the negative number $-LH(1/L)-\log5$ as $\theta\downarrow0$; so whenever its supremum $c_L(\alpha)$ is positive it is attained at an interior $\theta$, and the corollary applies with that $\theta$.
+
+\subsection{The exponent budget}
+\label{sec:budget}
+
+Written as a rate per unit width, the bound reads
+\[
+\frac1n\log\PP\bigl(K_{n,L}(\alpha)>1\bigr)\le\frac{\log2}n+
+\underbrace{LH(1/L)}_{\text{realizable patterns}}+\underbrace{\log5}_{\text{sphere net}}+\underbrace{\theta\log4}_{\text{net to norm}}+\underbrace{Lh_\alpha(\theta)}_{\text{radial moment, $L$ layers}} .
+\]
+Three of the four terms do not move once $L$ is fixed, and the first grows only like $\log L$: by \cref{lem:LH} below, $LH(1/L)=\log L+1+O(1/L)$. The last term is $L$ times a number that is negative whenever $\alpha<2$ and $\theta$ is small. A negative multiple of $L$ eventually beats a logarithm of $L$; the depth at which it does is $L_0(\alpha)$. This is why the upper bound succeeds at large depth and only there: the realizability entropy costs order $\log L$ per unit width, against the $nL\log2$ that a union bound over all $2^{nL}$ masks would cost, and the radial contraction is order $L$.
+
+\begin{lemma}\label{lem:LH}
+$LH(1/L)=\log L-(L-1)\log(1-1/L)=\log L+1+O(1/L)$ as $L\to\infty$, and $LH(1/L)\le\log L+1$ for every $L\ge2$.
+\end{lemma}
+
+\begin{proof}
+$LH(1/L)=-\log(1/L)-(L-1)\log(1-1/L)$. Since $-\log(1-x)=x+x^2/2+\dots\ge x$, $-(L-1)\log(1-1/L)\ge(L-1)/L$, and since $-\log(1-x)\le x/(1-x)$, $-(L-1)\log(1-1/L)\le(L-1)\cdot\frac{1/L}{1-1/L}=1$. So $\log L+1-1/L\le LH(1/L)\le\log L+1$.
+\end{proof}
+
+\subsection{Fixed depth, growing width; the depth threshold}
+
+\begin{proof}[Proof of \cref{thm:main}(i)]
+Fix $\alpha<2$. By \cref{eq:h-expansion}, $h_\alpha'(0+)=\log(\alpha/2)<0$, so there is $\theta\in(0,1/4)$, depending on $\alpha$ but not on $n$ or $L$, with $h_\alpha(\theta)=-\gamma<0$. By \cref{lem:LH} the budget satisfies
+\[
+B_L(\alpha,\theta)\le\log L+1+\log5+\theta\log4-L\gamma,
+\]
+which is negative for all $L\ge L_0(\alpha)$, a linear function eventually dominating a logarithm. For such $L$, \cref{thm:finite} gives $\PP(K_{n,L}(\alpha)>1)\le2e^{-c_{\alpha,L}n}$ with $c_{\alpha,L}=-B_L(\alpha,\theta)>0$, for every width $n$.
+\end{proof}
+
+The smallest depth at which the exact budget $\min_\theta B_L(\alpha,\theta)$ turns negative is a computable number; for $\alpha=1$ it is $237$, for $\alpha=1.9$ it is $52\,841$ (\cref{sec:numerics}). At depths below it the bound says nothing, and at depth one it cannot: $\alpha_1=1/4$.
+
+\subsection{The other side}
+
+\begin{lemma}[one fixed input]\label{lem:forward}
+Fix $L$ and a deterministic $s\ne0$. Conditional on $x_{\ell-1}(s)\ne0$,
+\begin{equation}\label{eq:ratio}
+\frac{\norm{x_\ell(s)}^2}{\norm{x_{\ell-1}(s)}^2}\eqd\frac\alpha n\sum_{i=1}^nB_{\ell i}Z_{\ell i}^2=X_n^{(\alpha)},
+\end{equation}
+with the pairs $(B_{\ell i},Z_{\ell i})$ independent across $i$. Also, for every nonzero $s$, whether or not the network is differentiable there,
+\begin{equation}\label{eq:K-lower}
+K_{n,L}(\alpha)\ge\frac{\norm{F^{(\alpha)}_{n,L}(s)}}{\norm s}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Given the past through layer $\ell-1$, $x_{\ell-1}(s)$ is fixed and $W_\ell$ independent of it, so the coordinates of $W_\ell x_{\ell-1}(s)$ are independent centred Gaussians of variance $\frac\alpha n\norm{x_{\ell-1}(s)}^2$; ReLU keeps each with probability $\tfrac12$, independently of its magnitude (a centred Gaussian's sign and absolute value are independent), which is \cref{eq:ratio}. For \cref{eq:K-lower}, $F(0)=0$ by \cref{eq:homog}, so $K\ge\norm{F(s)-F(0)}/\norm{s-0}$.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:above2}]
+Fix $s=e_1$ and write $r_\ell=\norm{x_\ell}^2/\norm{x_{\ell-1}}^2$ when $x_{\ell-1}\ne0$. If no layer dies and every $r_\ell>1$, then $\norm{x_L}^2/\norm s^2=\prod_\ell r_\ell>1$ and $K_{n,L}(\alpha)>1$ by \cref{eq:K-lower}. So
+\[
+\{K_{n,L}(\alpha)\le1\}\subseteq\bigcup_{\ell=1}^L\{x_{\ell-1}\ne0,\ \tfrac\alpha nS^{(\ell)}_n\le1\}\cup\{\text{some layer dies}\},
+\]
+where $S^{(\ell)}_n=\sum_iB_{\ell i}Z_{\ell i}^2$ is the sum in \cref{eq:ratio}. A layer dies exactly when all $n$ of its Bernoulli variables are zero, in which case $S^{(\ell)}_n=0\le n/\alpha$; so the dying event is contained in the same union. By the union bound and \cref{eq:ratio}, $\PP(K\le1)\le L\,\PP(S_n\le n/\alpha)$ with $S_n$ as in \cref{lem:mgf}. Since $\E S_n=n/2$, $\Var S_n=5n/4$ and $n/\alpha<n/2$ for $\alpha>2$, Chebyshev's inequality gives
+\[
+\PP\Bigl(S_n\le\frac n\alpha\Bigr)\le\PP\Bigl(\abs{S_n-\tfrac n2}\ge\frac n2-\frac n\alpha\Bigr)\le\frac{5n/4}{n^2(\frac12-\frac1\alpha)^2}=\frac{5\alpha^2}{n(\alpha-2)^2}.
+\]
+Multiply by $L$.
+\end{proof}
+
+\Cref{thm:main}(ii) follows, since the bound tends to zero as $n\to\infty$ at fixed $L$ and $\alpha>2$. A Chernoff bound with the moment-generating function \cref{eq:mgfS} gives an exponentially small bound in place of $1/n$; the weaker form is enough for the theorem and has an explicit constant.
+
+\begin{remark}
+The reverse direction needs no largest singular value, no rare activation pattern, and no global search. The ordinary forward direction of one fixed input already expands, because each layer multiplies the squared norm by an average of $\alpha/2>1$ and the fluctuations are of order $n^{-1/2}$.
+\end{remark}
+
+\subsection{The depth limit}
+
+\begin{proof}[Proof of \cref{thm:main}(iii)]
+Part (ii) says that no $\alpha>2$ belongs to the set in \cref{eq:alphaL} for any $L$, so $\alpha_L\le2$ for every $L$. Fix $\alpha<2$; by part (i), for every $L\ge L_0(\alpha)$, $\PP(K_{n,L}(\alpha)\le1)\to1$, so $\alpha$ belongs to the set and $\alpha_L\ge\alpha$ for all such $L$. Hence $\liminf_L\alpha_L\ge\alpha$ for every $\alpha<2$, so $\liminf_L\alpha_L\ge2\ge\limsup_L\alpha_L$.
+\end{proof}
+
+Reading the statement carefully: for every $\alpha<2$ there is a depth $L_0(\alpha)$, inside the choice of $\alpha$, such that for every $L\ge L_0(\alpha)$ the probability statement holds as $n\to\infty$. The order of the quantifiers cannot be exchanged: no single depth works for every $\alpha<2$ at once, because $L_0(\alpha)\to\infty$ as $\alpha\uparrow2$.
+
+\subsection{The quantitative rate}
+
+Write $\alpha=2e^{-\delta}$. Then $\theta\log(\alpha/2)=-\delta\theta$, and by \cref{eq:h-expansion}
+\begin{equation}\label{eq:h-delta}
+h_{2e^{-\delta}}(\theta)=-\delta\theta+\frac52\theta^2+O(\theta^3),
+\end{equation}
+with a remainder uniform in $\delta$ near zero, since all dependence on $\alpha$ is in the exact linear term. Ignoring the remainder, $-\delta\theta+\frac52\theta^2$ is minimized at $\theta=\delta/5$ with value $-\delta^2/10$; so $L$ layers produce a negative exponent of about $-L\delta^2/10$, against a geometric cost of about $\log L$. Balancing, $L\delta^2/10\approx\log L$, or $\delta\approx\sqrt{10\log L/L}$. The proof makes this precise.
+
+\begin{proof}[Proof of \cref{thm:main}(iv)]
+Fix a constant $A>1+\log5$ and for large $L$ put
+\[
+\delta_L=\sqrt{\frac{10(\log L+A)}L},\qquad\alpha(L)=2e^{-\delta_L},\qquad\theta_L=\frac{\delta_L}5 .
+\]
+Since $\delta_L\to0$, $\theta_L\in(0,1/4)$ for all large $L$. Evaluate the budget of \cref{thm:finite} at $(\alpha(L),\theta_L)$, with $L$ fixed and $n$ free:
+\begin{align*}
+B_L(\alpha(L),\theta_L)&=LH(1/L)+\log5+\theta_L\log4+Lh_{\alpha(L)}(\theta_L)\\
+&=\log L+1+O(1/L)+\log5+o(1)+L\Bigl[-\frac{\delta_L^2}5+\frac52\cdot\frac{\delta_L^2}{25}+O(\delta_L^3)\Bigr]\\
+&=\log L+1+\log5-\frac{L\delta_L^2}{10}+O(L\delta_L^3)+o(1).
+\end{align*}
+By definition $L\delta_L^2/10=\log L+A$, while $L\delta_L^3=10^{3/2}(\log L+A)^{3/2}L^{-1/2}\to0$. Hence
+\[
+B_L(\alpha(L),\theta_L)=1+\log5-A+o(1),
+\]
+which is negative for all large $L$ because $A>1+\log5$. For such $L$, \cref{thm:finite} gives $\PP(K_{n,L}(\alpha(L))>1)\to0$ as $n\to\infty$, so $\alpha(L)$ belongs to the set defining $\alpha_L$ and
+\[
+\alpha_L\ge\alpha(L)=2\exp\Bigl[-\sqrt{\frac{10(\log L+A)}L}\Bigr]=2\exp\Bigl[-(\sqrt{10}+o(1))\sqrt{\frac{\log L}L}\Bigr],
+\]
+the last step because $\sqrt{1+A/\log L}=1+o(1)$.
+\end{proof}
+
+The rate is the balance between one number that comes from geometry, the entropy $\log L$ of the realizable patterns, and one that comes from probability, the curvature $\tfrac52$ of the moment exponent at the critical variance. The asymptotic form drops the $O(1/L)$, the $\theta_L\log4$, the $O(L\delta^3_L)$ and the choice of $A$, and is therefore only the large-$L$ shape of the bound; at a specific depth the number the proof delivers is the threshold of the exact budget,
+\begin{equation}\label{eq:alpha-star}
+\alpha^*_L=\sup\Bigl\{\alpha:\ \min_{0<\theta<1/4}B_L(\alpha,\theta)<0\Bigr\}\le\alpha_L,
+\end{equation}
+which \cref{sec:numerics} tabulates. At $L=100$ the exact budget gives $0.678$ while the asymptotic formula, read at $L=100$ with the $o(1)$ dropped, would say $1.01$, a number the proof does not deliver there.
+
+\subsection{Exact scaling in the variance}
+
+Let $G_1,\dots,G_L$ have independent $\mathcal N(0,1/n)$ entries and couple $W^{(\alpha)}_\ell=\sqrt\alpha\,G_\ell$. Each layer contributes one factor $\sqrt\alpha$, and by homogeneity of ReLU, $F^{(\alpha)}_{n,L}(s)=\alpha^{L/2}F^{(1)}_{n,L}(s)$, hence
+\begin{equation}\label{eq:scaling}
+K_{n,L}(\alpha)=\alpha^{L/2}K_{n,L}(1).
+\end{equation}
+The positive scalar changes no activation sign, so every mask is unchanged under the coupling. Stability is therefore monotone in $\alpha$: the set in \cref{eq:alphaL} is an interval $(0,\alpha_L)$ or $(0,\alpha_L]$, and the word threshold is literal. The identity also says that the whole question is the distribution of $K_{n,L}(1)$, and that $\PP(K_{n,L}(\alpha)\le1)=\PP(K_{n,L}(1)\le\alpha^{-L/2})$.
+
+\subsection{Biases}
+\label{sec:biases}
+
+Add bias vectors to the network: $h_\ell(s)=W_\ell x_{\ell-1}(s)+b_\ell$, with $b_1,\dots,b_L\in\R^n$ random, independent of the weights, and each with independent coordinates whose laws are symmetric about zero (Gaussian biases of any variance are the standard case). Everything above goes through with the changes listed here, and the bound of \cref{thm:finite} holds word for word.
+
+\begin{theorem}[finite width, with biases]\label{thm:bias}
+For the biased network, for every $n\ge1$, $L\ge2$, $\alpha>0$ and $\theta\in(0,1/4)$, $\PP(K_{n,L}(\alpha)>1)\le2\exp(nB_L(\alpha,\theta))$ with the same budget $B_L$ as in \cref{thm:finite}; and for $\alpha>2$, $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$. Consequently \cref{thm:main} holds for the biased network.
+\end{theorem}
+
+\begin{proof}
+\emph{Regions.} For a formal mask sequence $D$ the formal preactivations are affine: $h^D_\ell(s)=H^D_\ell s+c^D_\ell$ with the same matrices $H^D_\ell$ as in \cref{eq:HD} and offsets $c^D_1=b_1$, $c^D_\ell=W_\ell D_{\ell-1}c^D_{\ell-1}+b_\ell$. The strict region $R_D=\{s:E^D_\ell(H^D_\ell s+c^D_\ell)>0\ \forall\ell\}$ is an open convex polyhedron, no longer a cone. \Cref{lem:consistency} holds with $F(s)=J_Ds+D_Lc^D_L$ on $R_D$: the induction is unchanged, and the derivative on $R_D$ is still $J_D$, because the biases do not enter the Jacobian. \Cref{lem:pl} is stated for linear pieces, but its proof uses only that $F$ agrees with an affine map $x\mapsto M_Cx+m_C$ on each cell: the telescoped differences $F(\gamma(u_j))-F(\gamma(u_{j-1}))=M_{C_j}(\gamma(u_j)-\gamma(u_{j-1}))$ do not see $m_C$. The nondegeneracy argument is unchanged, since each preactivation functional is affine with the same random linear part, and a dead formal piece now has a constant output and Jacobian zero. So \cref{eq:reduction} holds: $K_{n,L}(\alpha)=\max(\{0\}\cup\{\op{J_D}:R_D\ne\varnothing\})$.
+
+\emph{Realizability.} With $c_D$ the stacked offsets, $R_D\ne\varnothing$ if and only if the affine subspace $\im(A_D)+c_D$ meets the orthant $O_D$. Under the gauge, extended to the biases by $b_\ell\mapsto\Sigma_\ell b_\ell$, one checks by the induction of \cref{lem:covariance} that $c^D_\ell(W^\Sigma,b^\Sigma)=\Sigma_\ell c^D_\ell(W,b)$, so the affine subspace transforms to $S_\Sigma(\im A_D+c_D)$; and the joint law of $(W,b)$ is preserved, because each bias coordinate is symmetric and independent of everything else. The proof of \cref{prop:orbit} then gives
+\[
+\E\bigl[F\one_{\{R_D\ne\varnothing\}}\bigr]=\E\Bigl[F\,\frac{r(\im A_D+c_D)}{2^{nL}}\Bigr]
+\]
+for every nonnegative gauge-invariant $F$, with $r$ counting the orthants met by the affine subspace.
+
+\emph{Counting.} An affine subspace $A\subseteq\R^M$ of dimension $d\le n$ meets at most $\sum_{j=0}^d\binom Mj$ open orthants. Indeed the coordinate hyperplanes restrict to at most $M$ affine hyperplanes in $A$ (a coordinate that is constant on $A$ contributes none), the orthants met correspond to the regions of that arrangement as in \cref{sec:gauge}, and the number of regions of $M$ affine hyperplanes in dimension $d$ satisfies $R(M,d)\le R(M-1,d)+R(M-1,d-1)$ with $R(M,0)=1$ and $R(0,d)=1$, the same recurrence as \cref{eq:recur} with new boundary values, whose solution is $\sum_{j\le d}\binom Mj$ by Pascal's identity. With $M=nL$ and $d\le n$, \cref{lem:entropy} (with $k=n$, $N=nL$, $k/N=1/L\le\tfrac12$) gives $\sum_{j\le n}\binom{nL}j\le e^{nLH(1/L)}$, which is no larger than the bound $2e^{nLH(1/L)}$ used for $C_{n,L}$. For $L=1$ the count is $2^n$ as before.
+
+\emph{The rest.} The net, the radial moments and the scalar bound concern $J_D$ only, so \cref{prop:master} and \cref{thm:finite} follow with the same budget.
+
+\emph{The expansive side.} Homogeneity is lost, so \cref{eq:K-lower} is replaced by a ray argument. Let $F_0$ be the bias-free network with the same weights and fix $s\ne0$ at which every bias-free preactivation coordinate is nonzero (almost surely). For $c$ large enough the preactivations at the input $cs$ have the same signs as the bias-free preactivations at $s$, because $W_\ell(c\,x)+b_\ell=c\,(W_\ell x)+b_\ell$ and the bias is eventually dominated; so $cs$ lies in one region, on which $F$ is affine with linear part $J=DF$ equal to the bias-free Jacobian at $s$, and $F(cs)=cJs+\kappa$ with $\kappa$ independent of $c$. Since $Js=F_0(s)$ by homogeneity of $F_0$,
+\[
+K_{n,L}(\alpha)\ge\lim_{c\to\infty}\frac{\norm{F(cs)-F(0)}}{c\norm s}=\frac{\norm{F_0(s)}}{\norm s},
+\]
+and the proof of \cref{thm:above2} applies to $F_0$ unchanged.
+\end{proof}
+
+The biases play no role in the threshold because the Lipschitz constant is a statement about differences, and the only place they could enter, the realizability of a pattern, is handled by the same symmetry average with the same count. Deterministic or asymmetric biases are a different matter: the sign symmetry of the law is what the orbit identity uses, and without it the argument does not apply as written.

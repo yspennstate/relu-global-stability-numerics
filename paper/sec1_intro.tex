@@ -1,0 +1,117 @@
+\section{The object, the question, and the answer}
+\label{sec:intro}
+
+\subsection{The object}
+
+Fix integers $n\ge 1$ and $L\ge 1$ and a number $\alpha>0$. Let $W_1,\dots,W_L$ be independent $n\times n$ random matrices, every entry of every matrix independent with law $\mathcal N(0,\alpha/n)$. Write $\phi(t)=\max\{t,0\}$ for the scalar ReLU and apply it to a vector coordinate by coordinate. Starting from an input $s\in\R^n$ set
+\begin{equation}\label{eq:forward}
+x_0(s)=s,\qquad h_\ell(s)=W_\ell x_{\ell-1}(s),\qquad x_\ell(s)=\phi(h_\ell(s)),\qquad 1\le \ell\le L,
+\end{equation}
+and let $F^{(\alpha)}_{n,L}(s)=x_L(s)$. There are no biases, no training and no data: the network is $L$ random matrices and the operation of clipping negative coordinates to zero. The factor $1/n$ in the variance is the usual width normalization; it keeps a coordinate of $W_\ell x$ at variance $(\alpha/n)\norm{x}^2$, so that $\norm{W_\ell x}^2$ has expectation $\alpha\norm{x}^2$ rather than $n\alpha\norm x^2$. The parameter $\alpha$ is the dial of the problem.
+
+\subsection{The question}
+
+A function $F:\R^n\to\R^n$ stretches or shrinks distances. Its global Lipschitz constant
+\begin{equation}\label{eq:Kdef}
+K_{n,L}(\alpha)=\Lip_2\bigl(F^{(\alpha)}_{n,L}\bigr)=\sup_{s\ne t}\frac{\norm{F^{(\alpha)}_{n,L}(s)-F^{(\alpha)}_{n,L}(t)}}{\norm{s-t}}
+\end{equation}
+is the worst stretching factor over every pair of inputs. It is not an average and not a typical value; one realization of the weights must control every pair at once. When $K_{n,L}(\alpha)\le 1$ the network never increases a distance and we call it non-expansive. The question is: for which $\alpha$ is the random network non-expansive, and how does the answer depend on the width and the depth?
+
+For a fixed depth $L$, define the fixed-depth threshold
+\begin{equation}\label{eq:alphaL}
+\alpha_L=\sup\bigl\{\alpha>0:\ \PP\bigl(K_{n,L}(\alpha)\le 1\bigr)\to 1\ \text{as } n\to\infty\bigr\}.
+\end{equation}
+Membership in the set is itself a statement about a limit in the width, with $\alpha$ and $L$ held fixed.
+
+\subsection{The answer, at finite width}
+
+The proof below produces, for every width and depth, an explicit bound on the probability that the network is expansive. Two elementary functions carry it. The binary entropy is
+\[
+H(u)=-u\log u-(1-u)\log(1-u),\qquad 0\le u\le 1,\qquad 0\log 0=0,
+\]
+and for $0<\theta<1/4$,
+\begin{equation}\label{eq:hdef}
+h_\alpha(\theta)=\theta\log\frac{\alpha}{2e}+\log\Bigl(\frac{1+(1-4\theta)^{-1/2}}{2}\Bigr).
+\end{equation}
+The entropy will measure how many activation patterns a random network can realize; $h_\alpha$ will measure the high moments of one layer's radial factor.
+
+\begin{theorem}[finite width, finite depth]\label{thm:finite}
+For every $n\ge 1$, every $L\ge 2$, every $\alpha>0$ and every $\theta\in(0,1/4)$,
+\begin{equation}\label{eq:main-finite}
+\begin{gathered}
+\PP\bigl(K_{n,L}(\alpha)>1\bigr)\;\le\;\E\bigl[K_{n,L}(\alpha)^{2\theta n}\bigr]\;\le\;2\exp\bigl(n\,B_L(\alpha,\theta)\bigr),\\
+B_L(\alpha,\theta)=L\,H(1/L)+\log 5+\theta\log 4+L\,h_\alpha(\theta).
+\end{gathered}
+\end{equation}
+For $L=1$ the same holds with $L H(1/L)$ replaced by $\log 2$.
+\end{theorem}
+
+The four terms of the budget $B_L$ have four separate origins, listed in \cref{sec:budget}: the entropy term counts realizable activation patterns, $\log 5$ pays for a net of the sphere, $\theta\log 4$ for replacing an operator norm by a maximum over that net, and $L\,h_\alpha(\theta)$ is one exact radial moment per layer. The first three are fixed once $L$ is fixed; the last is the only one that carries a factor $L$ with a sign that can be negative. When $\alpha<2$ the function $h_\alpha$ is negative on an interval $(0,\theta_0)$, because its derivative at zero is $\log(\alpha/2)<0$, so the last term is a negative multiple of $L$ while the positive terms grow like $\log L$. Beyond a computable depth the budget is negative.
+
+\begin{corollary}[fixed depth, growing width]\label{cor:width}
+Let $\alpha<2$ and $L\ge 2$, and suppose $c_L(\alpha):=\max_{0<\theta<1/4}\bigl[-B_L(\alpha,\theta)\bigr]>0$. Then for every width $n$,
+\[
+\PP\bigl(K_{n,L}(\alpha)>1\bigr)\le 2e^{-c_L(\alpha)\,n},
+\]
+so the network is non-expansive with probability at least $1-2e^{-c_L(\alpha)n}$. In particular $\PP(K_{n,L}(\alpha)\le 1)\to 1$ as $n\to\infty$, with an exponential rate.
+\end{corollary}
+
+At a given finite width the probability is not one; the bound says how far from one it can be. For instance at $\alpha=1$ and $L=1000$ the rate is $c_{1000}(1)=25.03$, and already at width $n=10$ the bound reads $2e^{-250}$. \Cref{sec:numerics} tabulates these numbers.
+
+\begin{theorem}[the other side, at finite width]\label{thm:above2}
+For every $n\ge 1$, $L\ge 1$ and $\alpha>2$,
+\[
+\PP\bigl(K_{n,L}(\alpha)\le 1\bigr)\le\frac{5\alpha^2 L}{n(\alpha-2)^2}.
+\]
+\end{theorem}
+
+The two finite statements combine into the theorem the paper is named for.
+
+\begin{theorem}[unconditional global threshold]\label{thm:main}
+For the Gaussian bias-free ReLU network above:
+\begin{enumerate}
+\item[(i)] For every $\alpha<2$ there is a depth $L_0(\alpha)$ such that for every fixed $L\ge L_0$ there is $c_{\alpha,L}>0$ with $\PP(K_{n,L}(\alpha)>1)\le 2e^{-c_{\alpha,L}n}$ for all $n$; in particular $\PP(K_{n,L}(\alpha)\le 1)\to 1$.
+\item[(ii)] For every fixed $L\ge 1$ and every $\alpha>2$, $\PP(K_{n,L}(\alpha)>1)\to 1$ as $n\to\infty$.
+\item[(iii)] Consequently $\lim_{L\to\infty}\alpha_L=2$.
+\item[(iv)] More precisely, $\alpha_L\ge 2\exp\bigl[-(\sqrt{10}+o(1))\sqrt{\log L/L}\bigr]$ as $L\to\infty$.
+\end{enumerate}
+\end{theorem}
+
+Part (i) is \cref{cor:width} together with the observation that the budget turns negative at large depth; the depth $L_0(\alpha)$ is the smallest $L$ at which $c_L(\alpha)>0$, and it is computable (\cref{sec:numerics}). Part (ii) is \cref{thm:above2}. Part (iii) follows from (i) and (ii). Part (iv) comes from expanding $h_\alpha$ near $\alpha=2$, where $h_{2e^{-\delta}}(\theta)=-\delta\theta+\tfrac52\theta^2+O(\theta^3)$; optimizing $\theta$ and balancing the negative term $-L\delta^2/10$ against the entropy $\log L$ gives $\delta\approx\sqrt{10\log L/L}$.
+
+\subsection{The order of limits}
+
+The order is part of the statement. First a depth $L$ is fixed; then the width $n$ tends to infinity, which defines $\alpha_L$; only then does $L$ tend to infinity. Nothing is claimed about a joint regime $L=L(n)$. \Cref{thm:finite} is nevertheless a finite statement in both variables, and one may read it in any regime one likes, provided the budget $B_L$ is evaluated there. For example, at fixed $\alpha<2$ the bound is useless below the depth $L_0(\alpha)$, whatever the width, and this is not an artifact: at depth one the threshold is $\alpha_1=1/4$, so a depth-one network at $\alpha=1$ is expansive with probability tending to one although $1<2$.
+
+\subsection{Why the number two}
+
+For a fixed nonzero $x$, each coordinate of $W_\ell x$ is Gaussian with variance $(\alpha/n)\norm x^2$, and ReLU keeps, in expectation, half of the squared magnitude:
+\[
+\E\bigl[\norm{\phi(W_\ell x)}^2\ \big|\ x\bigr]=\frac{\alpha}{2}\norm x^2.
+\]
+A forward pass multiplies a typical squared norm by $\alpha/2$ per layer, and $\alpha=2$ is where that factor is one. The content of the theorem is that the same number governs the global Lipschitz constant in the deep limit, although the supremum in \cref{eq:Kdef} may hunt for rare activation regions and rare directions, and although the region an input lands in is decided by the very matrices whose stretching is being measured.
+
+\subsection{The second result: one matrix, many steps}
+
+The network above draws a fresh matrix at every layer. Tie the layers instead, one matrix $W$ with $\mathcal N(0,1/N)$ entries applied again and again, $x_{t+1}=\phi(Wx_t)$ from a unit vector $x_0$; in the notation above this is $\alpha=1$ and $n=N$. At $\alpha=1$ a layer halves the expected squared norm, and the second theorem (\cref{sec:horizon}) says that this halving is exact to any tolerance, uniformly over a fixed number of steps, with exponentially small failure probability: for every $T$ and $\delta$ there are $C,c$ depending only on them with
+\[
+\PP\Bigl(\max_{0\le t\le T}\bigl|2^t\norm{x_t}^2-1\bigr|>\delta\Bigr)\le Ce^{-cN}
+\]
+for every deterministic $x_0$; and for one typical matrix the set of starting points that fail has exponentially small measure under any measure independent of $W$. The obstacle is the same as before: $x_1$ is a function of $W$, so $Wx_1$ is not a fresh Gaussian vector. The resolution is the opposite of the gauge argument. The trajectory spans a subspace of dimension at most $T+1$; a query $Wu$ reveals only the coefficients of the rows of $W$ in the direction $u$; and if the directions queried are orthogonal and each is chosen from what has already been revealed, the answers are independent Gaussian vectors, whatever the rule that chose them. Gram--Schmidt on the trajectory produces such directions, the dynamics is rewritten in terms of $T+1$ Gaussian innovations, and a law of large numbers uniform over a ball in $\R^{T+1}$ closes the argument. \Cref{sec:together} sets the two results side by side: what they share, where they differ, why each method fits its question, and one place where the second method improves the first theorem.
+
+\subsection{What is new here}
+
+The first theorem's proof turns on the exact orbit identity of \cref{sec:gauge}: the probability that a formal activation pattern is realized, weighted by any gauge-invariant functional, equals the expected number of orthants met by a random subspace divided by $2^{nL}$. Nothing is conditioned on and no independence is assumed; the identity is exact and the only inequality is a deterministic orthant count. Written at finite width, the argument gives an explicit failure bound for every $n$ and $L$, with a budget whose four terms have four named origins, and a computable finite-depth threshold; the limit theorem and its rate are read off from it. The second theorem's proof turns on the innovation lemma of \cref{sec:horizon}, which makes conditioning on an adaptively chosen trajectory exact. Placing the two together shows that the same entanglement admits two different exact treatments, that the choice between them is decided by what is quantified over, one input or all inputs, and that the second treatment sharpens the expansive side of the first theorem.
+
+\subsection{How the proof goes}
+
+The difficulty is an entanglement. The activation pattern of an input is a function of the weights; the worst input is chosen after the weights are seen; and the Jacobian on the region of that input is built from the same weights. Conditioning on a realized pattern would tilt the law of the weights in a way that is hard to control. The proof never conditions. Its steps:
+\begin{enumerate}
+\item Replace the global supremum by the maximum operator norm of the linear maps on the nonempty activation regions (\cref{sec:regions}).
+\item Fix a \emph{formal} mask sequence $D$: a sequence of diagonal $0/1$ matrices written down without asking whether any input produces it. Realizability of $D$ is the event that an $n$-dimensional subspace of $\R^{nL}$ meets one specified open orthant.
+\item Average that event over a group of $2^{nL}$ sign changes. The sign changes preserve the joint law of the weights and the norm of every formal Jacobian, while they move the target orthant through all $2^{nL}$ orthants exactly once. The average of the realizability indicator is therefore a deterministic orthant count divided by $2^{nL}$, and an exact identity results (\cref{sec:gauge}). This identity is the centre of the argument.
+\item Bound the orthant count by a classical result: an at most $n$-dimensional subspace of $\R^{nL}$ meets at most $C_{n,L}=2\sum_{j<n}\binom{nL-1}{j}\le 2e^{nLH(1/L)}$ open orthants.
+\item Bound the operator norm of a formal Jacobian through a $\tfrac12$-net of the sphere and exact Gaussian radial moments, and reduce everything to one scalar random variable $X_n^{(\alpha)}=\frac{\alpha}{n}\sum_i B_iZ_i^2$ (\cref{sec:moments}).
+\item Take a moment of order $2\theta n$ and bound it with an explicit finite-$n$ inequality; the four exponential rates assemble into $B_L$ (\cref{sec:theorems}).
+\end{enumerate}
+Every estimate is finite in $n$ and $L$. The only place a limit enters is the definition of $\alpha_L$ itself, and the asymptotic form (iv), where an expansion in $\theta$ is convenient. \Cref{sec:numerics} checks the identity of step 3 and the bounds of steps 4--6 against brute-force computation at small width, and \cref{sec:sharp} shows that the finite bound $h_\alpha$ has the exact large-$n$ exponent of the scalar moment, so the derivative $\log(\alpha/2)$ and the coefficient $\tfrac52$ are not artifacts of a loose estimate.

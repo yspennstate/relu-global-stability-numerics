@@ -1,0 +1,177 @@
+\section{One matrix, many steps: the finite-horizon norm law}
+\label{sec:horizon}
+
+The network of \cref{sec:intro} uses a fresh matrix at every layer. This section treats the other natural object: one Gaussian matrix applied again and again,
+\begin{equation}\label{eq:fh-dyn}
+x_{t+1}=\phi(Wx_t),\qquad t=0,1,2,\dots,\qquad W\in\R^{N\times N},\quad W_{ij}\overset{\text{ind}}{\sim}\mathcal N(0,1/N),
+\end{equation}
+started from a unit vector $x_0\in S^{N-1}$. In the notation of \cref{sec:intro} this is width $n=N$ and variance parameter $\alpha=1$, with the $L$ independent matrices replaced by a single one. The question is no longer the worst input but the ordinary one: what does the norm of the trajectory do? At $\alpha=1$ a layer halves the expected squared norm, and the theorem says that for a fixed number of steps this halving holds with exponentially small failure probability, for every deterministic input and for almost every input of one typical matrix. The proof is due to the same author as the global theorem and is given here in a condensed form; nothing is omitted from the logic, only from the commentary.
+
+\subsection{Statements}
+
+\begin{theorem}[deterministic input]\label{thm:fh}
+Fix an integer $T\ge0$ and $\delta>0$. There are constants $C,c>0$, depending only on $T$ and $\delta$, such that for every $N\ge1$ and every deterministic $x_0\in S^{N-1}$,
+\begin{equation}\label{eq:fh-main}
+\PP_W\Bigl(\max_{0\le t\le T}\bigl|2^t\norm{x_t}^2-1\bigr|>\delta\Bigr)\le Ce^{-cN}.
+\end{equation}
+\end{theorem}
+
+\begin{corollary}[random start independent of the matrix]\label{cor:fh-random}
+If $X_0$ is a random unit vector independent of $W$, the same bound holds for $\PP_{W,X_0}$.
+\end{corollary}
+
+For a fixed matrix $W$ let $\mathcal B(W)=\{x_0\in S^{N-1}:\max_{t\le T}|2^t\norm{x_t}^2-1|>\delta\}$ be its set of bad starting points.
+
+\begin{theorem}[almost every input]\label{thm:fh-ae}
+Fix $T$ and $\delta$ and let $\mu_N$ be a probability measure on $S^{N-1}$, deterministic or random but independent of $W$. With the constants of \cref{thm:fh}, conditionally on $\mu_N$,
+\[
+\PP_W\bigl(\mu_N(\mathcal B(W))>e^{-cN/2}\bigr)\le Ce^{-cN/2}.
+\]
+\end{theorem}
+
+The one-step case is the warm-up. For deterministic $x_0$, the coordinates of $Wx_0$ are independent $\mathcal N(0,1/N)$, so $\norm{x_1}^2=\frac1N\sum_i(\xi_i)_+^2$ with $\xi_i$ standard normal, and $\E(\xi_+)^2=\tfrac12\E\xi^2=\tfrac12$ by symmetry: the law of large numbers puts $\norm{x_1}^2$ near $\tfrac12$. The difficulty begins at the second step. The vector $x_1$ depends on $W$, so $Wx_1$ is not a Gaussian vector with independent coordinates, and the one-step argument cannot simply be repeated. This is the same entanglement as in \cref{sec:regions}, inside a single matrix. The proof handles it by conditioning, and the point of the section is why conditioning is legal here when it was avoided there.
+
+\subsection{Tools}
+
+Beyond \cref{sec:tools}, three estimates are needed. For $Z\sim\mathcal N(0,\sigma^2)$ and $t>0$, Markov's inequality on $e^{\lambda Z}$ with $\lambda=t/\sigma^2$ gives the Gaussian tail
+\begin{equation}\label{eq:gtail}
+\PP(\abs Z\ge t)\le2e^{-t^2/(2\sigma^2)}.
+\end{equation}
+
+\begin{lemma}[elementary Bernstein inequality]\label{lem:bernstein}
+Let $X_1,\dots,X_N$ be independent, mean zero, with $\E\exp(\abs{X_i}/K)\le2$ for every $i$. Then for every $u>0$,
+\[
+\PP\Bigl(\Bigl|\frac1N\sum_{i=1}^NX_i\Bigr|>u\Bigr)\le2\exp\Bigl[-N\min\Bigl\{\frac{u^2}{16K^2},\frac u{8K}\Bigr\}\Bigr].
+\]
+\end{lemma}
+
+\begin{proof}
+Expanding the exponential, $2\ge\E e^{\abs{X_i}/K}=\sum_p\E\abs{X_i}^p/(p!K^p)$ termwise, so $\E\abs{X_i}^p\le2p!K^p$. For $\abs\lambda K\le\tfrac14$, since $\E X_i=0$,
+\[
+\E e^{\lambda X_i}=1+\sum_{p\ge2}\frac{\lambda^p\E X_i^p}{p!}\le1+2\sum_{p\ge2}(\abs\lambda K)^p=1+\frac{2(\abs\lambda K)^2}{1-\abs\lambda K}\le1+4\lambda^2K^2\le e^{4\lambda^2K^2}.
+\]
+By independence and Markov, $\PP(\frac1N\sum X_i>u)\le\exp(-\lambda Nu+4N\lambda^2K^2)$ for $0<\lambda\le1/(4K)$. If $u\le2K$ take $\lambda=u/(8K^2)$, which gives $e^{-Nu^2/(16K^2)}$; if $u>2K$ take $\lambda=1/(4K)$, which gives $\exp(-Nu/(4K)+N/4)\le e^{-Nu/(8K)}$. The lower tail is the same argument for $-X_i$.
+\end{proof}
+
+\begin{lemma}[average squared length of Gaussian vectors]\label{lem:chisq}
+If $\Gamma_1,\dots,\Gamma_N$ are independent $\mathcal N(0,I_d)$ then $\PP\bigl(\frac1N\sum_i\norm{\Gamma_i}^2>2d\bigr)\le\exp(-\tfrac{1-\log2}2\,dN)$.
+\end{lemma}
+
+\begin{proof}
+$S=\sum_i\norm{\Gamma_i}^2$ is a sum of $Nd$ independent squared standard normals, so $\E e^{S/4}=(1-\tfrac12)^{-Nd/2}=2^{Nd/2}$ by \cref{eq:mgf}, and $\PP(S>2Nd)\le e^{-Nd/2}2^{Nd/2}$.
+\end{proof}
+
+\subsection{What a query reveals: Gaussian innovations}
+
+Write $w_i^T$ for the $i$-th row of $W$; the rows are independent $\mathcal N(0,I_N/N)$ vectors. A matrix--vector query $g=Wu$ with a unit vector $u$ returns $g_i=\langle w_i,u\rangle$, the coefficient of each row in the direction $u$ and nothing else: $w_i=\langle w_i,u\rangle u+P_{u^\perp}w_i$, and the query determines the first term only. After orthonormal queries $u_1,\dots,u_r$ the revealed part of every row is its projection onto $U_r=\mathrm{span}(u_1,\dots,u_r)$, and the unresolved residual is the projection onto $U_r^\perp$. The identity is pure geometry and holds when the directions are chosen adaptively. The probabilistic claim is that the residual is still Gaussian, and that needs care, because $U_r$ depends on $W$.
+
+The mechanism in one line: if $A,B$ are independent standard normals and $s(A)\in\{\pm1\}$ is any measurable function of $A$ alone, then $C=s(A)B$ is standard normal and independent of $A$, because conditionally on $A$ the sign is fixed and $B$ is symmetric. The rule may depend on the past in any way; it may not look at the fresh variable it is applied to. The innovation theorem is the matrix version.
+
+\begin{lemma}[one fresh direction inside an unobserved subspace]\label{lem:decomp}
+Let $P$ be a deterministic orthogonal projection on $\R^N$, $u$ a unit vector with $Pu=0$, and $Z$ an $N\times N$ matrix with independent $\mathcal N(0,1/N)$ entries. Put $P^+=P+uu^T$, $\xi=Zu$ and $R=Z(I-P^+)$. Then $P^+$ is the orthogonal projection onto $\mathrm{range}(P)\oplus\mathrm{span}(u)$; $Z(I-P)=\xi u^T+R$; $\xi\sim\mathcal N(0,I_N/N)$; $\xi$ and $R$ are independent; and $R\eqd\widetilde Z(I-P^+)$ for an independent copy $\widetilde Z$ of $Z$.
+\end{lemma}
+
+\begin{proof}
+$(P+uu^T)^2=P+uu^T$ because $Pu=0$ and $\norm u=1$, and $P+uu^T$ is symmetric, so it is the orthogonal projection onto the stated sum. Since $I-P=uu^T+(I-P^+)$, multiplying by $Z$ gives the identity. The $i$-th coordinate of $\xi$ is $z_i^Tu$ with $z_i$ the $i$-th row of $Z$, a centred Gaussian of variance $u^T(I_N/N)u=1/N$, independent across rows. The $i$-th row of $R$ is $r_i=(I-P^+)z_i$, jointly Gaussian with $\xi_i=z_i^Tu$, with cross-covariance $\E[r_i\xi_i]=(I-P^+)\E[z_iz_i^T]u=\frac1N(I-P^+)u=0$ because $P^+u=u$; jointly Gaussian and uncorrelated means independent, and the row pairs are independent across $i$, so $\xi$ is independent of the whole matrix $R$. Finally $R$ is a fixed linear image of $Z$, so replacing $Z$ by an independent copy does not change its law.
+\end{proof}
+
+Let $\mathcal F_0$ be trivial and $\mathcal F_k=\sigma(g_1,\dots,g_k)$; put $U_k=[u_1\cdots u_k]$, $P_k=U_kU_k^T$ and $M_k=\sum_{j\le k}g_ju_j^T$, so that $M_ku_a=g_a$ for $a\le k$: $M_k$ is the revealed action of $W$ on the queried span.
+
+\begin{lemma}[Gaussian innovations under adaptive orthogonal queries]\label{lem:innovation}
+Fix $K\le N$. Let $u_1\in S^{N-1}$ be deterministic and $g_1=Wu_1$. For $2\le k\le K$ let $u_k$ be $\mathcal F_{k-1}$-measurable with, almost surely, $\norm{u_k}=1$ and $\langle u_k,u_j\rangle=0$ for $j<k$, and put $g_k=Wu_k$. Then for every $k\le K$,
+\begin{equation}\label{eq:strong}
+W\mid\mathcal F_k\ \eqd\ M_k+\widetilde W_k(I-P_k),
+\end{equation}
+with $\widetilde W_k$ a fresh $\mathcal N(0,1/N)$ matrix independent of $\mathcal F_k$ (meaning $\E[\Phi(W)\mid\mathcal F_k]=\E_Z\Phi(M_k+Z(I-P_k))$ for bounded Borel $\Phi$, the revealed $M_k,P_k$ held fixed); $g_k\mid\mathcal F_{k-1}\sim\mathcal N(0,I_N/N)$; and $g_1,\dots,g_K$ are independent $\mathcal N(0,I_N/N)$ vectors.
+\end{lemma}
+
+\begin{proof}
+Induction on $k$; at $k=0$ the statement is the law of $W$. Assume \cref{eq:strong} at $k-1$. Conditionally on $\mathcal F_{k-1}$, the vectors $g_1,\dots,g_{k-1}$, $u_1,\dots,u_k$ and the matrices $M_{k-1},P_{k-1}$ are fixed, $u_k$ because it is $\mathcal F_{k-1}$-measurable: it may have been chosen by an elaborate rule, but once the past is revealed the rule has produced a known vector. Multiply \cref{eq:strong} by $u_k$: $M_{k-1}u_k=\sum_{j<k}g_j\langle u_j,u_k\rangle=0$ by orthogonality, and $(I-P_{k-1})u_k=u_k$, so $g_k=Wu_k\eqd Zu_k$ with $Z$ fresh; conditionally on the past $u_k$ is a fixed unit vector, so $g_k\mid\mathcal F_{k-1}\sim\mathcal N(0,I_N/N)$, a law that does not depend on the past: $g_k$ is independent of $\mathcal F_{k-1}$. For the representation at step $k$ apply \cref{lem:decomp} with $P=P_{k-1}$ and $u=u_k$: $Z(I-P_{k-1})=\xi u_k^T+R$ with $\xi=Zu_k=g_k$ and $R\eqd\widetilde Z(I-P_k)$ independent of $\xi$. So, conditionally on $\mathcal F_{k-1}$, the pair $(g_k,W)$ has the law of $(\xi,M_{k-1}+\xi u_k^T+R)$ with $\xi$ independent of $R$; conditioning further on $\xi=g_k$ leaves the law of $R$ unchanged and gives $W\mid\mathcal F_k\eqd M_{k-1}+g_ku_k^T+\widetilde Z(I-P_k)=M_k+\widetilde Z(I-P_k)$. Joint independence: for bounded $\varphi_j$, $\E\prod_{j\le K}\varphi_j(g_j)=\E[\prod_{j<K}\varphi_j(g_j)\,\E[\varphi_K(g_K)\mid\mathcal F_{K-1}]]=\E[\prod_{j<K}\varphi_j(g_j)]\,\E\varphi_K(G)$ with $G\sim\mathcal N(0,I_N/N)$, and repeat.
+\end{proof}
+
+Three hypotheses, each necessary. Orthogonality: if $u_2=u_1$ then $g_2=g_1$; in general $Wu_k=\sum_{j<k}\alpha_jg_j+Wu_k^\perp$ and only the orthogonal part is fresh, which is what Gram--Schmidt isolates. The direction may depend only on the past: a rule allowed to inspect the unobserved residual could pick the direction of its largest projection. Gaussianity: for a non-Gaussian isotropic vector, orthogonal projections can be uncorrelated without being independent. And the matrix model matters: for a symmetric Gaussian matrix the rows are coupled and the statement is false as written.
+
+\subsection{Gram--Schmidt on the trajectory}
+
+Let $V_t=\mathrm{span}(x_0,\dots,x_t)$, of dimension at most $t+1$. Apply Gram--Schmidt to $x_0,x_1,\dots$ in order: $v_1=x_0$; when a new $x_t$ has a nonzero residual $\rho_t=x_t-\sum_{j\le r}\langle x_t,v_j\rangle v_j$, set $v_{r+1}=\rho_t/\norm{\rho_t}$. Each new direction is a unit vector orthogonal to the earlier ones, and it is a measurable function of the images $g_j=Wv_j$ already exposed: $x_1=\phi(g_1)$, and inductively $Wx_t=\sum_j\langle x_t,v_j\rangle g_j$ so $x_{t+1}=\phi(Wx_t)$, its projection onto $V_t$, its residual and the normalized residual are all functions of $g_1,\dots,g_r$. So the Gram--Schmidt directions are admissible probes for \cref{lem:innovation}.
+
+One technical point keeps the probe count deterministic. \Cref{lem:innovation} is stated for a fixed number $K$ of probes; the number of directions the trajectory actually creates is random. So the list is padded: with $d=T+1\le N$, after the trajectory's directions are exhausted, further probes are chosen by a fixed rule from the transcript (the first standard basis vector not yet in the span, projected and normalized). This produces exactly $d$ transcript-measurable orthonormal probes $v_1,\dots,v_d$, with $V_T\subseteq\mathrm{span}(v_1,\dots,v_d)$ and every padding vector orthogonal to $V_T$; by \cref{lem:innovation}, $g_1,\dots,g_d$ are independent $\mathcal N(0,I_N/N)$. For $0\le t\le T$ define the coefficient vector $a_t=(\langle x_t,v_1\rangle,\dots,\langle x_t,v_d\rangle)\in\R^d$; the padding coordinates are zero, Parseval gives $\norm{a_t}=\norm{x_t}$, and the driving representation is
+\begin{equation}\label{eq:driving}
+Wx_t=\sum_{j=1}^d(a_t)_jg_j .
+\end{equation}
+For each output coordinate $i$ let $\Gamma_i=\sqrt N\bigl((g_1)_i,\dots,(g_d)_i\bigr)\in\R^d$; the $Nd$ scalars $\sqrt N(g_j)_i$ are independent standard normals, so $\Gamma_1,\dots,\Gamma_N$ are independent $\mathcal N(0,I_d)$. Taking the $i$-th coordinate of \cref{eq:driving}, applying ReLU and homogeneity, squaring and summing,
+\begin{equation}\label{eq:onestep}
+\norm{x_{t+1}}^2=\frac1N\sum_{i=1}^N(a_t\cdot\Gamma_i)_+^2 .
+\end{equation}
+The whole trajectory is now written in terms of $d$ independent Gaussian vectors and $T+1$ coefficient vectors that live in a space of dimension $d=T+1$, a dimension that does not grow with $N$. The coefficient vectors are random and depend on the same Gaussians; a concentration estimate for one fixed $a$ would not be enough, and the next lemma is uniform over a ball.
+
+\subsection{A uniform law of large numbers in a low dimension}
+
+\begin{lemma}[uniform Gaussian law of large numbers]\label{lem:ulln}
+Fix $d$, $R<\infty$ and $\varepsilon>0$, and let $\Gamma_1,\dots,\Gamma_N$ be independent $\mathcal N(0,I_d)$. There are $C,c>0$ depending only on $d,R,\varepsilon$ such that
+\[
+\PP\Bigl(\sup_{\norm a\le R}\Bigl|\frac1N\sum_{i=1}^N(a\cdot\Gamma_i)_+^2-\frac12\norm a^2\Bigr|>\varepsilon\Bigr)\le Ce^{-cN}.
+\]
+\end{lemma}
+
+\begin{proof}
+Write $A_N(a)=\frac1N\sum_i(a\cdot\Gamma_i)_+^2$. For fixed $a$, $Z=a\cdot\Gamma$ is $\mathcal N(0,\norm a^2)$ and $\E Z_+^2=\tfrac12\E Z^2=\tfrac12\norm a^2$ by symmetry, so $\E A_N(a)=\tfrac12\norm a^2$. Concentration for one $a$ with $\norm a\le R$: $Y_i=(a\cdot\Gamma_i)_+^2$ satisfies $0\le Y_i\le Z_i^2$ and $\E Y_i\le R^2/2$, so $X_i=Y_i-\E Y_i$ has $\abs{X_i}\le Z_i^2+R^2/2$, and with $K_R=32R^2$, by \cref{eq:mgf}, $\E e^{\abs{X_i}/K_R}\le e^{1/64}(1-2R^2/(32R^2))^{-1/2}=e^{1/64}(1-\tfrac1{16})^{-1/2}<2$. \Cref{lem:bernstein} with $u=\varepsilon/2$ gives $\PP(\abs{A_N(a)-\tfrac12\norm a^2}>\varepsilon/2)\le2e^{-c_1N}$ with $c_1=\min\{\varepsilon^2/(64K_R^2),\varepsilon/(16K_R)\}$, which depends on $R,\varepsilon$ only. Nearby coefficient vectors: for $\norm a,\norm b\le R$ and any $\Gamma$, using $\abs{u^2-v^2}=\abs{u-v}\abs{u+v}$, the $1$-Lipschitz property of $\phi$ and Cauchy--Schwarz, $\abs{(a\cdot\Gamma)_+^2-(b\cdot\Gamma)_+^2}\le2R\norm{a-b}\norm\Gamma^2$; averaging, $\abs{A_N(a)-A_N(b)}\le2R\norm{a-b}\frac1N\sum_i\norm{\Gamma_i}^2$, and the means differ by at most $R\norm{a-b}$. Net: with $\alpha_0=\min\{R,\varepsilon/(2R(4d+1))\}$, the ball $B_d(R)$ has an $\alpha_0$-net $\net$ of size $M\le(3R/\alpha_0)^d$ (a maximal $\alpha_0$-separated set, by the volume argument of \cref{lem:net} with radii $\alpha_0/2$ and $R+\alpha_0/2$), a number independent of $N$. On the event that every net point concentrates to within $\varepsilon/2$, which fails with probability at most $2Me^{-c_1N}$, and the event $\frac1N\sum\norm{\Gamma_i}^2\le2d$ of \cref{lem:chisq}, which fails with probability at most $e^{-c_2N}$, take any $a$ and a net point $b$ within $\alpha_0$: $\abs{A_N(a)-\tfrac12\norm a^2}\le4Rd\alpha_0+\varepsilon/2+R\alpha_0=R(4d+1)\alpha_0+\varepsilon/2\le\varepsilon$. So the bound holds with $C=2M+1$ and $c=\min\{c_1,c_2\}$.
+\end{proof}
+
+\subsection{A crude operator-norm bound}
+
+\begin{lemma}\label{lem:opnorm}
+$\PP(\op W>8)\le2\exp(-(8-\log81)N)$.
+\end{lemma}
+
+\begin{proof}
+If $\mathcal M$ is an $\epsilon$-net of $S^{N-1}$ with $\epsilon<\tfrac12$, then $\op A\le(1-2\epsilon)^{-1}\max_{u,v\in\mathcal M}\abs{u^TAv}$: for unit $x,y$ and net points $u,v$ within $\epsilon$, $\abs{y^TAx}\le\abs{v^TAu}+\abs{(y-v)^TAx}+\abs{v^TA(x-u)}\le\max\abs{p^TAq}+2\epsilon\op A$, and take the supremum. A $\tfrac14$-net has at most $9^N$ points by the volume argument. For fixed unit $u,v$, $u^TWv=\sum_{ij}u_iW_{ij}v_j$ is centred Gaussian of variance $\frac1N\sum_iu_i^2\sum_jv_j^2=1/N$, so $\PP(\abs{u^TWv}>4)\le2e^{-8N}$ by \cref{eq:gtail}; a union bound over at most $81^N$ pairs gives $\PP(\op W>8)\le81^N\cdot2e^{-8N}$, and $8-\log81>0$.
+\end{proof}
+
+\subsection{Proof of the deterministic theorem}
+
+\begin{proof}[Proof of \cref{thm:fh}]
+For $T=0$ the bad event is empty. Let $T\ge1$ and first $N\ge T+1$. On the event $\mathcal O=\{\op W\le8\}$, whose complement has probability at most $C_{\rm op}e^{-c_{\rm op}N}$ by \cref{lem:opnorm}, $\norm{x_{t+1}}=\norm{\phi(Wx_t)}\le\norm{Wx_t}\le8\norm{x_t}$, so $\norm{x_t}\le8^t\le8^T=:R$ for all $t\le T$. Build the $d=T+1$ probes and innovations of the previous subsection; on $\mathcal O$ every coefficient vector satisfies $\norm{a_t}=\norm{x_t}\le R$. Put $\eta=\delta2^{-(T+2)}$ and apply \cref{lem:ulln} with $d=T+1$, radius $R=8^T$ and tolerance $\eta$: outside an event $\mathcal E^c$ of probability at most $C_{\rm LLN}e^{-c_{\rm LLN}N}$, the inequality $\abs{A_N(a)-\tfrac12\norm a^2}\le\eta$ holds for every $a$ in the ball at once. The coefficient vector $a_t$ is random and depends on the Gaussians, and this is exactly why uniformity is needed: on $\mathcal O\cap\mathcal E$ the realized $a_t$ lies in the ball, so it may be substituted, and \cref{eq:onestep} gives
+\[
+\bigl|\norm{x_{t+1}}^2-\tfrac12\norm{x_t}^2\bigr|\le\eta,\qquad0\le t\le T-1 .
+\]
+Write $q_t=\norm{x_t}^2$ and $e_t=\abs{q_t-2^{-t}}$; then $e_0=0$ and $e_{t+1}\le\abs{q_{t+1}-\tfrac12q_t}+\tfrac12\abs{q_t-2^{-t}}\le\eta+\tfrac12e_t$, so $e_t\le\eta(1+\tfrac12+\dots)\le2\eta$, and $\abs{2^tq_t-1}=2^te_t\le2^{T+1}\eta=\delta/2<\delta$ for every $t\le T$. The bad event is therefore contained in $\mathcal O^c\cup\mathcal E^c$, of probability at most $Ce^{-cN}$ with constants depending on $T,\delta$ only. For the finitely many $N<T+1$ the probability is at most $1$, and enlarging $C$ makes $Ce^{-cN}\ge1$ there.
+\end{proof}
+
+\subsection{A random start, and almost every input}
+
+\begin{proof}[Proof of \cref{cor:fh-random}]
+Condition on $X_0=x$. Independence leaves the law of $W$ unchanged, so \cref{eq:fh-main} holds with the same constants for every $x$, and taking the expectation over $X_0$ gives the bound.
+\end{proof}
+
+\begin{proof}[Proof of \cref{thm:fh-ae}]
+Let $B(x_0,W)$ be the indicator that $x_0$ is bad for $W$. It is measurable: $(x_0,W)\mapsto x_t$ is continuous for each $t$, so $\max_t\abs{2^t\norm{x_t}^2-1}$ is continuous and its superlevel set is Borel. For deterministic $\mu_N$ put $M(W)=\int B(x_0,W)\,\mu_N(dx_0)=\mu_N(\mathcal B(W))\in[0,1]$. By Tonelli and the uniform bound \cref{eq:fh-main},
+\[
+\E_WM(W)=\int\PP_W\bigl(B(x_0,W)=1\bigr)\,\mu_N(dx_0)\le Ce^{-cN},
+\]
+and Markov's inequality with threshold $e^{-cN/2}$ gives $\PP_W(M(W)>e^{-cN/2})\le e^{cN/2}\cdot Ce^{-cN}=Ce^{-cN/2}$. For a random $\mu_N$ independent of $W$, condition on its realized value: the law of $W$ is unchanged and the deterministic case applies with the same constants.
+\end{proof}
+
+\subsection{With a bias vector}
+
+Let the dynamics carry a bias, $x_{t+1}=\phi(Wx_t+b)$, with $b\in\R^N$ a Gaussian vector of independent $\mathcal N(0,\sigma^2/N)$ coordinates, independent of $W$, so that $\norm b^2\approx\sigma^2$. The halving becomes a contraction toward the bias scale: the ideal sequence is now
+\[
+\bar q_0=1,\qquad\bar q_{t+1}=\tfrac12(\bar q_t+\sigma^2),\qquad\text{so}\qquad\bar q_t=\sigma^2+(1-\sigma^2)2^{-t},
+\]
+and the norm is pulled to $\sigma^2$ rather than to zero.
+
+\begin{theorem}[finite horizon, with a bias]\label{thm:fh-bias}
+Fix $T$, $\delta>0$ and $\sigma\ge0$. There are $C,c>0$ depending only on $T,\delta,\sigma$ such that for every $N$ and every deterministic $x_0\in S^{N-1}$,
+\[
+\PP_{W,b}\Bigl(\max_{0\le t\le T}\bigl|\norm{x_t}^2-\bar q_t\bigr|>\delta\Bigr)\le Ce^{-cN},
+\]
+and the random-start and almost-every-input statements hold as before. For $\sigma=0$ this is \cref{thm:fh} with $\delta$ replaced by $\delta2^{-T}$.
+\end{theorem}
+
+\begin{proof}
+Condition on $b$; the law of $W$ is unchanged, so the innovation lemma applies to probes that are measurable in the transcript and $b$, and the Gram--Schmidt construction is the same with $x_{t+1}=\phi(Wx_t+b)$ a function of the exposed images and $b$. Write $\beta_i=\sqrt N\,b_i$, independent $\mathcal N(0,\sigma^2)$ and independent of the $\Gamma_i$. The one-step identity \cref{eq:onestep} becomes $\norm{x_{t+1}}^2=\frac1N\sum_i(a_t\cdot\Gamma_i+\beta_i)_+^2$, and with $\Gamma_i'=(\Gamma_i,\beta_i/\sigma)\sim\mathcal N(0,I_{d+1})$ and $a_t'=(a_t,\sigma)$ this is $\frac1N\sum_i(a_t'\cdot\Gamma_i')_+^2$ with $\norm{a_t'}^2=\norm{a_t}^2+\sigma^2$. On the operator-norm event and the event $\norm b^2\le2\sigma^2$ (\cref{lem:chisq} with $d=1$), $\norm{x_{t+1}}\le8\norm{x_t}+2\sigma$, so every $\norm{a_t'}$ is bounded by a constant $R'$ depending on $T$ and $\sigma$. \Cref{lem:ulln} in dimension $d+1$ with radius $R'$ and tolerance $\eta=\delta2^{-2}$ gives, on its event, $\abs{\norm{x_{t+1}}^2-\tfrac12(\norm{x_t}^2+\sigma^2)}\le\eta$ for every $t<T$; with $e_t=\abs{\norm{x_t}^2-\bar q_t}$ this is $e_{t+1}\le\eta+\tfrac12e_t$, so $e_t\le2\eta<\delta$. The three bad events have probability at most $Ce^{-cN}$, and the extensions to a random start and to almost every input are as in \cref{cor:fh-random,thm:fh-ae}, conditioning also on $b$.
+\end{proof}
+
+\subsection{What the theorem says and does not say}
+
+The factor $\tfrac12$ is $\E(\xi_+)^2=\tfrac12\E\xi^2$ for a symmetric $\xi$: ReLU keeps half of the expected squared magnitude, and the theorem says that this average concentrates along the adaptively chosen trajectory. The horizon is fixed because the trajectory spans a subspace of dimension at most $T+1$, the uniform law of large numbers is applied in that dimension, and the size of the net is then a constant independent of $N$; a horizon growing with $N$ would make the net and the constants grow, and the present argument would need more. The deterministic theorem is uniform in the choice of one starting vector; it does not say that one matrix works for every point of the sphere at once, and \cref{thm:fh-ae} is the weaker simultaneous statement it does give: for one typical matrix, all but an exponentially small set of inputs are good. The start, or the measure, may be conditioned on only because it is independent of $W$; a start chosen after seeing the matrix could sit on an exceptional direction.

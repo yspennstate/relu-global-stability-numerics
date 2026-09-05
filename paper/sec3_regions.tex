@@ -1,0 +1,125 @@
+\section{Regions: from a global supremum to formal masks}
+\label{sec:regions}
+
+\subsection{Activation masks and the Jacobian}
+
+At an input $s$ for which no coordinate of any preactivation $h_\ell(s)$ is zero, define the activation masks
+\[
+D_\ell(s)=\diag\bigl(\one_{\{h_{\ell 1}(s)>0\}},\dots,\one_{\{h_{\ell n}(s)>0\}}\bigr),\qquad 1\le\ell\le L,
+\]
+diagonal $0/1$ matrices recording which coordinates the ReLU keeps. Away from zero the derivative of the scalar ReLU is $1$ on the positive half-line and $0$ on the negative one, so the chain rule gives
+\begin{equation}\label{eq:jac}
+J(s)=D_L(s)\,W_L\,D_{L-1}(s)\,W_{L-1}\cdots D_1(s)\,W_1 .
+\end{equation}
+The network is linear in a neighbourhood of such an $s$, with matrix $J(s)$. The difficulty named in the introduction is visible in \cref{eq:jac}: the masks are functions of the weights, and the input that produces the worst mask is chosen after the weights are drawn.
+
+\subsection{Formal masks}
+
+The step that breaks the entanglement is to stop insisting that a mask come from an input.
+
+\begin{definition}[formal mask sequence]
+A formal mask sequence is a tuple $D=(D_1,\dots,D_L)$ of $n\times n$ diagonal matrices with diagonal entries in $\{0,1\}$. There are $2^n$ choices at each layer and $2^{nL}$ sequences in all.
+\end{definition}
+
+The word formal means that $D$ is chosen on paper; no input is claimed to produce it. For a fixed $D$ define the formal preactivation matrices by
+\begin{equation}\label{eq:HD}
+H^D_1=W_1,\qquad H^D_\ell=W_\ell D_{\ell-1}H^D_{\ell-1}\quad(2\le\ell\le L),\qquad\text{so}\qquad H^D_\ell=W_\ell D_{\ell-1}W_{\ell-1}\cdots D_1W_1,
+\end{equation}
+and the formal Jacobian
+\begin{equation}\label{eq:JD}
+J_D=D_LH^D_L=D_LW_LD_{L-1}W_{L-1}\cdots D_1W_1 .
+\end{equation}
+Compare with \cref{eq:jac}: the shape is identical, and the whole difference lies in where the masks came from.
+
+To say ``the signs of a vector $y$ agree with the mask $D_\ell$'' with one inequality, put $E^D_\ell=2D_\ell-I_n$, a diagonal matrix with entries $+1$ where the mask is $1$ and $-1$ where it is $0$. Then
+\[
+E^D_\ell\,y>0\ \text{coordinatewise}\quad\Longleftrightarrow\quad y_i>0\ \text{where }(D_\ell)_{ii}=1\ \text{ and }\ y_i<0\ \text{where }(D_\ell)_{ii}=0 .
+\]
+
+\begin{definition}[strict region]
+The strict region of a formal mask sequence $D$ is
+\begin{equation}\label{eq:RD}
+R_D=\bigl\{s\in\R^n:\ E^D_\ell H^D_\ell s>0\ \text{coordinatewise for every }1\le\ell\le L\bigr\}.
+\end{equation}
+\end{definition}
+
+Every condition in \cref{eq:RD} is a strict homogeneous linear inequality in $s$, so $R_D$ is an open convex cone, possibly empty. It is open because strict inequalities survive small perturbations, convex because the inequalities are linear, and a cone because they are homogeneous.
+
+\begin{lemma}[consistency]\label{lem:consistency}
+If $s\in R_D$ then the forward pass at $s$ has mask $D_\ell$ at every layer, and
+\[
+h_\ell(s)=H^D_\ell s,\qquad x_\ell(s)=D_\ell H^D_\ell s,\qquad 1\le\ell\le L .
+\]
+In particular $F^{(\alpha)}_{n,L}(s)=J_Ds$ and $DF^{(\alpha)}_{n,L}(s)=J_D$. Conversely, an input at which every preactivation coordinate is nonzero lies in exactly one strict region.
+\end{lemma}
+
+\begin{proof}
+Induction on the layer. At layer one, $h_1(s)=W_1s=H^D_1s$ by definition. Since $s\in R_D$, $E^D_1H^D_1s>0$ coordinatewise: where $(D_1)_{ii}=1$ this says $(H^D_1s)_i>0$ and ReLU keeps the coordinate; where $(D_1)_{ii}=0$ it says $(H^D_1s)_i<0$ and ReLU sends it to zero. Coordinate by coordinate, $x_1(s)=\phi(h_1(s))=D_1H^D_1s$. Suppose the claim through layer $\ell-1$. Then $h_\ell(s)=W_\ell x_{\ell-1}(s)=W_\ell D_{\ell-1}H^D_{\ell-1}s=H^D_\ell s$ by \cref{eq:HD}, and the inequality $E^D_\ell H^D_\ell s>0$ says the signs of $h_\ell(s)$ are those encoded by $D_\ell$, so $x_\ell(s)=D_\ell H^D_\ell s$. At the last layer $F(s)=x_L(s)=D_LH^D_Ls=J_Ds$. The strict inequalities hold in a neighbourhood of $s$, so the network is the linear map $J_D$ there and its derivative at $s$ is $J_D$.
+
+For the converse, take an input with all preactivation coordinates nonzero and define $(D_\ell)_{ii}=\one_{\{h_{\ell i}(s)>0\}}$. The induction just made shows $h_\ell(s)=H^D_\ell s$ and every inequality of \cref{eq:RD} holds, so $s\in R_D$; and the sign of each nonzero $h_{\ell i}(s)$ determines $(D_\ell)_{ii}$, so $D$ is unique.
+\end{proof}
+
+\subsection{Realizability as a subspace meeting an orthant}
+
+Stack the formal preactivations:
+\begin{equation}\label{eq:AD}
+A_D=\begin{pmatrix}H^D_1\\ H^D_2\\ \vdots\\ H^D_L\end{pmatrix}\in\R^{nL\times n},
+\end{equation}
+so that $A_Ds$ lists all $L$ formal preactivation vectors of $s$ on top of one another. Let
+\[
+O_D=\bigl\{(y_1,\dots,y_L)\in(\R^n)^L:\ E^D_\ell y_\ell>0\ \text{for every }\ell\bigr\},
+\]
+one open coordinate orthant of $\R^{nL}$. Then, directly from the definitions,
+\begin{equation}\label{eq:realize}
+R_D\ne\varnothing\quad\Longleftrightarrow\quad\im(A_D)\cap O_D\ne\varnothing .
+\end{equation}
+This is the geometric form of realizability that the symmetry argument of \cref{sec:gauge} works with: the mask $D$ is realized by some input exactly when the image of $A_D$, a subspace of dimension at most $n$ in a space of dimension $nL$, touches one specified orthant.
+
+The event $\{R_D\ne\varnothing\}$ is measurable. Write $M=nL$, let $\tau_D\in\{\pm1\}^M$ be the sign vector of $O_D$, and for $A\in\R^{M\times n}$ put $\Psi_D(A)=\max_{\norm s=1}\min_i(\tau_D)_i(As)_i$, a maximum of a continuous function over the compact sphere. If $As\in O_D$ for some $s$ then $s\ne0$ and, by homogeneity, $\Psi_D(A)>0$; conversely a maximizing unit vector shows $\Psi_D(A)>0$ implies $\im A\cap O_D\ne\varnothing$. And $\abs{\Psi_D(A)-\Psi_D(B)}\le\sup_{\norm s=1}\norm{(A-B)s}_\infty$, so $\Psi_D$ is continuous and $\{\Psi_D>0\}$ is open. Since $A_D$ is a measurable function of the weights, so is the indicator of realizability.
+
+\subsection{The Lipschitz constant of a piecewise-linear map}
+
+\begin{lemma}\label{lem:pl}
+Let $F:\R^n\to\R^m$ be continuous, and suppose a finite polyhedral complex covers $\R^n$ such that on every full-dimensional cell $C$ the map $F$ agrees with a linear map $M_C$. Then
+\[
+\Lip_2(F)=\max_C\op{M_C}.
+\]
+\end{lemma}
+
+Why this is not obvious: the Lipschitz constant compares two points that may be far apart, with many cells between them, while the operator norms are local statements about single cells. Nothing in the definition says a journey across a hundred cells cannot accumulate more stretching than any one cell allows. The proof shows it cannot, and the reason is that the pieces of a straight segment add up to exactly the length of the segment.
+
+\begin{proof}
+Let $M=\max_C\op{M_C}$. Fix $s,t$ and parameterize the segment $\gamma(u)=s+u(t-s)$, $0\le u\le 1$. A finite complex has finitely many faces, each cut out by finitely many linear equations and inequalities, so the segment meets the faces in finitely many points and $[0,1]$ splits as $0=u_0<u_1<\dots<u_r=1$ with the interior of each $\gamma([u_{j-1},u_j])$ inside one face. Choose a full-dimensional cell $C_j$ whose closure contains that face. On the interior of $C_j$, $F=M_{C_j}$; both sides are continuous, so they agree on the closure, in particular at the two endpoints of the subsegment. Therefore
+\begin{align*}
+\norm{F(t)-F(s)}&\le\sum_{j=1}^r\norm{F(\gamma(u_j))-F(\gamma(u_{j-1}))}
+=\sum_{j=1}^r\norm{M_{C_j}\bigl(\gamma(u_j)-\gamma(u_{j-1})\bigr)}\\
+&\le\sum_{j=1}^r\op{M_{C_j}}\norm{\gamma(u_j)-\gamma(u_{j-1})}
+\le M\sum_{j=1}^r(u_j-u_{j-1})\norm{t-s}=M\norm{t-s}.
+\end{align*}
+The last equality is the point: along a straight line with constant velocity the displacements are $(u_j-u_{j-1})(t-s)$, and the parameter increments sum to one, so the pieces cannot accumulate. Hence $\Lip_2(F)\le M$.
+
+For the reverse inequality choose a cell $C$ with $\op{M_C}=M$, an interior point $s\in C$, and a unit $v$ with $\norm{M_Cv}=M$. For small $h$, $s+hv\in C$, so $\norm{F(s+hv)-F(s)}/\abs h=\norm{M_Cv}=M$, and $\Lip_2(F)\ge M$.
+\end{proof}
+
+\subsection{Why the network has finitely many pieces, and the nondegeneracy event}
+
+Each coordinate of $W_1s$ changes sign only across a hyperplane; on a region of fixed signs the first layer is multiplication by a fixed diagonal $0/1$ matrix, hence linear. Repeating the argument layer by layer refines $\R^n$ into finitely many polyhedral cells on which all signs are fixed and the network is linear; there are at most $2^{nL}$ sign sequences, so finitely many pieces.
+
+One technical point: a preactivation functional could vanish identically on a cell, in which case the interior of that cell is not a strict region. With probability one this happens only after the formal trajectory has already died. Fix $D$, set $B^D_0=I_n$ and $B^D_{\ell-1}=D_{\ell-1}H^D_{\ell-1}$ for $\ell\ge 2$, so $H^D_\ell=W_\ell B^D_{\ell-1}$. Condition on $W_1,\dots,W_{\ell-1}$; then $B^D_{\ell-1}$ is fixed and row $i$ of $H^D_\ell$ is $w_i^TB^D_{\ell-1}$ with $w_i$ the $i$-th row of $W_\ell$. If $B^D_{\ell-1}\ne 0$, the map $w\mapsto w^TB^D_{\ell-1}$ is not zero, its kernel is a proper subspace, and a Gaussian vector lies in a proper subspace with probability zero. There are finitely many $(D,\ell,i)$, so almost surely: whenever $B^D_{\ell-1}\ne 0$, every row of $H^D_\ell$ is a nonzero functional. If instead $B^D_{\ell-1}=0$ then $H^D_\ell=0$ and everything after it, including $J_D$, is zero: a dead formal piece.
+
+\begin{lemma}[exact reduction]\label{lem:reduction}
+With probability one over the weights,
+\begin{equation}\label{eq:reduction}
+K_{n,L}(\alpha)=\max\bigl(\{0\}\cup\{\op{J_D}:R_D\ne\varnothing\}\bigr).
+\end{equation}
+Consequently, for every $t\ge 0$,
+\begin{equation}\label{eq:reduction-event}
+\{K_{n,L}(\alpha)>t\}\subseteq\bigcup_D\{R_D\ne\varnothing,\ \op{J_D}>t\}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Work on the nondegeneracy event. Refine input space into the finite complex on whose full-dimensional cells the network is linear. Take one such cell. If its formal forward map has not died, every preactivation functional used to define the next sign split is nonzero, its zero set is a hyperplane with empty interior, and the interior of each resulting full-dimensional subcell has strict signs at every layer; by \cref{lem:consistency} that subcell lies in a nonempty $R_D$ and the network's linear map there is $J_D$. If the formal map dies, bias-freeness makes every later output zero on the cell, so its linear map is the zero map. Thus every full-dimensional linear piece has matrix $J_D$ for a nonempty strict region or $0$, and \cref{lem:pl} gives \cref{eq:reduction}. If $K_{n,L}(\alpha)>t\ge 0$, the maximum exceeds $t$, the zero cannot be responsible, so some $D$ has $R_D\ne\varnothing$ and $\op{J_D}>t$.
+\end{proof}
+
+The lemma turns a supremum over all pairs of inputs into a maximum over finitely many objects, each attached to a formal mask. Boundary points between cells do not matter: the segment proof of \cref{lem:pl} is the reason.

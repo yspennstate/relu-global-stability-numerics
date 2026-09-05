@@ -1,0 +1,92 @@
+\section{Tools}
+\label{sec:tools}
+
+Everything in this section is standard. It is collected so that the later sections can refer to one place and so that the paper reads without outside references.
+
+\subsection{Norms}
+
+For $x\in\R^n$, $\norm x=\bigl(\sum_i x_i^2\bigr)^{1/2}$ and $\langle x,y\rangle=x^Ty$; the Cauchy--Schwarz inequality $\abs{\langle x,y\rangle}\le\norm x\norm y$ says a cosine is at most one. The unit sphere is $S^{n-1}=\{x:\norm x=1\}$. For a linear map $T:\R^n\to\R^m$ the operator norm is
+\[
+\op{T}=\sup_{x\ne 0}\frac{\norm{Tx}}{\norm x}=\sup_{\norm x=1}\norm{Tx},
+\]
+the two forms agreeing because $x=\norm x\cdot x/\norm x$. Thus $\norm{Tx}\le\op T\norm x$ for every $x$. The supremum is attained on the compact sphere; a unit vector $v$ with $\norm{Tv}=\op T$ is a right singular vector for the largest singular value. If $Q$ is orthogonal, $Q^TQ=I$, then $\norm{Qx}^2=x^TQ^TQx=\norm x^2$, so $\op{QT}=\op T=\op{TQ}$. A diagonal matrix with entries $\pm1$ is orthogonal; this is the one fact about orthogonal matrices the proof uses.
+
+\subsection{ReLU}
+
+$\phi(t)=\max\{t,0\}$, applied coordinatewise to vectors.
+
+\begin{lemma}\label{lem:relu}
+For all real $a,b$ and every $c\ge 0$: $\abs{\phi(a)-\phi(b)}\le\abs{a-b}$, $\phi(ca)=c\phi(a)$, and $\phi(a)=\one_{\{a>0\}}a$ whenever $a\ne 0$. Consequently $\norm{\phi(x)-\phi(y)}\le\norm{x-y}$ for vectors.
+\end{lemma}
+
+\begin{proof}
+If $a,b\ge 0$ the first inequality is an equality; if $a,b\le 0$ both values are zero; if $a\ge 0\ge b$ then $\abs{\phi(a)-\phi(b)}=a\le a-b$. Homogeneity holds because multiplying by $c\ge 0$ does not change the sign of $a$, and the indicator formula is the definition away from zero. For vectors, square the scalar inequality coordinatewise and sum.
+\end{proof}
+
+Homogeneity is what makes a bias-free network positively homogeneous: from \cref{eq:forward}, $x_\ell(cs)=cx_\ell(s)$ for $c\ge 0$ by induction on $\ell$, so
+\begin{equation}\label{eq:homog}
+F^{(\alpha)}_{n,L}(cs)=cF^{(\alpha)}_{n,L}(s),\qquad c\ge 0,\qquad\text{and}\qquad F^{(\alpha)}_{n,L}(0)=0.
+\end{equation}
+
+\subsection{Lipschitz constants and Jacobians}
+
+$F:\R^n\to\R^m$ is globally Lipschitz if $\norm{F(s)-F(t)}\le K\norm{s-t}$ for all $s,t$; the least such $K$ is $\Lip_2(F)$. If $F$ is differentiable at $s$ with Jacobian $DF(s)$, then for a unit vector $v$,
+\[
+\norm{DF(s)v}=\lim_{h\to 0}\frac{\norm{F(s+hv)-F(s)}}{\abs h}\le\Lip_2(F),
+\]
+so $\op{DF(s)}\le\Lip_2(F)$ at every point of differentiability. For a continuous map that is linear on each of finitely many polyhedral pieces the reverse also holds, and equality is exactly what the network needs; that is \cref{lem:pl} below.
+
+The constant $K_{n,L}(\alpha)$ of \cref{eq:Kdef} is finite: ReLU is $1$-Lipschitz, so
+\[
+\norm{x_\ell(s)-x_\ell(t)}\le\op{W_\ell}\norm{x_{\ell-1}(s)-x_{\ell-1}(t)},
+\]
+and iterating gives $K_{n,L}(\alpha)\le\prod_\ell\op{W_\ell}<\infty$. It is measurable: by continuity the supremum in \cref{eq:Kdef} may be restricted to rational pairs, and each ratio is a Borel function of the weights.
+
+\subsection{Three probability inequalities}
+
+\begin{lemma}\label{lem:prob}
+(a) Union bound: $\PP(\bigcup_j A_j)\le\sum_j\PP(A_j)$. (b) Markov: if $Y\ge 0$ and $a>0$ then $\PP(Y>a)\le\E Y/a$; in particular $\PP(Y>1)\le\E Y$. (c) Chebyshev: if $Y$ has finite variance then $\PP(\abs{Y-\E Y}>\varepsilon)\le\Var(Y)/\varepsilon^2$.
+\end{lemma}
+
+\begin{proof}
+(a) $\one_{\cup A_j}\le\sum\one_{A_j}$ pointwise; take expectations. (b) $Y\ge a\one_{\{Y>a\}}$ pointwise; take expectations and divide by $a$. (c) Apply (b) to $(Y-\E Y)^2$ with threshold $\varepsilon^2$.
+\end{proof}
+
+\subsection{Gaussian facts}
+
+$Z\sim\mathcal N(0,1)$ has density $(2\pi)^{-1/2}e^{-z^2/2}$, $\E Z^2=1$, $\E Z^4=3$ (two integrations by parts), and for $t<1/2$
+\begin{equation}\label{eq:mgf}
+\E e^{tZ^2}=\frac{1}{\sqrt{2\pi}}\int_\R e^{-(1-2t)z^2/2}\dd z=(1-2t)^{-1/2}.
+\end{equation}
+If $G\in\R^m$ has independent $\mathcal N(0,1)$ coordinates, $\norm G^2$ has the chi-square law with $m$ degrees of freedom, written $\chi^2_m$; we set $\chi^2_0=0$. If $Q$ is a fixed orthogonal matrix then $QG$ is again centred Gaussian with covariance $QQ^T=I$, so $QG\eqd G$; in particular multiplying rows or columns of a Gaussian matrix by fixed signs does not change its law. A centred Gaussian vector is determined by its covariance, so jointly Gaussian variables with zero covariance are independent.
+
+\subsection{A bound on partial binomial sums}
+
+\begin{lemma}\label{lem:entropy}
+For integers $0\le k\le N/2$,
+\[
+\sum_{j=0}^{k}\binom Nj\le\exp\bigl(N\,H(k/N)\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+Put $q=k/N\le 1/2$. Expanding $1=(q+(1-q))^N$ and keeping only the terms $j\le k$,
+\[
+1\ge\sum_{j\le k}\binom Nj q^j(1-q)^{N-j}\ge\sum_{j\le k}\binom Nj q^k(1-q)^{N-k},
+\]
+because $q\le 1-q$ makes $q^j(1-q)^{N-j}$ non-increasing in $j$. Hence $\sum_{j\le k}\binom Nj\le q^{-k}(1-q)^{-(N-k)}=\exp(NH(q))$.
+\end{proof}
+
+This is the only counting estimate the finite theorem needs. Stirling's formula appears in \cref{sec:sharp}, where the exact exponent is computed, and nowhere else.
+
+\subsection{One deterministic inequality}
+
+\begin{lemma}\label{lem:xp}
+For every $x\ge 0$, $p>0$ and $t>0$, $x^p\le(p/(et))^pe^{tx}$.
+\end{lemma}
+
+\begin{proof}
+For $x>0$, $\log(x^pe^{-tx})=p\log x-tx$ has derivative $p/x-t$, positive before $x=p/t$ and negative after, so the maximum of $x^pe^{-tx}$ is $(p/t)^pe^{-p}$. Multiply by $e^{tx}$.
+\end{proof}
+
+The inequality is tight at exactly one point, $x=p/t$; it is what converts a moment of order $p$ into a moment-generating function, at the price of the factor $(p/(et))^p$.

@@ -1,0 +1,155 @@
+\section{The machine: nets, exact moments, and one scalar variable}
+\label{sec:moments}
+
+\Cref{cor:bridge} leaves a Jacobian $J_D$ with a mask independent of the weights. This section bounds its operator norm by a finite net, computes the moments of $\norm{J_Dv}$ for a fixed $v$ exactly, and reduces everything to one scalar random variable.
+
+\subsection{A net of the sphere}
+
+\begin{definition}
+A finite set $\net\subseteq S^{n-1}$ is an $\varepsilon$-net if for every $x\in S^{n-1}$ there is $v\in\net$ with $\norm{x-v}\le\varepsilon$.
+\end{definition}
+
+\begin{lemma}\label{lem:net}
+There is a $\tfrac12$-net $\net\subseteq S^{n-1}$ with $\abs\net\le 5^n$, and for every linear $T:\R^n\to\R^m$,
+\begin{equation}\label{eq:net}
+\op T\le 2\max_{v\in\net}\norm{Tv}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Take a maximal $\tfrac12$-separated subset $\net$ of the sphere: distinct $u,v\in\net$ have $\norm{u-v}>\tfrac12$ and no point of the sphere can be added. Maximality gives the net property, for a point farther than $\tfrac12$ from all of $\net$ could be added. The balls of radius $\tfrac14$ about the points of $\net$ are disjoint, since a common point $z$ would give $\norm{u-v}\le\norm{u-z}+\norm{z-v}\le\tfrac12$; and each lies in the ball of radius $\tfrac54$ about the origin, since $\norm z\le\norm{z-v}+\norm v\le\tfrac14+1$. Comparing volumes, which scale as the $n$-th power of the radius, $\abs\net\,(\tfrac14)^n\le(\tfrac54)^n$, so $\abs\net\le 5^n$.
+
+For \cref{eq:net}, let $x$ be a unit vector and $v\in\net$ with $\norm{x-v}\le\tfrac12$. Then $\norm{Tx}\le\norm{Tv}+\norm{T(x-v)}\le\max_{u\in\net}\norm{Tu}+\tfrac12\op T$. Take the supremum over $x$ and move the last term to the left.
+\end{proof}
+
+Raising \cref{eq:net} to the power $2p$ and using $\max_ja_j\le\sum_ja_j$ for nonnegative $a_j$,
+\begin{equation}\label{eq:net-moment}
+\op T^{2p}\le 4^p\sum_{v\in\net}\norm{Tv}^{2p}\qquad(p>0).
+\end{equation}
+Only a net of input directions is needed, because $\norm{Tv}$ is a vector norm; a bilinear estimate would need a second net, and the extra factor is unnecessary here. The net never looks for activation regions: it is applied to the fixed linear map $J_D$, so an arbitrarily narrow realizable cone is never missed.
+
+\subsection{Exact moments of $\norm{J_Dv}$ for a fixed $v$}
+
+Fix a formal mask sequence $D$ and let $S_\ell=\{i:(D_\ell)_{ii}=1\}$ with $m_\ell=\abs{S_\ell}$ active coordinates. Let $R_\ell:\R^n\to\R^{m_\ell}$ keep exactly the coordinates in $S_\ell$; its transpose inserts a vector into those coordinates with zeros elsewhere, so $D_\ell=R_\ell^TR_\ell$, $R_\ell R_\ell^T=I_{m_\ell}$, and $\norm{R_\ell^Ty}=\norm y$. With $R_0=I_n$, $m_0=n$, define the active blocks
+\[
+G_1=R_1W_1,\qquad G_\ell=R_\ell W_\ell R_{\ell-1}^T\quad(2\le\ell\le L),
+\]
+of size $m_\ell\times m_{\ell-1}$, obtained by selecting rows and columns of $W_\ell$; so all their entries are independent $\mathcal N(0,\alpha/n)$ and $G_1,\dots,G_L$ are independent. Inserting $D_\ell=R_\ell^TR_\ell$ into \cref{eq:JD},
+\[
+J_D=R_L^T(R_LW_LR_{L-1}^T)(R_{L-1}W_{L-1}R_{L-2}^T)\cdots(R_1W_1)=R_L^TG_LG_{L-1}\cdots G_1,
+\]
+and since $R_L^T$ preserves norms,
+\begin{equation}\label{eq:JDv}
+\norm{J_Dv}=\norm{G_LG_{L-1}\cdots G_1v}.
+\end{equation}
+If some $m_\ell=0$ the block has no rows and the product is zero; the formulas below remain valid with $\chi^2_0=0$.
+
+One Gaussian block acting on one vector: let $G$ be $m\times k$ with independent $\mathcal N(0,\alpha/n)$ entries and $y\in\R^k$ fixed. Row $i$ of $Gy$ is $\sum_jG_{ij}y_j$, centred Gaussian with variance $\frac\alpha n\norm y^2$; different rows use disjoint entries, so the coordinates are independent. Hence $Gy\eqd\sqrt{\alpha/n}\,\norm y\,Z$ with $Z\sim\mathcal N(0,I_m)$, and
+\begin{equation}\label{eq:one-block}
+\norm{Gy}^2\eqd\frac\alpha n\norm y^2\chi^2_m .
+\end{equation}
+
+\begin{lemma}[exact radial factors]\label{lem:radial}
+For every fixed unit vector $v\in\R^n$ and every $p>0$,
+\begin{equation}\label{eq:radial}
+\E\norm{J_Dv}^{2p}=\prod_{\ell=1}^L\E\Bigl(\frac\alpha n\chi^2_{m_\ell}\Bigr)^p .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $v_0=v$ and $v_\ell=G_\ell v_{\ell-1}$, so $v_L=G_L\cdots G_1v$ and $\norm{J_Dv}=\norm{v_L}$ by \cref{eq:JDv}. Conditional on $v_{\ell-1}$, \cref{eq:one-block} gives $\norm{v_\ell}^2\eqd\norm{v_{\ell-1}}^2\frac\alpha n\chi^2_{m_\ell}$, so $\E[\norm{v_\ell}^{2p}\mid v_{\ell-1}]=\norm{v_{\ell-1}}^{2p}\E(\frac\alpha n\chi^2_{m_\ell})^p$, the factor being deterministic once $m_\ell$ is fixed. Take expectations (the tower property) and iterate from $\ell=L$ down to $1$; $\norm{v_0}=1$.
+\end{proof}
+
+The vectors $v_1,\dots,v_L$ are not independent, and no such claim is made. The product formula rests only on the conditional identity and on the independence of the new block $G_\ell$ from everything before it. The expectation depends on $D$ only through the active counts $m_1,\dots,m_L$ and not on the direction $v$.
+
+\subsection{The scalar mixture}
+
+Let $B_1,\dots,B_n$ be independent Bernoulli$(\tfrac12)$ and $Z_1,\dots,Z_n$ independent standard Gaussians, independent of the $B_i$, and put
+\begin{equation}\label{eq:X}
+X_n^{(\alpha)}=\frac\alpha n\sum_{i=1}^nB_iZ_i^2 .
+\end{equation}
+Conditional on $M_n=\sum_iB_i=m$, exactly $m$ Gaussian squares appear, so $\sum_iB_iZ_i^2\mid\{M_n=m\}\eqd\chi^2_m$, and $M_n\sim\mathrm{Bin}(n,\tfrac12)$. Therefore, for every $p>0$,
+\begin{equation}\label{eq:mixture}
+\E\bigl[(X_n^{(\alpha)})^p\bigr]=2^{-n}\sum_{m=0}^n\binom nm\E\Bigl(\frac\alpha n\chi^2_m\Bigr)^p .
+\end{equation}
+This is exactly the sum that appears when the fixed-mask formula \cref{eq:radial} is averaged over a uniform mask.
+
+\subsection{The master moment inequality}
+
+\begin{proposition}[master inequality]\label{prop:master}
+For every $n,L\ge 1$, $\alpha>0$ and $p>0$,
+\begin{equation}\label{eq:master}
+\E\bigl[K_{n,L}(\alpha)^{2p}\bigr]\le C_{n,L}\,5^n\,4^p\,\Bigl(\E\bigl[(X_n^{(\alpha)})^p\bigr]\Bigr)^L,
+\end{equation}
+and consequently
+\begin{equation}\label{eq:master-tail}
+\PP\bigl(K_{n,L}(\alpha)>1\bigr)\le C_{n,L}\,5^n\,4^p\,\Bigl(\E\bigl[(X_n^{(\alpha)})^p\bigr]\Bigr)^L .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Fix the net $\net$ of \cref{lem:net}. By \cref{eq:reduction}, pointwise $K^{2p}\le\sum_D\one_{\{R_D\ne\varnothing\}}\op{J_D}^{2p}$, and by \cref{eq:net-moment} applied to each $J_D$,
+\[
+K_{n,L}(\alpha)^{2p}\le 4^p\sum_D\sum_{v\in\net}\one_{\{R_D\ne\varnothing\}}\norm{J_Dv}^{2p}.
+\]
+For fixed $D$ and $v$ the functional $\norm{J_D(W)v}^{2p}$ is nonnegative and gauge invariant, so \cref{prop:orbit} gives $\E[\one_{\{R_D\ne\varnothing\}}\norm{J_Dv}^{2p}]\le(C_{n,L}/2^{nL})\E\norm{J_Dv}^{2p}$. Hence
+\[
+\E K_{n,L}(\alpha)^{2p}\le 4^p\frac{C_{n,L}}{2^{nL}}\sum_D\sum_{v\in\net}\E\norm{J_Dv}^{2p}\le 4^p5^n\frac{C_{n,L}}{2^{nL}}\sum_D\E\norm{J_Dv}^{2p},
+\]
+using that the expectation does not depend on $v$ (\cref{lem:radial}) and $\abs\net\le 5^n$. Group the masks by their active counts: there are $\binom nm$ diagonal masks with $m$ ones at one layer, so by \cref{eq:radial}
+\[
+\sum_D\E\norm{J_Dv}^{2p}=\prod_{\ell=1}^L\Bigl[\sum_{m=0}^n\binom nm\E\Bigl(\frac\alpha n\chi^2_m\Bigr)^p\Bigr]=\Bigl[2^n\,\E(X_n^{(\alpha)})^p\Bigr]^L
+\]
+by \cref{eq:mixture}. The factor $2^{nL}$ cancels exactly, which proves \cref{eq:master}. On the event $\{K>1\}$ one has $K^{2p}>1$, so Markov's inequality gives \cref{eq:master-tail}.
+\end{proof}
+
+The four factors and their sources:
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+factor & source\\
+\midrule
+$C_{n,L}$ & the orthants an at-most-$n$-dimensional stacked subspace can meet\\
+$5^n$ & the size of a $\tfrac12$-net of the input sphere\\
+$4^p$ & $\op T\le 2\max_{v\in\net}\norm{Tv}$, raised to the power $2p$\\
+$(\E X_n^p)^L$ & one exact radial moment for each of the $L$ independent layers\\
+\bottomrule
+\end{tabular}
+\end{center}
+The proof will choose $p$ proportional to $n$. Then every factor has an exponential rate in $n$, and the scalar moment's rate, which is negative when $\alpha<2$, is repeated $L$ times.
+
+\subsection{The finite-width scalar moment bound}
+
+\begin{lemma}\label{lem:mgf}
+Let $Y=BZ^2$ with $B\sim\mathrm{Bernoulli}(\tfrac12)$ and $Z\sim\mathcal N(0,1)$ independent, and $S_n=\sum_{i=1}^nB_iZ_i^2$ a sum of $n$ independent copies. For $t<\tfrac12$,
+\begin{equation}\label{eq:mgfS}
+\E e^{tY}=\frac{1+(1-2t)^{-1/2}}{2},\qquad\E e^{tS_n}=\Bigl[\frac{1+(1-2t)^{-1/2}}{2}\Bigr]^n .
+\end{equation}
+Also $\E Y=\tfrac12$, $\E Y^2=\tfrac32$, $\Var(Y)=\tfrac54$.
+\end{lemma}
+
+\begin{proof}
+$\E e^{tY}=\tfrac12e^0+\tfrac12\E e^{tZ^2}$ and \cref{eq:mgf}; independence gives the product. $\E Y=\E B\,\E Z^2=\tfrac12$, $\E Y^2=\E B\,\E Z^4=\tfrac32$.
+\end{proof}
+
+\begin{lemma}[finite-width scalar moment bound]\label{lem:h}
+For every $n\ge 1$ and $0<\theta<\tfrac14$,
+\begin{equation}\label{eq:hbound}
+\E\bigl[(X_n^{(\alpha)})^{\theta n}\bigr]\le e^{n\,h_\alpha(\theta)},\qquad h_\alpha(\theta)=\theta\log\frac\alpha{2e}+\log\Bigl(\frac{1+(1-4\theta)^{-1/2}}2\Bigr).
+\end{equation}
+Moreover $h_\alpha(0)=0$, $h_\alpha'(0+)=\log(\alpha/2)$, and as $\theta\downarrow0$
+\begin{equation}\label{eq:h-expansion}
+h_\alpha(\theta)=\theta\log\frac\alpha2+\frac52\theta^2+O(\theta^3),
+\end{equation}
+with a remainder that does not depend on $\alpha$.
+\end{lemma}
+
+\begin{proof}
+Put $p=\theta n$ and $t=2\theta<\tfrac12$. Since $X_n^{(\alpha)}=\frac\alpha nS_n$, \cref{lem:xp} gives
+\[
+\E(X_n^{(\alpha)})^p=\Bigl(\frac\alpha n\Bigr)^p\E S_n^p\le\Bigl(\frac\alpha n\Bigr)^p\Bigl(\frac p{et}\Bigr)^p\E e^{tS_n}=\Bigl(\frac\alpha n\cdot\frac n{2e}\Bigr)^{\theta n}\Bigl[\frac{1+(1-4\theta)^{-1/2}}2\Bigr]^n=e^{nh_\alpha(\theta)},
+\]
+using $p/(et)=\theta n/(2e\theta)=n/(2e)$ and \cref{eq:mgfS}. For the expansion, $(1-x)^{-1/2}=1+\tfrac12x+\tfrac38x^2+\tfrac5{16}x^3+O(x^4)$ with $x=4\theta$ gives $(1-4\theta)^{-1/2}=1+2\theta+6\theta^2+20\theta^3+O(\theta^4)$, so $\frac{1+(1-4\theta)^{-1/2}}2=1+\theta+3\theta^2+10\theta^3+O(\theta^4)$, and $\log(1+y)=y-\tfrac12y^2+\tfrac13y^3+O(y^4)$ with $y=\theta+3\theta^2+10\theta^3+O(\theta^4)$ gives $\log(\cdots)=\theta+\tfrac52\theta^2+O(\theta^3)$. Since $\theta\log\frac\alpha{2e}=\theta\log\frac\alpha2-\theta$, the $\pm\theta$ cancel and \cref{eq:h-expansion} follows. All dependence on $\alpha$ sits in the exact linear term.
+\end{proof}
+
+The derivative at zero decides the qualitative threshold: if $\alpha<2$ then $h_\alpha'(0+)<0$ and $h_\alpha(\theta)<0$ for all small positive $\theta$. At $\alpha=2$ the linear term vanishes and $h_2(\theta)=\tfrac52\theta^2+O(\theta^3)$; the coefficient $\tfrac52$ is the normalized variance $\Var(Y)/(2(\E Y)^2)=\tfrac{5/4}{2\cdot 1/4}$ of one masked Gaussian square, and it is where the constant $\sqrt{10}$ of the rate comes from. \Cref{sec:sharp} shows that the large-$n$ exponent of the moment is exactly this function to second order, so neither number is an artifact of \cref{lem:xp}.

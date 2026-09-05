@@ -1,0 +1,62 @@
+\section{How the two results fit together}
+\label{sec:together}
+
+\subsection{The same object, two questions}
+
+Both results are about a Gaussian matrix with independent $\mathcal N(0,\alpha/n)$ entries followed by ReLU, and both live at the scale where a layer keeps a squared norm of order one. Both rest on the same elementary fact, $\E(\xi_+)^2=\tfrac12\E\xi^2$ for a symmetric $\xi$: ReLU discards half of the expected squared magnitude, so a layer multiplies a typical squared norm by $\alpha/2$. In \cref{sec:horizon} this is the number $\tfrac12$ at $\alpha=1$; in \cref{sec:theorems} it is the reason the critical variance is $2$. Both face the same obstacle. The input to a layer is a function of the matrices before it, so the vector a layer acts on is not independent of the layer; in the tied case the vector is a function of the very matrix that acts on it. Neither proof pretends otherwise. Both replace an infinite supremum by a finite net and pay a fixed exponential price for it, both produce failure probabilities exponentially small in the width, and both fix the number of layers first and let the width grow, with the horizon $T$ or the depth $L$ entering the constants.
+
+The questions are different, and the difference decides the method.
+
+\begin{center}
+\begin{tabular}{p{0.28\textwidth}p{0.32\textwidth}p{0.32\textwidth}}
+\toprule
+ & global stability (\cref{thm:finite,thm:main}) & finite horizon (\cref{thm:fh,thm:fh-ae})\\
+\midrule
+matrices & $L$ independent, one per layer & one matrix, applied $T$ times\\
+variance & $\alpha/n$, any $\alpha$ & $1/N$, that is $\alpha=1$\\
+quantified over & every input at once (a supremum) & one input; then almost every input\\
+quantity controlled & the Lipschitz constant, a derivative & the norm of the trajectory\\
+conclusion & $K_{n,L}(\alpha)\le1$ w.h.p. for $\alpha<2$, $L\ge L_0(\alpha)$ & $\norm{x_t}^2\approx2^{-t}$ for $t\le T$\\
+the obstacle & the worst input's masks depend on the weights & $x_t$ depends on $W$\\
+the treatment & never condition: average the realizability event over the sign gauges & condition exactly: Gram--Schmidt probes give independent innovations\\
+the counting & orthants met by an $n$-dimensional subspace of $\R^{nL}$, $\le e^{nLH(1/L)}$ & a net of a ball in $\R^{T+1}$, size independent of $N$\\
+the moment & one exact radial moment per layer, order $2\theta n$ & a Bernstein bound for each net point\\
+failure probability & $2e^{-c_L(\alpha)n}$ beyond $L_0(\alpha)$ & $Ce^{-cN}$ for every $N$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Why each method fits its question}
+
+The finite-horizon proof conditions on what the matrix has revealed, and it may do so because the revealed information is finite-dimensional: the trajectory queries $W$ in at most $T+1$ directions, Gram--Schmidt makes them orthogonal, and the innovation lemma says that orthogonal queries chosen from the past return independent Gaussian answers. The dimension of the queried subspace is the horizon, not the width, and the uniform law of large numbers is applied in that small dimension. The argument cannot be run over all inputs at once, because the set of all inputs queries $W$ in every direction, and no fixed-length transcript describes it. This is the reason the deterministic theorem is about one input, and why the extension to almost every input comes through Fubini, from a typical matrix's point of view, rather than through a supremum.
+
+The global theorem asks about the worst input, so it cannot condition on a trajectory; there is no trajectory, there are $2^{nL}$ candidate activation patterns and the adversary picks among them after seeing the weights. The gauge argument refuses to condition at all. It fixes a pattern on paper, uses a symmetry of the law of the weights to average the realizability event over all $2^{nL}$ orthants, and turns the average into a deterministic count. The price is the count, $e^{nLH(1/L)}$ against the $2^{nL}$ patterns, and the argument works only when the radial contraction, one exact moment per independent layer, outweighs it, which is what the budget $B_L$ measures and why a depth $L_0(\alpha)$ appears. The symmetry needs independent layers: the gauge inserts a sign matrix on the left of one layer and cancels it on the right of the next, and with a single tied matrix the available symmetry is conjugation $W\mapsto\Sigma W\Sigma$ by one sign matrix, whose orbit does not move a target orthant through all orthants. So the two methods are not interchangeable. One is a conditioning argument that works along a low-dimensional trajectory for one input; the other is a symmetry argument that works over all inputs for independent layers. What is quantified over decides which one applies.
+
+\subsection{Where the second method sharpens the first theorem}
+
+The expansive side of the global theorem, \cref{thm:above2}, is a one-input statement: at $\alpha>2$ a fixed input's forward norm grows, so the Lipschitz constant exceeds one. It was proved with Chebyshev's inequality, which gives a $1/n$ rate. The finite-horizon proof handles the same one-input forward pass with exponential concentration, and its ingredient, the moment-generating function of a masked Gaussian square, is already in \cref{lem:mgf}. Using it in the global setting gives an exponential rate.
+
+\begin{corollary}[the expansive side, exponentially]\label{cor:chernoff}
+For $\alpha>2$ let $c=1/\alpha<\tfrac12$ and
+\[
+I(c)=\sup_{s>0}\Bigl[-sc-\log\frac{1+(1+2s)^{-1/2}}2\Bigr]>0 .
+\]
+Then for every $n\ge1$ and $L\ge1$,
+\[
+\PP\bigl(K_{n,L}(\alpha)\le1\bigr)\le L\,e^{-nI(1/\alpha)} .
+\]
+\end{corollary}
+
+\begin{proof}
+As in the proof of \cref{thm:above2}, $\PP(K\le1)\le L\,\PP(S_n\le n/\alpha)$ with $S_n=\sum_iB_iZ_i^2$. For $s>0$, Markov's inequality on $e^{-sS_n}$ and \cref{lem:mgf} with $t=-s$ give
+\[
+\PP(S_n\le nc)=\PP\bigl(e^{-sS_n}\ge e^{-snc}\bigr)\le e^{snc}\Bigl[\frac{1+(1+2s)^{-1/2}}2\Bigr]^n,
+\]
+and optimizing over $s$ gives $e^{-nI(c)}$. Positivity: $\log\frac{1+(1+2s)^{-1/2}}2=-\tfrac s2+O(s^2)$ as $s\downarrow0$, so the bracket is $s(\tfrac12-c)+O(s^2)>0$ for small $s$ when $c<\tfrac12$.
+\end{proof}
+
+The rate $I(1/\alpha)$ is a number: \cref{sec:numerics} lists it for several $\alpha$ and compares the two bounds. In the tied-weight dynamics the corresponding statement is \cref{thm:fh} itself, and its constants come from the same Bernstein and Chernoff estimates; the only difference is the innovation step that makes the one-input pass legitimate when the matrix is reused.
+
+\subsection{What neither result says}
+
+The global theorem needs independent layers; the finite-horizon theorem needs one input and a fixed horizon. Whether the tied dynamics $x\mapsto\phi(Wx)$ is non-expansive as a map, that is, whether a statement like \cref{thm:main} holds for the global Lipschitz constant of $\phi(W\cdot)^{\circ L}$, is not settled by either argument: the gauge orbit of one matrix is too small, and a supremum over inputs is not a finite transcript. That question is open here, and it is the natural meeting point of the two methods.

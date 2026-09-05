@@ -1,0 +1,146 @@
+\section{The symmetry, the realizable masks, and the counting}
+\label{sec:gauge}
+
+After \cref{lem:reduction} the problem is a maximum over the $2^{nL}$ formal masks, each contributing only if it is realized. Two things are still entangled: whether $D$ is realized, and how large $\op{J_D}$ is, are both functions of the same weights. This section separates them by an exact identity, not by an independence assumption.
+
+\subsection{The gauge group}
+
+For each layer let $\Sigma_\ell$ be a diagonal matrix with diagonal entries in $\{-1,+1\}$, and set $\Sigma_0=I_n$. Define transformed weights
+\begin{equation}\label{eq:gauge}
+W^\Sigma_1=\Sigma_1W_1,\qquad W^\Sigma_\ell=\Sigma_\ell W_\ell\Sigma_{\ell-1}\quad(2\le\ell\le L).
+\end{equation}
+Because $\Sigma_{\ell-1}^{-1}=\Sigma_{\ell-1}$, the same formula reads as a change of sign of the hidden coordinates at layer $\ell-1$: the sign inserted on the left of one layer is cancelled on the right of the next. The tuples $\Sigma=(\Sigma_1,\dots,\Sigma_L)$ form a group $\gauge$ with $\abs\gauge=2^{nL}$ elements. Write $S_\Sigma=\diag(\Sigma_1,\dots,\Sigma_L)\in\R^{nL\times nL}$.
+
+\begin{example}
+With $L=2$, $W^\Sigma_1=\Sigma_1W_1$ and $W^\Sigma_2=\Sigma_2W_2\Sigma_1$. The factor $\Sigma_1$ flips the signs of the first-layer preactivations; the matching factor on the right of $W_2$ cancels it inside the product; only $\Sigma_2$ survives in the formal Jacobian.
+\end{example}
+
+\begin{lemma}[gauge covariance]\label{lem:covariance}
+Fix a formal mask sequence $D$. For every $\Sigma\in\gauge$,
+\begin{equation}\label{eq:cov}
+H^D_\ell(W^\Sigma)=\Sigma_\ell H^D_\ell(W),\qquad A_D(W^\Sigma)=S_\Sigma A_D(W),\qquad J_D(W^\Sigma)=\Sigma_LJ_D(W).
+\end{equation}
+Moreover $(W^\Sigma_1,\dots,W^\Sigma_L)\eqd(W_1,\dots,W_L)$.
+\end{lemma}
+
+\begin{proof}
+At layer one, $H^D_1(W^\Sigma)=\Sigma_1W_1=\Sigma_1H^D_1(W)$. If the first identity holds at layer $\ell-1$, then
+\begin{align*}
+H^D_\ell(W^\Sigma)&=W^\Sigma_\ell D_{\ell-1}H^D_{\ell-1}(W^\Sigma)=\Sigma_\ell W_\ell\Sigma_{\ell-1}D_{\ell-1}\Sigma_{\ell-1}H^D_{\ell-1}(W)\\
+&=\Sigma_\ell W_\ell D_{\ell-1}H^D_{\ell-1}(W)=\Sigma_\ell H^D_\ell(W),
+\end{align*}
+because diagonal matrices commute and $\Sigma_{\ell-1}^2=I$. Stacking gives the second identity; the third follows since $D_L$ and $\Sigma_L$ commute. For the law: each entry of $W^\Sigma_\ell$ is the corresponding entry of $W_\ell$ times a fixed sign, a centred Gaussian has the same law after a sign change, and the transformation is a bijective coordinatewise sign change, so independence within and between matrices is preserved.
+\end{proof}
+
+A nonnegative measurable function $F(W_1,\dots,W_L)$ is gauge invariant if $F(W^\Sigma)=F(W)$ for all $\Sigma$. Since $\Sigma_L$ is orthogonal, $\op{J_D(W^\Sigma)}=\op{\Sigma_LJ_D(W)}=\op{J_D(W)}$, and likewise $\norm{J_D(W^\Sigma)v}=\norm{J_D(W)v}$ for a fixed vector $v$: every nonnegative function of $\op{J_D}$ or of $\norm{J_Dv}$ is gauge invariant. The gauge changes the coordinates in which hidden representations are written; the internal signs cancel from the matrix product, and at the output only an orthogonal sign matrix remains, which cannot change a Euclidean norm.
+
+\subsection{How many orthants can a subspace meet}
+
+An open coordinate orthant of $\R^M$ is $O_\tau=\{x:\tau_ix_i>0\ \forall i\}$ for a sign vector $\tau\in\{\pm1\}^M$; there are $2^M$ of them. For a linear subspace $U\subseteq\R^M$ let
+\[
+r(U)=\#\{\text{open orthants that meet }U\}.
+\]
+If $U$ lies in a coordinate hyperplane then $r(U)=0$. The fact that drives the proof is that a $d$-dimensional subspace cannot pass through all $2^M$ orthants when $d\ll M$; it has only $d$ degrees of freedom and cannot choose all $M$ signs independently.
+
+Assume no coordinate functional vanishes identically on $U$. The $M$ hyperplanes $\{x_i=0\}$ restrict to central hyperplanes in $U$ and cut $U$ into connected open cones. Two points of the same component have the same signs, since a sign change requires passing through zero; conversely the points of $U$ with a fixed strict sign pattern form the convex, hence connected, set $U\cap O_\tau$. So $r(U)$ is the number of regions into which the coordinate hyperplanes cut $U$, and the question becomes the classical count of regions of a central arrangement.
+
+Let $R(M,d)$ be the largest number of regions that $M$ central hyperplanes can form in a space of dimension at most $d$. Adding the $M$-th hyperplane to an arrangement of $M-1$: a region it does not touch stays one region; a region it cuts becomes two, and the cut regions correspond one to one to the regions of the arrangement induced on the new hyperplane, which has dimension at most $d-1$ and carries at most $M-1$ central hyperplanes. Therefore
+\begin{equation}\label{eq:recur}
+R(M,d)\le R(M-1,d)+R(M-1,d-1),\qquad R(M,1)\le 2,\qquad R(1,d)\le 2 .
+\end{equation}
+Define $\widetilde R(M,d)=2\sum_{j=0}^{d-1}\binom{M-1}{j}$, binomials outside their range being zero. Pascal's identity $\binom{M-1}{j}=\binom{M-2}{j}+\binom{M-2}{j-1}$ gives
+\[
+\widetilde R(M-1,d)+\widetilde R(M-1,d-1)=2\sum_{j=0}^{d-1}\Bigl[\binom{M-2}{j}+\binom{M-2}{j-1}\Bigr]=2\sum_{j=0}^{d-1}\binom{M-1}{j}=\widetilde R(M,d),
+\]
+and $\widetilde R(M,1)=\widetilde R(1,d)=2$, so induction on \cref{eq:recur} gives $R(M,d)\le\widetilde R(M,d)$.
+
+\begin{lemma}[orthant count]\label{lem:cover}
+Let $U\subseteq\R^M$ be a linear subspace of dimension $d\le n$. Then $r(U)\le 2\sum_{j=0}^{d-1}\binom{M-1}{j}\le 2\sum_{j=0}^{n-1}\binom{M-1}{j}$.
+\end{lemma}
+
+\begin{proof}
+If $U$ is inside a coordinate hyperplane, $r(U)=0$. Otherwise the region count above gives the first inequality, and $d\le n$ gives the second.
+\end{proof}
+
+For the network $M=nL$ and $U=\im(A_D)$ has dimension at most $n$. Define
+\begin{equation}\label{eq:CnL}
+C_{n,L}=2\sum_{j=0}^{n-1}\binom{nL-1}{j},\qquad q_{n,L}=\frac{C_{n,L}}{2^{nL}},
+\end{equation}
+so that $r(\im A_D)\le C_{n,L}$ always. Two values are exact: $C_{n,1}=2^n$ (every orthant of $\R^n$ is available to a full-rank $W_1$) and $C_{n,2}=2^{2n-1}$ (half of $2^{2n-1}$ binomials of an odd row).
+
+\begin{lemma}[entropy bound]\label{lem:C-entropy}
+For $L\ge 2$, $C_{n,L}\le 2\exp\bigl(nL\,H(1/L)\bigr)$.
+\end{lemma}
+
+\begin{proof}
+Apply \cref{lem:entropy} with $N=nL-1$ and $k=n-1$: since $k/N\le 1/L\le 1/2$ and $H$ is increasing on $[0,1/2]$, $\sum_{j\le n-1}\binom{nL-1}{j}\le\exp((nL-1)H(\tfrac{n-1}{nL-1}))\le\exp(nLH(1/L))$.
+\end{proof}
+
+The ambient space has $2^{nL}=e^{nL\log 2}$ orthants; the subspace reaches at most $e^{nLH(1/L)}$ of them, and $LH(1/L)=\log L+1+O(1/L)$ grows like a logarithm of the depth, not linearly. This is the whole saving.
+
+\begin{remark}[when the count is attained]
+If the $M$ central hyperplanes are in general position in a $d$-dimensional space (every $k\le d$ of the defining functionals independent), the recurrence \cref{eq:recur} is an equality and the region count is exactly $2\sum_{j<d}\binom{M-1}{j}$: removing the last hyperplane leaves an arrangement in general position whose restriction to the removed hyperplane is again in general position, so every region it cuts is split in two and the count is additive. For the all-active mask this happens almost surely (\cref{sec:sharp}), which is how the exact realizability probability of that mask is computed and checked in \cref{sec:numerics}.
+\end{remark}
+
+\subsection{The realizable masks: the exact orbit identity}
+
+\begin{proposition}[weighted gauge--orthant identity]\label{prop:orbit}
+Fix a formal mask sequence $D$ and let $F=F(W_1,\dots,W_L)\ge 0$ be measurable and gauge invariant. Then
+\begin{equation}\label{eq:orbit}
+\E\bigl[F\,\one_{\{R_D\ne\varnothing\}}\bigr]=\E\Bigl[F\,\frac{r(\im A_D)}{2^{nL}}\Bigr].
+\end{equation}
+Consequently
+\begin{equation}\label{eq:orbit-bound}
+\E\bigl[F\,\one_{\{R_D\ne\varnothing\}}\bigr]\le q_{n,L}\,\E F .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By \cref{eq:realize}, $\one_{\{R_D\ne\varnothing\}}=\one_{\{\im A_D(W)\cap O_D\ne\varnothing\}}$. Fix one $\Sigma\in\gauge$. The transformed weights have the same joint law as $W$, so
+\[
+\E\bigl[F(W)\one_{\{\im A_D(W)\cap O_D\ne\varnothing\}}\bigr]=\E\bigl[F(W^\Sigma)\one_{\{\im A_D(W^\Sigma)\cap O_D\ne\varnothing\}}\bigr].
+\]
+Gauge invariance gives $F(W^\Sigma)=F(W)$, and gauge covariance gives the identity $\im A_D(W^\Sigma)=S_\Sigma\im A_D(W)$. Hence
+\[
+\E\bigl[F\one_{\{R_D\ne\varnothing\}}\bigr]=\E\bigl[F(W)\one_{\{S_\Sigma\im A_D(W)\cap O_D\ne\varnothing\}}\bigr]\qquad\text{for every }\Sigma\in\gauge .
+\]
+Average over the $2^{nL}$ elements of the group:
+\begin{equation}\label{eq:avg}
+\E\bigl[F\one_{\{R_D\ne\varnothing\}}\bigr]=\E\Bigl[F(W)\,\frac{1}{2^{nL}}\sum_{\Sigma\in\gauge}\one_{\{S_\Sigma U\cap O_D\ne\varnothing\}}\Bigr],\qquad U=\im A_D(W).
+\end{equation}
+Now fix the realized $U$. Since $S_\Sigma^{-1}=S_\Sigma$, $S_\Sigma U\cap O_D\ne\varnothing$ if and only if $U\cap S_\Sigma O_D\ne\varnothing$. As $\Sigma$ ranges over the group, $S_\Sigma O_D$ ranges over all $2^{nL}$ open orthants exactly once: coordinate by coordinate, the fixed sign of $O_D$ is multiplied by an independently chosen sign, and every sign vector arises from exactly one $\Sigma$. Therefore
+\[
+\sum_{\Sigma\in\gauge}\one_{\{S_\Sigma U\cap O_D\ne\varnothing\}}=\#\{\text{orthants meeting }U\}=r(U),
+\]
+and \cref{eq:avg} is \cref{eq:orbit}. Finally $r(\im A_D)\le C_{n,L}$ by \cref{lem:cover}, and $F\ge 0$, so the right side of \cref{eq:orbit} is at most $(C_{n,L}/2^{nL})\E F$.
+\end{proof}
+
+Read the identity once more. On the left is the realizability of one formal mask, weighted by any gauge-invariant functional. On the right the realizability event has disappeared; in its place stands a deterministic-looking ratio, the number of orthants the random subspace $\im A_D$ meets divided by the number available. The identity is exact. It does not say that realizability and $F$ are independent: the random count $r(\im A_D)$ may well be correlated with $F$. What produces the useful inequality is that the count is bounded by a deterministic number, \cref{lem:cover}. The average over the gauge orbit is the only place the sign symmetry is used, and it is used exactly, not approximately.
+
+This is also why the argument is unconditional: no input is chosen, no activation pattern is conditioned on, no witness input is constructed, and the law of the weights is never tilted. A mask is fixed on paper, a symmetry is averaged, and then all masks are summed.
+
+\subsection{The bridge to an independent uniform mask}
+
+Let $D$ now be random, independent of the weights, and uniform on the $2^{nL}$ formal mask sequences.
+
+\begin{corollary}[unconditional bridge]\label{cor:bridge}
+For every $t\ge 0$ and every $r>0$,
+\begin{align}
+\PP\bigl(K_{n,L}(\alpha)>t\bigr)&\le C_{n,L}\,\PP\bigl(\op{J_D}>t\bigr),\label{eq:bridge-tail}\\
+\E\bigl[K_{n,L}(\alpha)^r\bigr]&\le C_{n,L}\,\E\op{J_D}^r .\label{eq:bridge-moment}
+\end{align}
+\end{corollary}
+
+\begin{proof}
+By \cref{lem:reduction} and the union bound, $\PP(K>t)\le\sum_D\PP(R_D\ne\varnothing,\op{J_D}>t)$. For fixed $D$ apply \cref{prop:orbit} with $F=\one_{\{\op{J_D}>t\}}$, which is nonnegative and gauge invariant: $\PP(R_D\ne\varnothing,\op{J_D}>t)\le q_{n,L}\PP(\op{J_D}>t)$. Summing over the $2^{nL}$ fixed masks, $\sum_Dq_{n,L}\PP(\op{J_D}>t)=C_{n,L}\,2^{-nL}\sum_D\PP(\op{J_D}>t)=C_{n,L}\PP(\op{J_D}>t)$ with $D$ uniform and independent. For the moment, \cref{eq:reduction} gives pointwise $K^r\le\sum_D\one_{\{R_D\ne\varnothing\}}\op{J_D}^r$; take expectations and apply \cref{prop:orbit} with $F=\op{J_D}^r$.
+\end{proof}
+
+The left side of \cref{eq:bridge-tail} is the full adaptive supremum over every input. The right side is the Jacobian of a mask chosen by a coin toss, independent of the weights. The entire cost of passing from one to the other is the factor $C_{n,L}$, of exponential size $e^{nLH(1/L)}$ against the $2^{nL}$ masks that a naive union bound would have paid for.
+
+\subsection{Testing the identity}
+
+An exact identity can be tested, and \cref{eq:orbit} was, at width two, where both sides can be computed without sampling error in the direction variable: in the plane the sign pattern of $A_Ds$ is constant on each arc between the angles at which a row of $A_D$ vanishes, so enumerating the arcs gives the exact set of orthants met by $\im A_D$, hence $r(\im A_D)$ exactly and the realizability indicator exactly. \Cref{tab:orbit} reports the paired Monte Carlo test over the weights for $F\equiv 1$, which turns \cref{eq:orbit} into
+\[
+\PP(R_D\ne\varnothing)=\E\,r(\im A_D)/2^{nL},
+\]
+and for the bounded functional $F=\min(\op{J_D},1)$. The first version of the test was wrong twice, and both failures are instructive. Sweeping eight thousand directions round the circle instead of enumerating the arcs missed thin arcs and pulled both sides down by about six percent, consistently; sampling a set of arcs is not enumerating it, and the error appeared as a bias rather than noise. And testing with $F=\op{J_D}^2$ produced a paired difference two and a half standard errors from zero at depth three: not a violation, but the signature of a heavy-tailed functional whose average is dominated by rare large draws, so that the usual standard error understates the uncertainty. The identity holds for every nonnegative gauge-invariant $F$, so a bounded one may be chosen for the test, and with bounded $F$ every ratio is within two percent of one and every paired $z$-score within $1.3$ of zero.
