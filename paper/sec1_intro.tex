@@ -29,34 +29,36 @@ The proof below produces, for every width and depth, an explicit bound on the pr
 \[
 H(u)=-u\log u-(1-u)\log(1-u),\qquad 0\le u\le 1,\qquad 0\log 0=0,
 \]
-and for $0<\theta<1/4$,
-\begin{equation}\label{eq:hdef}
-h_\alpha(\theta)=\theta\log\frac{\alpha}{2e}+\log\Bigl(\frac{1+(1-4\theta)^{-1/2}}{2}\Bigr).
+and for $\theta>0$ put
+\begin{equation}\label{eq:scalar-def}
+z_\theta=\frac{2}{1+\sqrt{1+8\theta}},\qquad
+g_\alpha(\theta)=\theta\log\frac{\alpha}{e z_\theta^2(1+z_\theta)}
+ +\log\frac{1+z_\theta}{2z_\theta}.
 \end{equation}
-The entropy will measure how many activation patterns a random network can realize; $h_\alpha$ will measure the high moments of one layer's radial factor.
+The entropy will measure how many activation patterns a random network can realize; $g_\alpha$ will measure the high moments of one layer's radial factor.
 
 \begin{theorem}[finite width, finite depth]\label{thm:finite}
-For every $n\ge 1$, every $L\ge 2$, every $\alpha>0$ and every $\theta\in(0,1/4)$,
+For every $n\ge 1$, every $L\ge 2$, every $\alpha>0$ and every $\theta>0$,
 \begin{equation}\label{eq:main-finite}
 \begin{gathered}
 \PP\bigl(K_{n,L}(\alpha)>1\bigr)\;\le\;\E\bigl[K_{n,L}(\alpha)^{2\theta n}\bigr]\;\le\;2\exp\bigl(n\,B_L(\alpha,\theta)\bigr),\\
-B_L(\alpha,\theta)=L\,H(1/L)+\log 5+\theta\log 4+L\,h_\alpha(\theta).
+B_L(\alpha,\theta)=L\,H(1/L)+\log 5+\theta\log 4+L\,g_\alpha(\theta).
 \end{gathered}
 \end{equation}
 For $L=1$ the same holds with $L H(1/L)$ replaced by $\log 2$.
 \end{theorem}
 
-The four terms of the budget $B_L$ have four separate origins, listed in \cref{sec:budget}: the entropy term counts realizable activation patterns, $\log 5$ pays for a net of the sphere, $\theta\log 4$ for replacing an operator norm by a maximum over that net, and $L\,h_\alpha(\theta)$ bounds the radial moment exponent over $L$ layers. The first three do not depend on $\alpha$; the last is the only one that carries a factor $L$ with a sign that can be negative. When $\alpha<2$ the function $h_\alpha$ is negative on an interval $(0,\theta_0)$, because its derivative at zero is $\log(\alpha/2)<0$, so the last term is a negative multiple of $L$ while the positive terms grow like $\log L$. Beyond a computable depth the budget is negative.
+The four terms of the budget $B_L$ have four separate origins, listed in \cref{sec:budget}: the entropy term counts realizable activation patterns, $\log 5$ pays for a net of the sphere, $\theta\log 4$ for replacing an operator norm by a maximum over that net, and $L\,g_\alpha(\theta)$ bounds the radial moment exponent over $L$ layers. The first three do not depend on $\alpha$; the last is the only one that carries a factor $L$ with a sign that can be negative. When $\alpha<2$ the function $g_\alpha$ is negative on an interval $(0,\theta_0)$, because its derivative at zero is $\log(\alpha/2)<0$, so the last term is a negative multiple of $L$ while the positive terms grow like $\log L$. Beyond a computable depth the budget is negative.
 
 \begin{corollary}[fixed depth, growing width]\label{cor:width}
-Let $\alpha<2$ and $L\ge 2$, and suppose $c_L(\alpha):=\max_{0<\theta<1/4}\bigl[-B_L(\alpha,\theta)\bigr]>0$. Then for every width $n$,
+Let $\alpha<2$ and $L\ge 2$, and suppose $c_L(\alpha):=\sup_{\theta>0}\bigl[-B_L(\alpha,\theta)\bigr]>0$. Then for every width $n$,
 \[
 \PP\bigl(K_{n,L}(\alpha)>1\bigr)\le 2e^{-c_L(\alpha)\,n},
 \]
 so the network is non-expansive with probability at least $1-2e^{-c_L(\alpha)n}$. In particular $\PP(K_{n,L}(\alpha)\le 1)\to 1$ as $n\to\infty$, with an exponential rate.
 \end{corollary}
 
-At a given finite width the probability is not one; the bound says how far from one it can be. For instance at $\alpha=1$ and $L=1000$ the rate is $c_{1000}(1)=25.03$, and already at width $n=10$ the bound reads $2e^{-250}$. \Cref{sec:numerics} tabulates these numbers.
+At a given finite width the probability is not one; the bound says how far from one it can be. For instance at $\alpha=1$ and $L=1000$ the certified rate is $c_{1000}(1)=54.81$ to two decimal places, and already at width $n=10$ the bound is less than $2e^{-548}$. \Cref{sec:numerics} tabulates these numbers.
 
 \begin{theorem}[the other side, at finite width]\label{thm:above2}
 For every $n\ge 1$, $L\ge 1$ and $\alpha>2$,
@@ -77,7 +79,7 @@ For the Gaussian bias-free ReLU network above:
 \end{enumerate}
 \end{theorem}
 
-Part (i) is \cref{cor:width} together with the observation that the budget turns negative at large depth; the depth $L_0(\alpha)$ is the smallest $L$ at which $c_L(\alpha)>0$, and it is computable (\cref{sec:numerics}). Part (ii) is \cref{thm:above2}. Part (iii) follows from (i) and (ii). Part (iv) comes from expanding $h_\alpha$ near $\alpha=2$, where $h_{2e^{-\delta}}(\theta)=-\delta\theta+\tfrac52\theta^2+O(\theta^3)$; optimizing $\theta$ and balancing the negative term $-L\delta^2/10$ against the entropy $\log L$ gives $\delta\approx\sqrt{10\log L/L}$.
+Part (i) is \cref{cor:width} together with the observation that the budget turns negative at large depth; the depth $L_0(\alpha)$ is the smallest $L$ at which $c_L(\alpha)>0$, and it is computable (\cref{sec:numerics}). Part (ii) is \cref{thm:above2}. Part (iii) follows from (i) and (ii). Part (iv) comes from expanding $g_\alpha$ near $\alpha=2$, where $g_{2e^{-\delta}}(\theta)=-\delta\theta+\tfrac52\theta^2+O(\theta^3)$; optimizing $\theta$ and balancing the negative term $-L\delta^2/10$ against the entropy $\log L$ gives $\delta\approx\sqrt{10\log L/L}$.
 
 \subsection{The order of limits}
 
@@ -113,6 +115,8 @@ Dirksen, Finke, Geuchen, St\"oger and Voigtlaender~\cite{dirksen2025} sharpen th
 
 For tied weights, Yang's Tensor Programs~I~\cite{yang2019}, in particular Theorem~5.4 and its recurrent-network examples, supplies a broad framework for Gaussian limits and convergence of empirical coordinate averages in fixed programs. Reusing Gaussian matrices and deriving deterministic norm recursions are therefore not new in themselves. Our finite-horizon statement gives a quantitative failure bound $Ce^{-cN}$ for this particular ReLU iteration, uniformly over a fixed time horizon and uniformly in the choice of deterministic unit start. A Fubini argument then bounds the measure of bad starts for a typical matrix. Neither this conclusion nor the cited fixed-program limit supplies uniform control over every input of one matrix or all-time convergence.
 
+Region counts and collapse at initialization are also established topics. Hanin and Rolnick~\cite{hanin2019} study mean region counts along one-dimensional subspaces and the volume of region boundaries. Wang~\cite{wang2022}, Theorem~2.1, bounds expected linear-region counts for several architectures, including width two, with independent continuously distributed symmetric weights and biases and scalar output. Lu, Shin, Su and Karniadakis~\cite{lu2020} analyze the probability that a randomly initialized ReLU network is constant, including its depth and width dependence under symmetric initialization. Our width-two formula in \cref{prop:width-two-mean} concerns strict activation regions of a bias-free vector-output network; ordinary constant cells and affine-bias region counts are different quantities.
+
 The contribution claimed here is the weighted sign-gauge identity and the finite-width budget it yields for square vector-output networks, together with a self-contained quantitative finite-horizon argument and an explicit comparison of their quantifiers. The rate in \cref{thm:main}(iv) is a certified lower bound on $\alpha_L$, not a matching asymptotic rate for the true threshold.
 
 \subsection{How the proof goes}
@@ -126,4 +130,4 @@ The difficulty is an entanglement. The activation pattern of an input is a funct
 \item Bound the operator norm of a formal Jacobian through a $\tfrac12$-net of the sphere and exact Gaussian radial moments, and reduce everything to one scalar random variable $X_n^{(\alpha)}=\frac{\alpha}{n}\sum_i B_iZ_i^2$ (\cref{sec:moments}).
 \item Take a moment of order $2\theta n$ and bound it with an explicit finite-$n$ inequality; the four exponential rates assemble into $B_L$ (\cref{sec:theorems}).
 \end{enumerate}
-Every estimate is finite in $n$ and $L$. The only place a limit enters is the definition of $\alpha_L$ itself, and the asymptotic form (iv), where an expansion in $\theta$ is convenient. \Cref{sec:numerics} checks the identity of step 3 and the bounds of steps 4--6 against brute-force computation at small width, and \cref{sec:sharp} computes the exact scalar exponent $g_\alpha$. The finite upper bound $h_\alpha$ agrees with $g_\alpha$ through second order at $\theta=0$, not for general $\theta$: $g_\alpha(\theta)=h_\alpha(\theta)+O(\theta^3)$. Thus the derivative $\log(\alpha/2)$ and quadratic coefficient $\tfrac52$ are shared, while the finite theorem uses the upper bound $h_\alpha$. For example, at $\alpha=2$ and $\theta=0.1$, $h_2=0.0358388$ whereas $g_2=0.0210736$.
+Every estimate is finite in $n$ and $L$. The only place a limit enters is the definition of $\alpha_L$ itself, and the asymptotic form (iv), where an expansion in $\theta$ is convenient. \Cref{sec:numerics} checks the identity of step 3 and the bounds of steps 4--6 against brute-force computation at small width. The scalar function $g_\alpha$ does two jobs: it bounds the moment at every finite width, and \cref{sec:sharp} shows that it is also its exact limiting exponent. Thus no asymptotic approximation is needed in the finite theorem.

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# HISTORICAL COMPARISON: this file evaluates the earlier unoptimized h bound.
+# Current publication tables and finite certificates use finite_budget.py (optimized g).
 """The numbers the finite-width paper quotes, computed here and nowhere else.
 
     h_alpha(theta) = theta log(alpha/(2e)) + log((1 + (1-4 theta)^{-1/2})/2)          (paper (47))

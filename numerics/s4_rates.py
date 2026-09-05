@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# HISTORICAL COMPARISON: this file evaluates the earlier unoptimized h bound.
+# Current publication tables and finite certificates use finite_budget.py (optimized g).
 """Simulation 4 - the scalar high moment, its two rate functions, and the exponent budget.
 
   h_alpha(theta)  = theta*log(alpha/(2e)) + log((1+(1-4theta)^{-1/2})/2)        (Lemma 12.2, finite n bound)

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# HISTORICAL COMPARISON: this file evaluates the earlier unoptimized h bound.
+# Current publication tables and finite certificates use finite_budget.py (optimized g).
 """The exponent budget of the proof, evaluated exactly at finite depth.
 
 The master inequality gives, for every width n, depth L >= 2 and theta in (0, 1/4),

@@ -40,18 +40,22 @@ Tables 1--7 are typeset directly from JSON by export_tables.py; generated fragme
 distributed. Tables 8--9 retain their supplied source and recorded results. Seeds and trial
 counts are in each generator; s2 additionally records independent row seeds. Recomputing the
 experiments is optional for building the paper from the released results.
-The old paper_numbers.py and budget.py grids remain as comparison implementations;
-finite_budget.py reproduces the current printed Tables 5--6 efficiently.
+The optimized finite theorem uses g, the exact limiting scalar moment exponent, as
+a bound at every finite width. finite_budget.py reproduces current Tables 5--6 by
+solving the scalar optimizer and checking independent minimization. The historical
+paper_numbers.py, budget.py and s4_rates.py retain the earlier unoptimized h bound;
+their outputs are comparison material and do not supply the current printed rates.
 
 For limited CPU use set OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1 before running scripts.
 The larger original experiments may take appreciable time. This revision reran s2, s3 and s6,
-and recalculated Tables 5--6; it did not rerun the full original s7b or s8 Monte Carlo runs.
+and recalculated Tables 5--6 with the optimized bound; it did not rerun the full original s7b or s8 Monte Carlo runs.
 Table 3 masks and seed were checked against source and added as metadata to retained output.
 
 ## Verify strict membership
 
     python -B -m unittest discover -s numerics -p test_region_geometry.py -v
     python -B numerics/verify_release.py
+    python -B numerics/verify_optimized_budget.py
 
 Tests compare independent LP and planar algorithms, include dead networks and a narrow cell
 missed by a uniform grid, and recover five strict versus six ordinary cells in the review
@@ -59,6 +63,9 @@ example. verify_release.py checks every stored strict witness by actual forward 
 the analytic width-two/depth-two law and the corrected adjacent integer depths.
 Enumeration and LP use floating point, not exact arithmetic. Unresolved solver outcomes or
 invalid witnesses raise an error. Numerical checks are not a formal proof certification.
+The optimized-budget check uses 80-digit arithmetic and independent rational moment
+convolutions, checks every printed threshold/rate and its integer width, and verifies
+both neighboring integers for each reported sufficient depth.
 
 ## Verify the bias extension controls
 

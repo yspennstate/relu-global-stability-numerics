@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 from scipy.optimize import minimize_scalar
 from region_geometry import lp_network,planar_network
-from finite_budget import B,rate
+from finite_budget import B,rate,depth
 DATA=Path(__file__).resolve().parent/"data"
 s=json.loads((DATA/"s2_regions.json").read_text(encoding="utf-8"))
 assert s["schema"]=="strict-regions-v2"
@@ -38,8 +38,10 @@ for r in s["K_at_alpha1"].values():
  assert len(k)==r["trials"] and np.isfinite(k).all() and (k>=0).all()
  assert float(np.median(k))==r["median_K1"]
 # A separate minimizer checks both sides of the corrected integer depth.
-for L,positive in [(237380,False),(237381,True)]:
- opt=minimize_scalar(lambda t:B(L,1.95,t),bounds=(1e-10,.249999),method="bounded",options={"xatol":1e-14})
+cutoff=depth(1.95)
+assert cutoff==231065
+for L,positive in [(cutoff-1,False),(cutoff,True)]:
+ opt=minimize_scalar(lambda t:B(L,1.95,t),bounds=(1e-12,10),method="bounded",options={"xatol":1e-14})
  assert (-opt.fun>0)==positive
  assert abs(rate(L,1.95)+opt.fun)<1e-7
 print(json.dumps(dict(strict_forward_witnesses=witnesses,all_mask_LP_crosschecks=crosschecks,

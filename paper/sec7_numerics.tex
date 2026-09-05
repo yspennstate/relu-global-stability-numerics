@@ -28,7 +28,7 @@ $M$ & $d$ & $2^M$ & $2\sum_{j<d}\binom{M-1}j$ & observed $r(U)$, mean (max) & me
 
 For the network itself, \cref{eq:orbit} with $F=1$, summed over all masks, bounds the \emph{expected} number of nonempty strict regions by $C_{n,L}$. This is not a deterministic bound on the number of regions of each network. \Cref{tab:regions} counts only masks with every preactivation nonzero at every layer. The separate zero column counts full-dimensional ordinary cells with at least one identically zero preactivation; boundary-only patterns enter neither count. At width two all cell boundaries are enumerated recursively. For $n=3,4$ every formal mask is tested by the homogeneous strict feasibility problem $A s\ge\mathbf1$, after normalizing nonzero signed rows; zero rows exclude strict feasibility. Calculations use floating point, and returned LP witnesses are checked directly.
 
-There is a useful exact check at $n=L=2$. In coordinates $y=W_1s$, the negative quadrant dies before layer two, each mixed quadrant contributes one strict cell, and the positive quadrant contributes one plus the number of rows of $W_2$ whose entries have opposite signs. Thus the strict count has law $3+\mathrm{Binomial}(2,1/2)$, with support $\{3,4,5\}$ and mean four. With $W_1=I_2$ and $W_2=\left(\begin{smallmatrix}1&-1\\-1&2\end{smallmatrix}\right)$, boundary enumeration and a separate all-mask LP both give five strict cells and six ordinary cells. This control prevents the dead quadrant from entering the strict count.
+There is a useful exact check at $n=L=2$. In coordinates $y=W_1s$, the negative quadrant dies before layer two, each mixed quadrant contributes one strict cell, and the positive quadrant contributes one plus the number of rows of $W_2$ whose entries have opposite signs. Thus the strict count has law $3+\mathrm{Binomial}(2,1/2)$, with support $\{3,4,5\}$ and mean four. With $W_1=I_2$ and $W_2=\left(\begin{smallmatrix}1&-1\\-1&2\end{smallmatrix}\right)$, boundary enumeration and a separate all-mask LP both give five strict cells and six ordinary cells. This control prevents the dead quadrant from entering the strict count. More generally, \cref{prop:width-two-mean} gives the exact means $4,4,3.25,2.5,1.890625,1.421875$ for the six width-two depths in the table. The displayed sample means fluctuate around those population values; the row at $L=4$ is about $2.6$ estimated standard errors above its mean, which alone does not refute the identity or diagnose a faulty standard error.
 
 \begin{table}[h]\centering\small
 \begin{tabular}{rrrrrrl}
@@ -104,42 +104,42 @@ A finite-candidate greedy search produced $\tfrac12$-separated sets of sizes 2, 
 
 \subsection{The finite-width bound}
 
-\Cref{tab:threshold} lists the threshold $\alpha^*_L$ of \cref{eq:alpha-star}, the largest $\alpha$ at which the exact budget $B_L$ is negative for some $\theta$, together with the asymptotic formula of \cref{thm:main}(iv) evaluated at the same $L$. The asymptotic formula overstates the bound at moderate depth: at $L=100$ it reads $1.01$ with the $o(1)$ dropped, or $0.81$ with the constant $A=1+\log5+1$ kept, while the budget delivers $0.68$. At $L=10^5$ the three agree to a few parts in a thousand.
+\Cref{tab:threshold} lists the threshold $\alpha^*_L$ of \cref{eq:alpha-star}, the largest $\alpha$ at which the exact budget $B_L$ is negative for some $\theta$, together with the asymptotic formula of \cref{thm:main}(iv) evaluated at the same $L$. The asymptotic expression alone does not certify a particular finite depth: at $L=100$ it reads $1.01$ with the $o(1)$ dropped, or $0.81$ with the constant $A=1+\log5+1$ kept, while the optimized finite budget delivers $0.954$. At $L=10^5$ the three agree to a few parts in a thousand.
 
 \begin{table}[h]\centering
 \begin{tabular}{rrrr}
 \toprule
 $L$ & $\alpha^*_L$ (exact budget) & $2e^{-\sqrt{10\log L/L}}$ & $2e^{-\sqrt{10(\log L+A)/L}}$, $A=2+\log5$\\
 \midrule
-10 & 0.0412 & 0.4386 & 0.1758\\
-30 & 0.2502 & 0.6896 & 0.4336\\
-100 & 0.6778 & 1.0146 & 0.8080\\
-300 & 1.0822 & 1.2932 & 1.1457\\
-1000 & 1.4261 & 1.5378 & 1.4461\\
-3000 & 1.6390 & 1.6986 & 1.6428\\
-10000 & 1.7875 & 1.8170 & 1.7859\\
-100000 & 1.9254 & 1.9333 & 1.9237\\
-1000000 & 1.9744 & 1.9766 & 1.9738\\
+10 & 0.3670 & 0.4386 & 0.1758\\
+30 & 0.6298 & 0.6896 & 0.4336\\
+100 & 0.9537 & 1.0146 & 0.8080\\
+300 & 1.2369 & 1.2932 & 1.1457\\
+1000 & 1.4940 & 1.5378 & 1.4461\\
+3000 & 1.6679 & 1.6986 & 1.6428\\
+10000 & 1.7980 & 1.8170 & 1.7859\\
+100000 & 1.9268 & 1.9333 & 1.9237\\
+1000000 & 1.9746 & 1.9766 & 1.9738\\
 \bottomrule
 \end{tabular}
 \caption{The threshold the finite theorem delivers at depth $L$, against the large-$L$ formula.}
 \label{tab:threshold}
 \end{table}
 
-The other reading of the same budget is the depth $L_0(\alpha)$ at which it first turns negative: $237$ for $\alpha=1$, $897$ for $1.4$, $4590$ for $1.7$, $52\,841$ for $1.9$, $237\,381$ for $1.95$ and $7.35\times10^6$ for $1.99$. The certified lower bound $\alpha_L^*$ approaches two slowly. These computations neither give a matching rate for the true threshold $\alpha_L$ nor prove that $L_0(\alpha)$ is a necessary depth.
+The other reading of the same budget is the depth $L_0(\alpha)$ at which it first turns negative: $119$ for $\alpha=1$, $620$ for $1.4$, $3864$ for $1.7$, $50\,026$ for $1.9$, $231\,065$ for $1.95$ and $7\,314\,489$ for $1.99$. These are sufficient depths from the optimized scalar bound, computed by \cref{eq:budget-optimizer,eq:budget-optimal}; they are not necessary depths for the networks. The certified lower bound $\alpha_L^*$ approaches two slowly, and these computations do not give a matching rate for the true threshold $\alpha_L$.
 
-\Cref{tab:rate} gives the width rate $c_L(\alpha)$ of \cref{cor:width} and, in parentheses, the width at which the bound $2e^{-c_L(\alpha)n}$ drops below $0.01$. Once the depth is past $L_0(\alpha)$ the rate grows linearly in $L$, and a width of one or two already makes the bound tiny; at $\alpha=1$, $L=300$ the bound is $5.6\times10^{-9}$ at $n=10$ and $3.4\times10^{-43}$ at $n=50$, at $L=1000$ it is $3.8\times10^{-109}$ at $n=10$. The finite-width statement is therefore not weak once it applies; what limits it is the depth $L_0(\alpha)$, not the width.
+\Cref{tab:rate} gives the width rate $c_L(\alpha)$ of \cref{cor:width} and, in parentheses, the smallest integer width at which the bound $2e^{-c_L(\alpha)n}$ is at most $0.01$. At $\alpha=1$, $L=300$ the bound is $3.0\times10^{-47}$ at $n=10$ and $1.6\times10^{-234}$ at $n=50$; at $L=1000$ it is $1.8\times10^{-238}$ at $n=10$. These are values of the proven upper bound, not measured failure probabilities.
 
 \begin{table}[h]\centering
 \begin{tabular}{rrrrrrr}
 \toprule
 $\alpha\backslash L$ & 100 & 300 & 1000 & 3000 & $10^4$ & $10^5$\\
 \midrule
-0.5 & 3.63 (2) & 24.5 (1) & 100 (1) & 320 (1) & 1.09e+03 (1) & 1.1e+04 (1)\\
-1.0 & -- & 1.97 (3) & 25 (1) & 93.3 (1) & 335 (1) & 3.45e+03 (1)\\
-1.5 & -- & -- & -- & 10.6 (1) & 59.2 (1) & 696 (1)\\
-1.8 & -- & -- & -- & -- & -- & 90.5 (1)\\
-1.9 & -- & -- & -- & -- & -- & 11.4 (1)\\
+0.5 & 27.4 (1) & 97.3 (1) & 345 (1) & 1.05e+03 (1) & 3.54e+03 (1) & 3.55e+04 (1)\\
+1.0 & -- & 10.8 (1) & 54.8 (1) & 183 (1) & 634 (1) & 6.45e+03 (1)\\
+1.5 & -- & -- & -- & 17.3 (1) & 81.5 (1) & 919 (1)\\
+1.8 & -- & -- & -- & -- & -- & 102 (1)\\
+1.9 & -- & -- & -- & -- & -- & 12.7 (1)\\
 \bottomrule
 \end{tabular}
 \caption{The width rate $c_L(\alpha)$, with the width at which $2e^{-c_L(\alpha)n}\le0.01$ in parentheses; a dash means the budget is not negative at that depth.}

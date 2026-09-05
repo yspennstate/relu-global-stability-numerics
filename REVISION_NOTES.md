@@ -102,3 +102,22 @@ planar/LP comparisons, 3212 direct forward strict witnesses, six further LP comp
 retained draws, 60 analytic width-two/depth-two checks, independent scalar/rate calculations,
 and a fresh LaTeX build with rendered-page inspection. Original Table 3 and finite-horizon
 Monte Carlo outputs are retained and identified, not claimed as newly rerun.
+
+## Proposed sharp-moment revision, 5 September evening
+
+This mathematical draft is separate from the copyedited 0a14114 release and needs
+fresh independent publication votes. The scalar moment estimate now optimizes its
+exponential parameter. The resulting explicit g bounds every finite-width moment
+and equals the exact limiting exponent, for every positive theta. The global
+threshold and sqrt(10) asymptotic lower-bound constant remain unchanged; finite
+certificates improve (alpha=1 first certified depth 119 instead of 237).
+
+The structural section adds the exact bias-free width-two mean strict-region count
+8[(3/4)^L-(1/4)^L], with a mask/gauge proof. It explicitly excludes ordinary forced-zero
+cells and makes no affine-bias claim. Existing Monte Carlo observations are retained.
+The main theorems remain bias-free, with the previously proved bias results optional.
+
+Author checks independently compare finite Gamma sums, rational moment convolutions,
+scalar minimization and variational maximization; exact integer geometry checks the
+width-two formula on 1364 masks and 84 complete sign-gauge networks. Those finite
+checks supplement the proofs and are not independent publication votes.

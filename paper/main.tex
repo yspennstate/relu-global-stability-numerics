@@ -54,11 +54,11 @@
 \maketitle
 
 \begin{abstract}
-A bias-free ReLU network of width $n$ and depth $L$ with independent $\mathcal N(0,\alpha/n)$ weights has a global Lipschitz constant $K_{n,L}(\alpha)$, the worst stretching over all pairs of inputs for one draw of the weights. We prove, for every $n$, every $L\ge2$ and every $\theta\in(0,1/4)$,
+A bias-free ReLU network of width $n$ and depth $L$ with independent $\mathcal N(0,\alpha/n)$ weights has a global Lipschitz constant $K_{n,L}(\alpha)$, the worst stretching over all pairs of inputs for one draw of the weights. We prove, for every $n$, every $L\ge2$ and every $\theta>0$,
 \[
-\PP\bigl(K_{n,L}(\alpha)>1\bigr)\le2\exp\!\bigl(n\,B_L(\alpha,\theta)\bigr),\qquad B_L=L\,H(1/L)+\log5+\theta\log4+L\,h_\alpha(\theta),
+\PP\bigl(K_{n,L}(\alpha)>1\bigr)\le2\exp\!\bigl(n\,B_L(\alpha,\theta)\bigr),\qquad B_L=L\,H(1/L)+\log5+\theta\log4+L\,g_\alpha(\theta),
 \]
-with $H$ the binary entropy and $h_\alpha$ elementary, and for $\alpha>2$ the converse bound $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$. The fixed-depth threshold $\alpha_L$ therefore tends to $2$, with $\alpha_L\ge2\exp[-(\sqrt{10}+o(1))\sqrt{\log L/L}]$. The proof turns on an exact identity for realizable activation patterns: averaging over the $2^{nL}$ sign gauges, which preserve the law of the weights, turns the realizability event into a deterministic orthant count divided by $2^{nL}$.
+with $H$ the binary entropy and $g_\alpha$ elementary, and for $\alpha>2$ the converse bound $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$. The fixed-depth threshold $\alpha_L$ therefore tends to $2$, with $\alpha_L\ge2\exp[-(\sqrt{10}+o(1))\sqrt{\log L/L}]$. The proof turns on an exact identity for realizable activation patterns: averaging over the $2^{nL}$ sign gauges, which preserve the law of the weights, turns the realizability event into a deterministic orthant count divided by $2^{nL}$.
 
 The second result ties the layers: for one matrix $W$ applied repeatedly, $x_{t+1}=\phi(Wx_t)$, and any fixed horizon $T$, $\max_{t\le T}|2^t\norm{x_t}^2-1|\le\delta$ with probability at least $1-Ce^{-cN}$ for every deterministic unit start. For a typical matrix, the bound holds outside a set of exponentially small measure under any prescribed input distribution independent of the matrix. Here the dependence of the trajectory on the matrix is handled by conditioning, made exact by a Gaussian innovation lemma for adaptive orthogonal queries. The two results share their object and their obstacle and resolve it in opposite ways; the paper explains why each method fits its question, and uses the second to sharpen the expansive side of the first to an exponential rate. Selected identities, bounds and norm statistics are checked numerically at small width.
 \end{abstract}
@@ -88,10 +88,13 @@ During the preparation of this work the author made substantial use of generativ
 \section*{Data and code availability}
 The code behind every table, the fixed-seed simulation outputs, and the scripts that evaluate the exponent budget, the thresholds $\alpha^*_L$ and the rates $I(1/\alpha)$ are included in the source archive and available at \url{https://github.com/yspennstate/relu-global-stability-numerics}.
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{geuchen2025} P. Geuchen, D. St\"oger, T. Telaar and F. Voigtlaender, Upper and lower bounds for the Lipschitz constant of random neural networks, \href{https://arxiv.org/abs/2311.01356v4}{arXiv:2311.01356v4}, 2025.
 \bibitem{dirksen2025} S. Dirksen, P. Finke, P. Geuchen, D. St\"oger and F. Voigtlaender, Near-optimal estimates for the $\ell^p$-Lipschitz constants of deep random ReLU neural networks, \href{https://arxiv.org/abs/2506.19695v1}{arXiv:2506.19695v1}, 2025.
 \bibitem{yang2019} G. Yang, Tensor Programs I: Wide Feedforward or Recurrent Neural Networks of Any Architecture are Gaussian Processes, \emph{NeurIPS}, 2019; \href{https://arxiv.org/abs/1910.12478v3}{arXiv:1910.12478v3}, 2021.
+\bibitem{hanin2019} B. Hanin and D. Rolnick, Complexity of Linear Regions in Deep Networks, \emph{ICML}, 2019; \href{https://arxiv.org/abs/1901.09021v2}{arXiv:1901.09021v2}.
+\bibitem{wang2022} Y. Wang, Estimation and Comparison of Linear Regions for ReLU Networks, \emph{IJCAI}, 2022, 3544--3550; \href{https://www.ijcai.org/proceedings/2022/0492.pdf}{proceedings paper}.
+\bibitem{lu2020} L. Lu, Y. Shin, Y. Su and G.~E. Karniadakis, Dying ReLU and Initialization: Theory and Numerical Examples, \href{https://arxiv.org/abs/1903.06733v3}{arXiv:1903.06733v3}, 2020.
 \bibitem{cover} T.~M. Cover, Geometrical and statistical properties of systems of linear inequalities with applications in pattern recognition, \emph{IEEE Trans. Electronic Computers} EC-14 (1965), 326--334.
 \bibitem{schlafli} L. Schl\"afli, \emph{Theorie der vielfachen Kontinuit\"at}, 1852 (published 1901); the region count for central hyperplane arrangements.
 \bibitem{vershynin} R. Vershynin, \emph{High-Dimensional Probability}, Cambridge University Press, 2018; sphere nets and operator norms.

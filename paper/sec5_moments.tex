@@ -132,24 +132,35 @@ Also $\E Y=\tfrac12$, $\E Y^2=\tfrac32$, $\Var(Y)=\tfrac54$.
 $\E e^{tY}=\tfrac12e^0+\tfrac12\E e^{tZ^2}$ and \cref{eq:mgf}; independence gives the product. $\E Y=\E B\,\E Z^2=\tfrac12$, $\E Y^2=\E B\,\E Z^4=\tfrac32$.
 \end{proof}
 
-\begin{lemma}[finite-width scalar moment bound]\label{lem:h}
-For every $n\ge 1$ and $0<\theta<\tfrac14$,
-\begin{equation}\label{eq:hbound}
-\E\bigl[(X_n^{(\alpha)})^{\theta n}\bigr]\le e^{n\,h_\alpha(\theta)},\qquad h_\alpha(\theta)=\theta\log\frac\alpha{2e}+\log\Bigl(\frac{1+(1-4\theta)^{-1/2}}2\Bigr).
+\begin{lemma}[optimized finite-width scalar moment bound]\label{lem:scalar}
+For every $n\ge1$, $\alpha>0$ and $\theta>0$, the function in \cref{eq:scalar-def} satisfies
+\begin{equation}\label{eq:scalar-bound}
+\E\bigl[(X_n^{(\alpha)})^{\theta n}\bigr]\le e^{n g_\alpha(\theta)}.
 \end{equation}
-Moreover $h_\alpha(0)=0$, $h_\alpha'(0+)=\log(\alpha/2)$, and as $\theta\downarrow0$
-\begin{equation}\label{eq:h-expansion}
-h_\alpha(\theta)=\theta\log\frac\alpha2+\frac52\theta^2+O(\theta^3),
-\end{equation}
-with a remainder that does not depend on $\alpha$.
+It extends continuously to $g_\alpha(0)=0$, and
+\begin{align}
+g'_\alpha(\theta)&=\log\frac{\alpha}{z_\theta^2(1+z_\theta)},\label{eq:scalar-derivative}\\
+g_\alpha(\theta)&=\theta\log\frac\alpha2+\frac52\theta^2+O(\theta^3).
+\label{eq:scalar-expansion}
+\end{align}
+as $\theta\downarrow0$, with a remainder independent of $\alpha$.
 \end{lemma}
 
 \begin{proof}
-Put $p=\theta n$ and $t=2\theta<\tfrac12$. Since $X_n^{(\alpha)}=\frac\alpha nS_n$, \cref{lem:xp} gives
+Write $\lambda(t)=\log[(1+(1-2t)^{-1/2})/2]$ for $0<t<1/2$.
+Set $p=\theta n$ in \cref{lem:xp} and apply it to $S_n$. Since $X_n^{(\alpha)}=\alpha S_n/n$, \cref{eq:mgfS} gives, for every such $t$,
 \[
-\E(X_n^{(\alpha)})^p=\Bigl(\frac\alpha n\Bigr)^p\E S_n^p\le\Bigl(\frac\alpha n\Bigr)^p\Bigl(\frac p{et}\Bigr)^p\E e^{tS_n}=\Bigl(\frac\alpha n\cdot\frac n{2e}\Bigr)^{\theta n}\Bigl[\frac{1+(1-4\theta)^{-1/2}}2\Bigr]^n=e^{nh_\alpha(\theta)},
+\frac1n\log\E(X_n^{(\alpha)})^{\theta n}
+\le \theta\log\frac{\alpha\theta}{et}+\lambda(t).
 \]
-using $p/(et)=\theta n/(2e\theta)=n/(2e)$ and \cref{eq:mgfS}. For the expansion, $(1-x)^{-1/2}=1+\tfrac12x+\tfrac38x^2+\tfrac5{16}x^3+O(x^4)$ with $x=4\theta$ gives $(1-4\theta)^{-1/2}=1+2\theta+6\theta^2+20\theta^3+O(\theta^4)$, so $\frac{1+(1-4\theta)^{-1/2}}2=1+\theta+3\theta^2+10\theta^3+O(\theta^4)$, and $\log(1+y)=y-\tfrac12y^2+\tfrac13y^3+O(y^4)$ with $y=\theta+3\theta^2+10\theta^3+O(\theta^4)$ gives $\log(\cdots)=\theta+\tfrac52\theta^2+O(\theta^3)$. Since $\theta\log\frac\alpha{2e}=\theta\log\frac\alpha2-\theta$, the $\pm\theta$ cancel and \cref{eq:h-expansion} follows. All dependence on $\alpha$ sits in the exact linear term.
+The right side has second derivative $\theta/t^2+\lambda''(t)>0$ and tends to $+\infty$ at both endpoints, so its unique stationary point is its global minimum. Put $z=\sqrt{1-2t}$. Direct differentiation gives
+\[
+\lambda'(t)=\frac1{z^2(1+z)},\qquad
+t\lambda'(t)=\frac{1-z}{2z^2}.
+\]
+The stationary equation $t\lambda'(t)=\theta$ therefore has solution $z=z_\theta$ from \cref{eq:scalar-def}. At this point $\theta/t=1/[z_\theta^2(1+z_\theta)]$, and substitution gives \cref{eq:scalar-bound}.
+
+Differentiate the minimized expression in $\theta$. Its derivative in $t$ vanishes at the minimizing $t$, so the chain rule leaves $g'_\alpha(\theta)=\log(\alpha\theta/t)$, the derivative in \cref{eq:scalar-derivative}. Since $z_\theta=1-2\theta+O(\theta^2)$, this derivative is $\log(\alpha/2)+5\theta+O(\theta^2)$. The defining formula tends to zero at $\theta=0$; integration gives the expansion. All dependence on $\alpha$ sits in the exact linear term $\theta\log\alpha$.
 \end{proof}
 
-The derivative at zero decides the qualitative threshold: if $\alpha<2$ then $h_\alpha'(0+)<0$ and $h_\alpha(\theta)<0$ for all small positive $\theta$. At $\alpha=2$ the linear term vanishes and $h_2(\theta)=\tfrac52\theta^2+O(\theta^3)$; the coefficient $\tfrac52$ is the normalized variance $\Var(Y)/(2(\E Y)^2)=\tfrac{5/4}{2\cdot 1/4}$ of one masked Gaussian square, and it is where the constant $\sqrt{10}$ of the rate comes from. \Cref{sec:sharp} shows that the large-$n$ exponent of the moment is exactly this function to second order, so neither number is an artifact of \cref{lem:xp}.
+The derivative at zero decides the qualitative threshold: if $\alpha<2$ then $g'_\alpha(0+)<0$ and $g_\alpha$ is negative for all small positive $\theta$. At $\alpha=2$ the linear term vanishes. The coefficient $\tfrac52$ is the normalized variance $\Var(Y)/(2(\E Y)^2)=\tfrac{5/4}{2\cdot1/4}$ of one masked Gaussian square; it is where the constant $\sqrt{10}$ of the rate comes from. \Cref{sec:sharp} shows that the entire function $g_\alpha$, not only its expansion, is the exact limiting moment exponent.

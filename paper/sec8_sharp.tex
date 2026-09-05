@@ -1,7 +1,7 @@
 \section{Sharpness, and some structural remarks}
 \label{sec:sharp}
 
-The finite theorem rests on the bound $h_\alpha$ of \cref{lem:h}, obtained from one deterministic inequality. This section computes the exact exponential rate of the scalar moment and shows that $h_\alpha$ has the same derivative at zero and the same quadratic coefficient. It then records a few facts about the structure of the problem.
+The finite theorem uses the elementary function $g_\alpha$ of \cref{lem:scalar}. This section shows that the same function is the exact limiting moment exponent, so the scalar step loses no exponential rate at large width. It then records some structural consequences of the gauge identity.
 
 \subsection{The exact scalar high-moment exponent}
 
@@ -27,30 +27,32 @@ Two forms of Stirling's formula are used: for integers $k\ge1$, $\log k!=(k+\tfr
 The term $-\theta n\log n$ from $(2\alpha/n)^{\theta n}$ cancels the $+\theta n\log n$ of the Gamma ratio, and the $m$-th summand $a_{n,m}$ of \cref{eq:exact-sum} satisfies $\frac1n\log a_{n,m}=\Phi_{\alpha,\theta}(m/n)+O_{\alpha,\theta}(\log n/n)$ uniformly. A sum of $n$ nonnegative terms lies between its largest term and $n$ times it, so after taking $\frac1n\log$ the sum and the maximum differ by at most $\log n/n$; and the grids $\{1/n,\dots,1\}$ become dense, so the grid maximum of the continuous $\Phi_{\alpha,\theta}$ converges to its maximum.
 
 \begin{proposition}[exact exponent]\label{prop:exact}
-For every $\alpha>0$ and $\theta>0$ the limit
+For every $\alpha>0$ and $\theta>0$,
 \[
-g_\alpha(\theta)=\lim_{n\to\infty}\frac1n\log\E[(X_n^{(\alpha)})^{\theta n}]
+\lim_{n\to\infty}\frac1n\log\E[(X_n^{(\alpha)})^{\theta n}]
+=\max_{0\le u\le1}\Phi_{\alpha,\theta}(u)=g_\alpha(\theta),
 \]
-exists and equals $\max_{0\le u\le1}\Phi_{\alpha,\theta}(u)$. It extends continuously to $\theta=0$ by $g_\alpha(0)=0$, and $g_\alpha'(0+)=\log(\alpha/2)$. Near the critical variance, writing $\alpha=2e^{-\delta}$,
-\begin{equation}\label{eq:g-expansion}
-g_{2e^{-\delta}}(\theta)=-\delta\theta+\frac52\theta^2+O(\theta^3),
-\end{equation}
-the same expansion as $h_{2e^{-\delta}}$ in \cref{eq:h-delta}. Taking the limit in the finite-width bound of \cref{lem:h} gives $g_\alpha(\theta)\le h_\alpha(\theta)$ for $0<\theta<1/4$, their common domain, and the two agree to second order at zero.
+where $g_\alpha$ is the finite-width bound in \cref{eq:scalar-def}. The unique maximizing fraction is $u_\theta=1/(1+z_\theta)$.
 \end{proposition}
 
 \begin{proof}
-The limit and its formula follow from the discussion above. At $\theta=0$ the last three terms of \cref{eq:Phi} cancel, leaving $H(u)-\log2$, whose unique maximizer is $u=\tfrac12$ with value $0$, since $H'(u)=\log\frac{1-u}u$ vanishes only there and $H''<0$; so $g_\alpha(0)=0$, and joint continuity of $(u,\theta)\mapsto\Phi_{\alpha,\theta}(u)$ makes $g_\alpha$ continuous at $0$.
-
-For the right derivative, let $u_\theta$ maximize $\Phi_{\alpha,\theta}$. Outside any neighbourhood of $\tfrac12$ the function $H(u)-\log2$ is bounded above by a negative constant, so for small $\theta$ a maximizer cannot stay outside it: $u_\theta\to\tfrac12$. Evaluating at the old maximizer, $g_\alpha(\theta)\ge\Phi_{\alpha,\theta}(\tfrac12)$, so $\liminf_{\theta\downarrow0}(g_\alpha(\theta)-g_\alpha(0))/\theta\ge\partial_\theta\Phi_{\alpha,0}(\tfrac12)$. Using maximality of $u_\theta$ at $\theta$ and of $\tfrac12$ at $0$, $g_\alpha(\theta)-g_\alpha(0)=\Phi_{\alpha,\theta}(u_\theta)-\Phi_{\alpha,0}(\tfrac12)\le\Phi_{\alpha,\theta}(u_\theta)-\Phi_{\alpha,0}(u_\theta)$; dividing by $\theta$ and using the mean value theorem in $\theta$ together with $u_\theta\to\tfrac12$ and the continuity of $\partial_\theta\Phi$ gives the matching $\limsup$. Now $\partial_\theta\Phi_{\alpha,\theta}(u)=\log(2\alpha)+\log(\tfrac u2+\theta)$, and at $(\tfrac12,0)$ this is $\log(2\alpha)+\log\tfrac14=\log(\alpha/2)$.
-
-For the expansion, $\alpha=2e^{-\delta}$ shifts $\Phi$ by an exact linear term, $\Phi_{2e^{-\delta},\theta}=\Phi_{2,\theta}-\delta\theta$, so $g_{2e^{-\delta}}(\theta)=g_2(\theta)-\delta\theta$. At $(u,\theta)=(\tfrac12,0)$ the second derivatives of $\Phi_{2,\theta}(u)$ are $\Phi_{uu}=-4$, $\Phi_{u\theta}=2$, $\Phi_{\theta\theta}=4$, so with $u=\tfrac12+v$,
+The limit and its variational formula follow from the exact Gamma sum and uniform estimates above. For $0<u<1$,
 \[
-\Phi_{2,\theta}(\tfrac12+v)=-2v^2+2v\theta+2\theta^2+O((\abs v+\theta)^3).
+\partial_u\Phi=\log\frac{1-u}{u}+\frac12\log\frac{u/2+\theta}{u/2},\qquad
+\partial_{uu}\Phi=-\frac1{u(1-u)}+\frac1{4(u/2+\theta)}-\frac1{2u}<0.
 \]
-The first-order condition $-4v+2\theta+O(v^2+\theta^2)=0$ gives $v=\theta/2+O(\theta^2)$, and substituting, $-2(\theta/2)^2+2(\theta/2)\theta+2\theta^2=\tfrac52\theta^2$. Hence $g_2(\theta)=\tfrac52\theta^2+O(\theta^3)$ and \cref{eq:g-expansion} follows.
+The first derivative tends to $+\infty$ at zero and $-\infty$ at one, so there is one interior maximizer. Substitute $u=1/(1+z)$. Its stationary equation reduces to $\theta=(1-z)/(2z^2)$, giving $z=z_\theta$ and
+\[
+\frac{u_\theta}2+\theta=\frac1{2z_\theta^2(1+z_\theta)}.
+\]
+Substituting these identities into \cref{eq:Phi} and collecting logarithms gives exactly \cref{eq:scalar-def}. This identifies the limiting exponent with the function that already bounds every finite-width moment in \cref{lem:scalar}.
 \end{proof}
 
-The quadratic coefficient has a probabilistic meaning. For $Y=BZ^2$, $\E Y=\tfrac12$ and $\Var Y=\tfrac54$, and $\Var(Y)/(2(\E Y)^2)=\tfrac52$: the curvature of the moment exponent at the critical point is the normalized variance of one masked Gaussian square. The rate constant $\sqrt{10}$ of \cref{thm:main}(iv) is $\sqrt{2\cdot2\cdot\tfrac52}$, one factor $2$ from $\alpha=2e^{-\delta}$, one from the optimization $\theta=\delta/5$ and value $-\delta^2/10$.
+In particular $u_\theta=\tfrac12+\tfrac12\theta+O(\theta^2)$ and \cref{eq:scalar-expansion} gives
+\begin{equation}\label{eq:g-expansion}
+g_{2e^{-\delta}}(\theta)=-\delta\theta+\frac52\theta^2+O(\theta^3).
+\end{equation}
+The scalar exponent is exact, but the geometric count and the sphere net in the master inequality still introduce slack. The constant $\sqrt{10}$ remains a constant in a certified lower bound for the network threshold, not a matching asymptotic description of that threshold.
 
 \subsection{The Cover factor at fixed depth}
 
@@ -79,6 +81,32 @@ If $P:\R^d\to\R$ is a polynomial that is not identically zero, then $\{x:P(x)=0\
 \begin{proof}
 Induction on $d$. For $d=1$ a nonzero polynomial has finitely many roots. For $d>1$ write $P=\sum_{k=0}^ma_k(x_1,\dots,x_{d-1})x_d^k$ with some $a_k$ not identically zero. By induction the set where all $a_k$ vanish has measure zero; for every other value of the first $d-1$ coordinates the polynomial in $x_d$ is nonzero and has finitely many roots, a one-dimensional null set. Fubini's theorem gives total measure zero.
 \end{proof}
+
+\subsection{The mean strict-region count at width two}
+
+Let $R_{2,L}$ be the number of nonempty strict regions $R_D$ in a width-two network. This counts activation patterns with every preactivation nonzero; it excludes ordinary cells on which a preactivation is identically zero.
+
+\begin{proposition}\label{prop:width-two-mean}
+For every $L\ge1$ and every $\alpha>0$,
+\begin{equation}\label{eq:width-two-mean}
+\E R_{2,L}=8\left[\left(\frac34\right)^L-\left(\frac14\right)^L\right].
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Sum \cref{eq:orbit} with functional $1$ over all formal masks: $\E R_{2,L}=4^{-L}\sum_D\E r(\im A_D)$. If an intermediate mask $D_j$ is zero, $j<L$, the next preactivation matrix has a zero row and $r(\im A_D)=0$.
+
+Otherwise let $k$ be the first index $j<L$ for which $D_j$ has rank one, or put $k=L$ if all intermediate masks are $I_2$. Through layer $k$, the preactivation matrices are $Q_1,\dots,Q_k$, since all earlier masks are the identity. Their $2k$ row directions are distinct almost surely, by the joint-density argument used for \cref{eq:all-active}. If $k<L$, multiplication by the rank-one mask retains one row of $Q_k$; every later nonzero row is proportional to that row and creates no new direction. These later rows are nonzero almost surely: at each step a fresh Gaussian row acts on a nonzero retained vector, and its zero set has conditional probability zero. Thus in either case the arrangement in the input plane has $2k$ distinct lines, giving $r(\im A_D)=4k$ almost surely.
+
+For $k<L$ there are two choices for the first rank-one mask, three nonzero choices at each later intermediate layer, and four choices for the final mask. This gives $8\cdot3^{L-k-1}$ masks of type $k$. There are four masks of type $k=L$. Consequently
+\[
+\E R_{2,L}=4^{-L}\left[32\sum_{k=1}^{L-1}k3^{L-k-1}+16L\right]
+=8\frac{3^L-1}{4^L},
+\]
+where the last finite-sum identity follows by differentiating a geometric sum (and also holds for $L=1$, when the sum is empty).
+\end{proof}
+
+The first six means are $4,4,3.25,2.5,1.890625,1.421875$. Their decay at large depth concerns strict regions. Ordinary cells remain even when the network is identically zero, so \cref{eq:width-two-mean} must not be read as their mean count. No affine-bias version of this formula is asserted.
 
 \subsection{Depth one}
 

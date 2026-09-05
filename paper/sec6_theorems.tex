@@ -4,18 +4,29 @@
 \subsection{The finite-width theorem}
 
 \begin{proof}[Proof of \cref{thm:finite}]
-Take $p=\theta n$ in \cref{prop:master}. The first inequality in \cref{eq:main-finite} is Markov's inequality on the event $\{K>1\}$, as in the proof of \cref{eq:master-tail}. For the second, \cref{lem:h} gives $\E(X_n^{(\alpha)})^{\theta n}\le e^{nh_\alpha(\theta)}$, so
+Take $p=\theta n$ in \cref{prop:master}. The first inequality in \cref{eq:main-finite} is Markov's inequality on the event $\{K>1\}$, as in the proof of \cref{eq:master-tail}. For the second, \cref{lem:scalar} gives $\E(X_n^{(\alpha)})^{\theta n}\le e^{ng_\alpha(\theta)}$, so
 \[
-\E K_{n,L}(\alpha)^{2\theta n}\le C_{n,L}\,5^n\,4^{\theta n}\,e^{nLh_\alpha(\theta)},
+\E K_{n,L}(\alpha)^{2\theta n}\le C_{n,L}\,5^n\,4^{\theta n}\,e^{nLg_\alpha(\theta)},
 \]
 and \cref{lem:C-entropy} bounds $C_{n,L}\le 2e^{nLH(1/L)}$ for $L\ge2$. Multiplying out,
 \[
-C_{n,L}5^n4^{\theta n}e^{nLh_\alpha(\theta)}\le 2\exp\bigl(n[LH(1/L)+\log5+\theta\log4+Lh_\alpha(\theta)]\bigr)=2e^{nB_L(\alpha,\theta)}.
+C_{n,L}5^n4^{\theta n}e^{nLg_\alpha(\theta)}\le 2\exp\bigl(n[LH(1/L)+\log5+\theta\log4+Lg_\alpha(\theta)]\bigr)=2e^{nB_L(\alpha,\theta)}.
 \]
 For $L=1$, $C_{n,1}=2^n=2\cdot2^{n-1}\le2e^{n\log2}$ and the same computation applies with $\log2$ in place of $LH(1/L)$.
 \end{proof}
 
-\Cref{cor:width} is the theorem with the best $\theta$. The function $\theta\mapsto-B_L(\alpha,\theta)$ is continuous on $(0,1/4)$, tends to $-\infty$ as $\theta\uparrow1/4$, where $(1-4\theta)^{-1/2}$ blows up, and tends to the negative number $-LH(1/L)-\log5$ as $\theta\downarrow0$; so whenever its supremum $c_L(\alpha)$ is positive it is attained at an interior $\theta$, and the corollary applies with that $\theta$.
+\Cref{cor:width} is the theorem with the best $\theta$. The function $-B_L(\alpha,\theta)$ is continuous for $\theta>0$, tends to $-LH(1/L)-\log5<0$ at zero, and tends to $-\infty$ at infinity. The last claim follows from \cref{eq:scalar-derivative}, since $z_\theta\to0$ and hence $g'_\alpha(\theta)\to+\infty$. Thus whenever its supremum is positive it is attained at an interior $\theta$.
+
+The optimizer is explicit up to a strictly increasing cubic. If $\alpha4^{1/L}<2$, there is a unique $z\in(0,1)$ with
+\begin{equation}\label{eq:budget-optimizer}
+z^2(1+z)=\alpha4^{1/L},\qquad \theta=\frac{1-z}{2z^2}.
+\end{equation}
+It minimizes $B_L$: by \cref{eq:scalar-derivative}, $\partial_\theta B_L=\log4+L\log[\alpha/(z_\theta^2(1+z_\theta))]$ is strictly increasing, negative at zero and tends to infinity. At the optimizer,
+\begin{equation}\label{eq:budget-optimal}
+\inf_{\theta>0}B_L(\alpha,\theta)
+=LH(1/L)+\log5+L\left[-\frac{1-z}{2z^2}+\log\frac{1+z}{2z}\right].
+\end{equation}
+If $\alpha4^{1/L}\ge2$, the infimum is the positive boundary value $LH(1/L)+\log5$, so this budget gives no contraction certificate.
 
 \subsection{The exponent budget}
 \label{sec:budget}
@@ -23,7 +34,7 @@ For $L=1$, $C_{n,1}=2^n=2\cdot2^{n-1}\le2e^{n\log2}$ and the same computation ap
 Written as a rate per unit width, the bound reads
 \[
 \frac1n\log\PP\bigl(K_{n,L}(\alpha)>1\bigr)\le\frac{\log2}n+
-\underbrace{LH(1/L)}_{\text{realizable patterns}}+\underbrace{\log5}_{\text{sphere net}}+\underbrace{\theta\log4}_{\text{net to norm}}+\underbrace{Lh_\alpha(\theta)}_{\text{radial moment, $L$ layers}} .
+\underbrace{LH(1/L)}_{\text{realizable patterns}}+\underbrace{\log5}_{\text{sphere net}}+\underbrace{\theta\log4}_{\text{net to norm}}+\underbrace{Lg_\alpha(\theta)}_{\text{radial moment, $L$ layers}} .
 \]
 Three of the four terms do not move once $L$ is fixed, and the first grows only like $\log L$: by \cref{lem:LH} below, $LH(1/L)=\log L+1+O(1/L)$. The last term is $L$ times a number that is negative whenever $\alpha<2$ and $\theta$ is small. A negative multiple of $L$ eventually beats a logarithm of $L$; the depth at which it does is $L_0(\alpha)$. This is why the upper bound succeeds at large depth and only there: the realizability entropy costs order $\log L$ per unit width, against the $nL\log2$ that a union bound over all $2^{nL}$ masks would cost, and the radial contraction is order $L$.
 
@@ -38,14 +49,14 @@ $LH(1/L)=-\log(1/L)-(L-1)\log(1-1/L)$. Since $-\log(1-x)=x+x^2/2+\dots\ge x$, $-
 \subsection{Fixed depth, growing width; the depth threshold}
 
 \begin{proof}[Proof of \cref{thm:main}(i)]
-Fix $\alpha<2$. By \cref{eq:h-expansion}, $h_\alpha'(0+)=\log(\alpha/2)<0$, so there is $\theta\in(0,1/4)$, depending on $\alpha$ but not on $n$ or $L$, with $h_\alpha(\theta)=-\gamma<0$. By \cref{lem:LH} the budget satisfies
+Fix $\alpha<2$. By \cref{eq:scalar-expansion}, $g_\alpha'(0+)=\log(\alpha/2)<0$, so there is $\theta>0$, depending on $\alpha$ but not on $n$ or $L$, with $g_\alpha(\theta)=-\gamma<0$. By \cref{lem:LH} the budget satisfies
 \[
 B_L(\alpha,\theta)\le\log L+1+\log5+\theta\log4-L\gamma,
 \]
 which is negative for all $L\ge L_0(\alpha)$, a linear function eventually dominating a logarithm. For such $L$, \cref{thm:finite} gives $\PP(K_{n,L}(\alpha)>1)\le2e^{-c_{\alpha,L}n}$ with $c_{\alpha,L}=-B_L(\alpha,\theta)>0$, for every width $n$.
 \end{proof}
 
-The smallest depth at which the exact budget $\min_\theta B_L(\alpha,\theta)$ turns negative is a computable number; for $\alpha=1$ it is $237$, for $\alpha=1.9$ it is $52\,841$ (\cref{sec:numerics}). At depths below it the bound says nothing, and at depth one it cannot: $\alpha_1=1/4$.
+The smallest depth at which the exact budget $\inf_{\theta>0}B_L(\alpha,\theta)$ turns negative is a computable number; for $\alpha=1$ it is $119$, for $\alpha=1.9$ it is $50\,026$ (\cref{sec:numerics}). At depths below it the bound says nothing, and at depth one it cannot: $\alpha_1=1/4$.
 
 \subsection{The other side}
 
@@ -92,9 +103,9 @@ Reading the statement carefully: for every $\alpha<2$ there is a depth $L_0(\alp
 
 \subsection{The quantitative rate}
 
-Write $\alpha=2e^{-\delta}$. Then $\theta\log(\alpha/2)=-\delta\theta$, and by \cref{eq:h-expansion}
-\begin{equation}\label{eq:h-delta}
-h_{2e^{-\delta}}(\theta)=-\delta\theta+\frac52\theta^2+O(\theta^3),
+Write $\alpha=2e^{-\delta}$. Then $\theta\log(\alpha/2)=-\delta\theta$, and by \cref{eq:scalar-expansion}
+\begin{equation}\label{eq:scalar-delta}
+g_{2e^{-\delta}}(\theta)=-\delta\theta+\frac52\theta^2+O(\theta^3),
 \end{equation}
 with a remainder uniform in $\delta$ near zero, since all dependence on $\alpha$ is in the exact linear term. Ignoring the remainder, $-\delta\theta+\frac52\theta^2$ is minimized at $\theta=\delta/5$ with value $-\delta^2/10$; so $L$ layers produce a negative exponent of about $-L\delta^2/10$, against a geometric cost of about $\log L$. Balancing, $L\delta^2/10\approx\log L$, or $\delta\approx\sqrt{10\log L/L}$. The proof makes this precise.
 
@@ -103,9 +114,9 @@ Fix a constant $A>1+\log5$ and for large $L$ put
 \[
 \delta_L=\sqrt{\frac{10(\log L+A)}L},\qquad\alpha(L)=2e^{-\delta_L},\qquad\theta_L=\frac{\delta_L}5 .
 \]
-Since $\delta_L\to0$, $\theta_L\in(0,1/4)$ for all large $L$. Evaluate the budget of \cref{thm:finite} at $(\alpha(L),\theta_L)$, with $L$ fixed and $n$ free:
+Since $\delta_L\to0$, $\theta_L>0$ for all large $L$. Evaluate the budget of \cref{thm:finite} at $(\alpha(L),\theta_L)$, with $L$ fixed and $n$ free:
 \begin{align*}
-B_L(\alpha(L),\theta_L)&=LH(1/L)+\log5+\theta_L\log4+Lh_{\alpha(L)}(\theta_L)\\
+B_L(\alpha(L),\theta_L)&=LH(1/L)+\log5+\theta_L\log4+Lg_{\alpha(L)}(\theta_L)\\
 &=\log L+1+O(1/L)+\log5+o(1)+L\Bigl[-\frac{\delta_L^2}5+\frac52\cdot\frac{\delta_L^2}{25}+O(\delta_L^3)\Bigr]\\
 &=\log L+1+\log5-\frac{L\delta_L^2}{10}+O(L\delta_L^3)+o(1).
 \end{align*}
@@ -122,9 +133,9 @@ the last step because $\sqrt{1+A/\log L}=1+o(1)$.
 
 The rate is the balance between one number that comes from geometry, the entropy $\log L$ of the realizable patterns, and one that comes from probability, the curvature $\tfrac52$ of the moment exponent at the critical variance. The asymptotic form drops the $O(1/L)$, the $\theta_L\log4$, the $O(L\delta^3_L)$ and the choice of $A$, and is therefore only the large-$L$ shape of the bound; at a specific depth the number the proof delivers is the threshold of the exact budget,
 \begin{equation}\label{eq:alpha-star}
-\alpha^*_L=\sup\Bigl\{\alpha:\ \min_{0<\theta<1/4}B_L(\alpha,\theta)<0\Bigr\}\le\alpha_L,
+\alpha^*_L=\sup\Bigl\{\alpha:\ \inf_{\theta>0}B_L(\alpha,\theta)<0\Bigr\}\le\alpha_L,
 \end{equation}
-which \cref{sec:numerics} tabulates. At $L=100$ the exact budget gives $0.678$ while the asymptotic formula, read at $L=100$ with the $o(1)$ dropped, would say $1.01$, a number the proof does not deliver there.
+which \cref{sec:numerics} tabulates. At $L=100$ the exact budget gives $0.954$ while the asymptotic formula, read at $L=100$ with the $o(1)$ dropped, would say $1.01$, a number the proof does not deliver there.
 
 \subsection{Exact scaling in the variance}
 
@@ -140,7 +151,7 @@ The positive scalar changes no activation sign, so every mask is unchanged under
 The global probability bounds extend to independent symmetric biases. Write $F_b$ for the network with $h_\ell(s)=W_\ell x_{\ell-1}(s)+b_\ell$ and $K^{(b)}_{n,L}(\alpha)=\operatorname{Lip}(F_b)$.
 
 \begin{theorem}[finite width, with biases]\label{thm:bias}
-Suppose all $nL$ coordinates of $(b_1,\dots,b_L)$ are mutually independent, each is symmetric about zero, and the entire bias array is independent of the weights. For every $n\ge1$, $L\ge2$, $\alpha>0$ and $0<\theta<1/4$,
+Suppose all $nL$ coordinates of $(b_1,\dots,b_L)$ are mutually independent, each is symmetric about zero, and the entire bias array is independent of the weights. For every $n\ge1$, $L\ge2$, $\alpha>0$ and $\theta>0$,
 \[
 \PP\bigl(K^{(b)}_{n,L}(\alpha)>1\bigr)\le2e^{nB_L(\alpha,\theta)}.
 \]
