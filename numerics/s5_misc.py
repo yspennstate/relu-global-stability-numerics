@@ -61,7 +61,7 @@ for t in (0.05, 0.1, 0.2, 0.3, 0.4, 0.45):
     res["mgf"].append({"t": t, "empirical": float(np.mean(np.exp(t * Y))),
                        "formula": (1 + (1 - 2 * t) ** -0.5) / 2})
 
-# (f) OPERATOR NORM = LONGEST AXIS OF THE IMAGE ELLIPSOID (the picture in Chapter 1)
+# (f) OPERATOR NORM = LONGEST AXIS OF THE IMAGE ELLIPSOID
 A = np.array([[1.6, 0.7], [0.2, 1.1]])
 U, S, Vt = np.linalg.svd(A)
 res["ellipsoid"] = {"A": A.tolist(), "singular_values": S.tolist(),

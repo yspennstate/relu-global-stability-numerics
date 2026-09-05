@@ -3,7 +3,7 @@
 
 1. The shared-matrix ReLU dynamics x_{t+1} = (W x_t)_+, W iid N(0, 1/N): the worst deviation
    max_{t<=T} |2^t ||x_t||^2 - 1| over T = 8 steps, at several widths, 200 draws each - and the same
-   statistic for the feedforward pass with a FRESH matrix at every step (the chapter-one object at alpha = 1).
+   statistic for the feedforward pass with a FRESH matrix at every step (the feedforward network of section 1 at alpha = 1).
 2. The Chernoff rate I(c) = sup_{s>0} [ -s c - log((1 + (1+2s)^{-1/2})/2) ] for P(S_n <= n c) with
    S_n = sum of n copies of B Z^2 = (xi_+)^2: the exponential form of the alpha > 2 obstruction.
 """

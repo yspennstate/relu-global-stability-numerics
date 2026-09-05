@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Chapter six's measured numbers: the shared-matrix ReLU dynamics x_{t+1} = (W x_t)_+ with W iid N(0, 1/N),
-against the same statistic for a fresh matrix at every step (chapter one's forward pass at alpha = 1).
+"""The finite-horizon numbers: the shared-matrix ReLU dynamics x_{t+1} = (W x_t)_+ with W iid N(0, 1/N),
+against the same statistic for a fresh matrix at every step (the feedforward network of section 1 at alpha = 1).
 
     worst_t |2^t ||x_t||^2 - 1| over T = 8 steps, 200 draws per width: median, 90th percentile, fraction > 1/2
     the Chernoff rate I(1/alpha) of the sharpened obstruction (section 'together' of the paper)
 
-Writes sim/data/s8_horizon.json.  Seed fixed; every number in the lecture and the paper comes from here.
+Writes data/s8_horizon.json.  Seed fixed; the finite-horizon tables of the paper come from here.
 """
 import io, json, math, os
 import numpy as np

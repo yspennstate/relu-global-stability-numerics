@@ -101,9 +101,9 @@ for alpha in (1.0, 1.4, 1.7, 1.9, 1.95, 1.99):
     # on the same h: the optimum moves by less than 0.0002 and L0 is IDENTICAL for alpha = 1.0, 1.4
     # and 1.7 (237, 897, 4590).  It moves at the top end, where the budget curve is nearly flat:
     # 52 862 -> 52 841 at alpha = 1.9, 237 405 -> 237 381 at 1.95, 7 353 765 -> 7 353 316 at 1.99 -
-    # four parts in ten thousand, and always in the conservative direction.  The grid value is kept
-    # because half the film's boards were rendered against it and a silent shift of one figure in
-    # the fourth place across scenes rendered hours apart would be worse than the resolution itself.
+    # four parts in ten thousand, and always in the conservative direction.  The grid value is kept:
+    # the tables were typeset against it, and a shift of one figure in the fourth place between
+    # two tables would be worse than the resolution itself.
     ths = np.unique(np.concatenate([np.geomspace(1e-6, 0.002, 200), np.arange(0.002, 0.2401, 0.0005)]))
     hv = np.array([h(alpha, t) for t in ths])
     i = int(np.argmin(hv)); th_best, gamma = float(ths[i]), float(-hv[i])

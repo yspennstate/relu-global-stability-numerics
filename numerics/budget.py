@@ -13,8 +13,8 @@ the proof itself delivers at depth L is therefore
 
 a number one can compute, and the honest finite-depth row of any table.  The closed form
 2 exp(-sqrt(10 (log L + A)/L)) is the large-L asymptotics of the same budget with the o(1) terms dropped;
-at L = 100 it reads 0.83 where the budget delivers 0.68.  (Found 2026-09-05 while writing the paper's
-numerics; the lecture's chapter-one table had quoted the closed form as the finite-depth number.)
+at L = 100 it reads 0.83 where the budget delivers 0.68.  (The closed form is the
+one that tends to get quoted as if it were the finite-depth number; the tables use the budget.)
 """
 import math
 import numpy as np
