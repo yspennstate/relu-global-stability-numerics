@@ -1,5 +1,28 @@
 # Revision of 5 September 2026
 
+## Precision edits after the fresh reviews of cd9f302
+
+Two independent Codex referees voted YES on the optimized 42-page candidate
+cd9f302, with minor corrections and no blocking mathematical finding. Their
+reports remain immutable and apply to that exact version. The following edits
+implement their recommendations without changing the optimized constants:
+
+- Distinguish independent-layer conditional expectation halving from the tied
+  iteration's high-probability norm profile and small exceptional set of starts.
+- State the causal trajectory-query algorithm and deterministic padding length;
+  cite Tensor Programs I, Appendix G.3, for the conditioning method.
+- Include the trivial zero-radius case before the uniform-LLN proof divides by R.
+- Allow a line segment to lie along a polyhedral face for an interval.
+- Describe the retained planar calculations as rounded numerical boundary
+  enumeration, keeping the exact identity distinct from its numerical checks.
+- Restrict the Bai--Yin application to the centered Gaussian matrix in this
+  paper and retain the relevant 1993 sample-covariance reference.
+- Describe the strict negative-budget threshold as a supremum.
+
+The fixed-width depth-limit proposal is separate research and is not included
+in this precision-edit revision. The main theorems remain bias-free, with the
+proved affine extensions optional.
+
 ## Copyedits following the two YES recommendations
 
 Two independent reviewers recommended publication of commit 46b10b8, with minor
