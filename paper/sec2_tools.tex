@@ -63,14 +63,14 @@ If $G\in\R^m$ has independent $\mathcal N(0,1)$ coordinates, $\norm G^2$ has the
 \subsection{A bound on partial binomial sums}
 
 \begin{lemma}\label{lem:entropy}
-For integers $0\le k\le N/2$,
+For integers $N\ge1$ and $0\le k\le N/2$,
 \[
 \sum_{j=0}^{k}\binom Nj\le\exp\bigl(N\,H(k/N)\bigr).
 \]
 \end{lemma}
 
 \begin{proof}
-Put $q=k/N\le 1/2$. Expanding $1=(q+(1-q))^N$ and keeping only the terms $j\le k$,
+For $k=0$ both sides are $1$. Otherwise put $q=k/N\in(0,1/2]$. Expanding $1=(q+(1-q))^N$ and keeping only the terms $j\le k$,
 \[
 1\ge\sum_{j\le k}\binom Nj q^j(1-q)^{N-j}\ge\sum_{j\le k}\binom Nj q^k(1-q)^{N-k},
 \]

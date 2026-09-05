@@ -3,6 +3,8 @@
 
 The calculations in this section are released with their generators, row parameters and outputs. Tables~1--7 are typeset directly from the JSON by \texttt{export\_tables.py}: the exact quantities by evaluating the formulas, the Monte Carlo quantities by simulating the network with a fixed seed and comparing with the formulas they are supposed to obey. Where a quantity was sampled rather than enumerated the table says so, since a sampled supremum is a lower bound.
 
+The finite transfer formulas of \cref{thm:region-transfer} also have a standard-library rational evaluator, \texttt{exact\_region\_transfer.py}. A separate calculation in \texttt{check\_region\_transfer.py} checks 3,072 actual selected-row ranks at $(n,L)=(2,3),(3,2)$, 1,020 scalar sign-orbit networks through depth eight, and both width-two formulas at depths one through 25. It rejects deliberate errors in selected/retained overlap, the final-mask factor, and the treatment of zero central rows versus empty affine constraints. The released JSON retains the integer matrices and source hashes. These finite author controls do not replace the almost-sure rank proof.
+
 \subsection{The orthant count}
 
 \Cref{tab:cover} draws a random subspace $U$ of dimension $d$ in $\R^M$ and counts the open orthants it meets. In the plane the routine enumerates boundary arcs using floating-point arithmetic; for $d\ge3$ the count is a lower bound from sampled directions. The planar samples attain the bound of \cref{lem:cover}, in agreement with the general-position remark.
@@ -33,20 +35,20 @@ There is a useful exact check at $n=L=2$. In coordinates $y=W_1s$, the negative 
 \begin{table}[h]\centering\small
 \begin{tabular}{rrrrrrl}
 \toprule
-$n$ & $L$ & formal masks $2^{nL}$ & $C_{n,L}$ & strict, mean (range) & zero, mean & method\\
+$n$ & $L$ & exact $\E R_{n,L}$ & $C_{n,L}$ & strict, sample mean (range) & zero, mean & method\\
 \midrule
 2 & 1 & 4 & 4 & 4.00 (4--4) & 0.00 & arcs\\
-2 & 2 & 16 & 8 & 3.93 (3--5) & 1.00 & arcs\\
-2 & 3 & 64 & 12 & 3.57 (0--7) & 1.72 & arcs\\
-2 & 4 & 256 & 16 & 3.17 (0--8) & 2.47 & arcs\\
-2 & 5 & 1024 & 20 & 1.68 (0--6) & 3.78 & arcs\\
-2 & 6 & 4096 & 24 & 1.77 (0--8) & 3.97 & arcs\\
-3 & 2 & 64 & 32 & 15.16 (10--19) & 1.00 & LP\\
-3 & 3 & 512 & 74 & 17.52 (6--35) & 3.04 & LP\\
-4 & 2 & 256 & 128 & 52.32 (22--68) & 1.00 & LP\\
+2 & 2 & 4 & 8 & 3.93 (3--5) & 1.00 & arcs\\
+2 & 3 & 13/4 & 12 & 3.57 (0--7) & 1.72 & arcs\\
+2 & 4 & 5/2 & 16 & 3.17 (0--8) & 2.47 & arcs\\
+2 & 5 & 121/64 & 20 & 1.68 (0--6) & 3.78 & arcs\\
+2 & 6 & 91/64 & 24 & 1.77 (0--8) & 3.97 & arcs\\
+3 & 2 & 29/2 & 32 & 15.16 (10--19) & 1.00 & LP\\
+3 & 3 & 17 & 74 & 17.52 (6--35) & 3.04 & LP\\
+4 & 2 & 52 & 128 & 52.32 (22--68) & 1.00 & LP\\
 \bottomrule
 \end{tabular}
-\caption{Strict regions and excluded forced-zero cells (60 draws per row at $n=2$, 25 otherwise). Arcs enumerate planar cells; LP exhausts all formal masks. Row seeds, weights, accepted masks and strict witnesses are released.}
+\caption{Strict regions and excluded forced-zero cells (60 draws per row at $n=2$, 25 otherwise). The exact mean is from \cref{thm:region-transfer}; $C_{n,L}$ is its upper bound. Arcs enumerate planar cells; LP exhausts all $2^{nL}$ formal masks. Row seeds, weights, accepted masks and strict witnesses are released.}
 \label{tab:regions}
 \end{table}
 
@@ -171,7 +173,7 @@ $n$ & $L$ & median $K_{n,L}(1)$ & 10\%--90\% & $\widetilde K^{-2/L}$ & method\\
 \label{tab:small}
 \end{table}
 
-Two features of \cref{tab:small} are worth reading against the theorem. At width two, deeper networks die: with probability growing in $L$ some layer maps everything to zero, $K=0$, and the reported inverse-median statistic can exceed $2$, which is a small-width effect the theorem says nothing about. At width eight and depth three the median threshold is about $0.6$, well below $2$, in keeping with the depth $L_0$ the budget demands before the bound takes effect. The theorem takes the width limit first and the depth limit second; the table is a reminder of what it does not say.
+Two features of \cref{tab:small} are worth reading against the theorem. At width two, deeper networks die: with probability growing in $L$ some layer maps everything to zero, $K=0$, and the reported inverse-median statistic can exceed $2$, which is a small-width effect outside the scope of the threshold theorem. The fixed-width death rate is quantified separately in \cref{cor:fixed-width-depth}. At width eight and depth three the median threshold is about $0.6$, well below $2$, in keeping with the depth $L_0$ the budget demands before the bound takes effect. The theorem takes the width limit first and the depth limit second; the table is a reminder of what it does not say.
 
 \subsection{One matrix, many steps}
 

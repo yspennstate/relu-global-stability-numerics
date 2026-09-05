@@ -1,17 +1,18 @@
 """Typeset Tables 1--7 directly from released JSON."""
 import json
 from pathlib import Path
+from exact_region_transfer import expected_strict_regions
 ROOT=Path(__file__).resolve().parent.parent
 DATA=ROOT/"numerics"/"data"
 OUT=ROOT/"paper"/"generated"
 def read(name): return json.loads((DATA/name).read_text(encoding="utf-8"))
 def write(name,rows):
     OUT.mkdir(exist_ok=True)
-    (OUT/(name+".tex")).write_text("\n".join(" & ".join(row)+r"\\" for row in rows)+"\n",encoding="utf-8")
+    (OUT/(name+".tex")).write_text("\n".join(" & ".join(row)+r"\\" for row in rows)+"\n",encoding="utf-8",newline="\n")
 def main():
     s2=read("s2_regions.json")
     if len(s2["region_counts"])!=9 or len(s2["K_at_alpha1"])!=8: raise ValueError("Incomplete s2 run")
-    write("regions",[[str(r["n"]),str(r["L"]),str(r["formal_masks"]),str(r["expected_count_bound_C"]),
+    write("regions",[[str(r["n"]),str(r["L"]),str(expected_strict_regions(r["n"],r["L"])),str(r["expected_count_bound_C"]),
         f'{r["strict_mean"]:.2f} ({r["strict_min"]}--{r["strict_max"]})',
         f'{r["forced_zero_mean"]:.2f}',"arcs" if r["n"]==2 else "LP"] for r in s2["region_counts"]])
     write("small",[[str(r["n"]),str(r["L"]),f'{r["median_K1"]:.3f}',f'{r["q10"]:.2f}--{r["q90"]:.2f}',

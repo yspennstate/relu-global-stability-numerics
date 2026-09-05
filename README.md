@@ -67,6 +67,27 @@ The optimized-budget check uses 80-digit arithmetic and independent rational mom
 convolutions, checks every printed threshold/rate and its integer width, and verifies
 both neighboring integers for each reported sufficient depth.
 
+## Evaluate the exact region-count formulas
+
+    python -B numerics/exact_region_transfer.py
+    python -B numerics/check_region_transfer.py
+
+The first script evaluates the finite triangular formulas with rational arithmetic
+and prints the mean strict-region counts, the zero-bias depth constant kappa, and
+the Gaussian-bias limiting mean rho. Both scripts use only the standard library
+and write their results to stdout. The second compares the formulas with direct
+normal-row ranks and actual scalar network compositions. Its retained output is
+numerics/data/exact_region_transfer_controls.json: 3,072 rank configurations,
+1,020 scalar sign-orbit networks, and 50 width-two closed-form checks. Deliberate
+overlap, final-mask normalization, and central/affine degeneracy mutations are
+rejected. These finite controls supplement the generic-rank proof.
+
+The bias formula requires independent nondegenerate centered Gaussian bias
+coordinates independent of the weights. It counts all strict activation cells,
+including cells with equal final output formulas; its limiting partition is a
+geometric partition. It does not give the whole-space survival probability or
+extend to zero bias variance. The main stability theorem remains bias-free.
+
 ## Verify the bias extension controls
 
     python -B numerics/check_bias_extension.py

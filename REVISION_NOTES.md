@@ -1,4 +1,23 @@
-# Revision of 5 September 2026
+# Revision of 6 September 2026
+
+## Current finite-transfer revision
+
+The exact triangular region-count theorem is integrated with its backward-rank
+proof, the signed-to-positive basis change, explicit rational depth constants,
+and the separate independent Gaussian-bias formula and finite limiting mean.
+The simpler postactivation proof replaces the earlier infinite-prefix argument
+for normalized-mean monotonicity. The main stability theorem stays bias-free.
+Table 2 now compares observed means directly with exact population means; its
+raw Monte Carlo results are unchanged. The rational evaluator and independent
+calculation paths are distributed with retained results: 3,072 rank cases,
+1,020 scalar networks, and 50 width-two identities passed on 6 September.
+The cited hyperplane-arrangement formulas and nearby prior work are identified
+with their different objects and limits.
+
+Two independent referees approved the separate new mathematical proposal. The
+integrated manuscript still needs its own compiled-PDF verification and fresh
+publication votes. Earlier votes recorded below belong to earlier frozen bytes.
+The following sections preserve the revision history and historical test scope.
 
 ## Fixed-width ratio theorem, after two further independent reviews
 
@@ -182,3 +201,30 @@ Author checks independently compare finite Gamma sums, rational moment convoluti
 scalar minimization and variational maximization; exact integer geometry checks the
 width-two formula on 1364 masks and 84 complete sign-gauge networks. Those finite
 checks supplement the proofs and are not independent publication votes.
+
+
+## 6 September: exact finite region transfer formula
+
+The implicit first-rank-one prefix series is replaced by an explicit positive
+triangular matrix. Its principal submatrix gives the zero-bias mean strict
+activation count; restoring index zero gives the independent centred,
+nondegenerate Gaussian bias mean. The proof uses backward formal coefficient
+ranks and the classical affine/central Whitney and Zaslavsky formulas.
+
+Two independent referees approved the separate frozen mathematical proposal.
+Their requested postactivation notation and geometric-cell stabilization scope
+are incorporated. The current source integration still needs compilation,
+visual/package checks and a fresh whole-manuscript publication review; previous
+publication votes do not apply to these new bytes.
+
+The matrix makes the mean asymptotic constant explicit and gives its exponential
+remainder. The survival constant remains implicit and has no claimed convergence
+rate. The biased mean has a finite rational depth limit. Qualitative eventual
+collapse is acknowledged as an elementary prior mechanism, not claimed as new.
+The main stability theorem remains bias-free, with bias results separately scoped.
+
+Related work now includes Hanin/Rolnick's activation-pattern paper and the
+scalar-input/output growing-width result of Kogan, Jananthan and Kepner.
+The three optional final-panel copyedits scope the finite proof outline and
+threshold discussion and make the binomial-entropy lemma's endpoint explicit.
+Existing simulation data and generated tables are unchanged.

@@ -1,0 +1,363 @@
+{
+  "status": "AUTHOR_EXACT_GEOMETRY_CONTROLS_PASS",
+  "observed_at": "2026-09-05T22:54:20.809305+00:00",
+  "elapsed_seconds": 0.16570579999824986,
+  "rank_checks": 3072,
+  "actual_scalar_networks": 1020,
+  "width_two_closed_form_checks": 50,
+  "mutations_rejected": {
+    "forget_selected_retained_overlap": 1114,
+    "lose_final_mask_factor": 4,
+    "treat_empty_affine_constraint_as_central_zero_row": 4
+  },
+  "geometry": [
+    {
+      "seed": 2026090601,
+      "n": 2,
+      "depth": 3,
+      "weights": [
+        [
+          [
+            30345,
+            64867
+          ],
+          [
+            -95813,
+            76540
+          ]
+        ],
+        [
+          [
+            21804,
+            64646
+          ],
+          [
+            12341,
+            -69547
+          ]
+        ],
+        [
+          [
+            32624,
+            -5086
+          ],
+          [
+            73654,
+            -55107
+          ]
+        ]
+      ],
+      "central_mean": "13/4",
+      "affine_mean": "175/16",
+      "zero_mask_affine_counts": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "seed": 2026090601,
+      "n": 3,
+      "depth": 2,
+      "weights": [
+        [
+          [
+            8586,
+            69329,
+            -822
+          ],
+          [
+            33569,
+            -16222,
+            89950
+          ],
+          [
+            -72582,
+            32946,
+            -64388
+          ]
+        ],
+        [
+          [
+            33424,
+            -43702,
+            72437
+          ],
+          [
+            -60160,
+            36491,
+            -28626
+          ],
+          [
+            74478,
+            -17490,
+            -88086
+          ]
+        ]
+      ],
+      "central_mean": "29/2",
+      "affine_mean": "103/4",
+      "zero_mask_affine_counts": [
+        8
+      ]
+    },
+    {
+      "seed": 2026090602,
+      "n": 2,
+      "depth": 3,
+      "weights": [
+        [
+          [
+            -22878,
+            85128
+          ],
+          [
+            -67068,
+            92000
+          ]
+        ],
+        [
+          [
+            67528,
+            -36128
+          ],
+          [
+            -13858,
+            70280
+          ]
+        ],
+        [
+          [
+            -77919,
+            29254
+          ],
+          [
+            -24057,
+            32518
+          ]
+        ]
+      ],
+      "central_mean": "13/4",
+      "affine_mean": "175/16",
+      "zero_mask_affine_counts": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "seed": 2026090602,
+      "n": 3,
+      "depth": 2,
+      "weights": [
+        [
+          [
+            34361,
+            -87331,
+            70127
+          ],
+          [
+            20762,
+            -61592,
+            -23600
+          ],
+          [
+            17482,
+            -59157,
+            57778
+          ]
+        ],
+        [
+          [
+            -7842,
+            40031,
+            52146
+          ],
+          [
+            72370,
+            -61085,
+            42543
+          ],
+          [
+            -79504,
+            47235,
+            -14470
+          ]
+        ]
+      ],
+      "central_mean": "29/2",
+      "affine_mean": "103/4",
+      "zero_mask_affine_counts": [
+        8
+      ]
+    }
+  ],
+  "scalar_networks": [
+    {
+      "depth": 1,
+      "gaussian_bias": false,
+      "networks": 2,
+      "regions_sum": 4,
+      "mean": "2"
+    },
+    {
+      "depth": 1,
+      "gaussian_bias": true,
+      "networks": 2,
+      "regions_sum": 4,
+      "mean": "2"
+    },
+    {
+      "depth": 2,
+      "gaussian_bias": false,
+      "networks": 4,
+      "regions_sum": 4,
+      "mean": "1"
+    },
+    {
+      "depth": 2,
+      "gaussian_bias": true,
+      "networks": 4,
+      "regions_sum": 10,
+      "mean": "5/2"
+    },
+    {
+      "depth": 3,
+      "gaussian_bias": false,
+      "networks": 8,
+      "regions_sum": 4,
+      "mean": "1/2"
+    },
+    {
+      "depth": 3,
+      "gaussian_bias": true,
+      "networks": 8,
+      "regions_sum": 22,
+      "mean": "11/4"
+    },
+    {
+      "depth": 4,
+      "gaussian_bias": false,
+      "networks": 16,
+      "regions_sum": 4,
+      "mean": "1/4"
+    },
+    {
+      "depth": 4,
+      "gaussian_bias": true,
+      "networks": 16,
+      "regions_sum": 46,
+      "mean": "23/8"
+    },
+    {
+      "depth": 5,
+      "gaussian_bias": false,
+      "networks": 32,
+      "regions_sum": 4,
+      "mean": "1/8"
+    },
+    {
+      "depth": 5,
+      "gaussian_bias": true,
+      "networks": 32,
+      "regions_sum": 94,
+      "mean": "47/16"
+    },
+    {
+      "depth": 6,
+      "gaussian_bias": false,
+      "networks": 64,
+      "regions_sum": 4,
+      "mean": "1/16"
+    },
+    {
+      "depth": 6,
+      "gaussian_bias": true,
+      "networks": 64,
+      "regions_sum": 190,
+      "mean": "95/32"
+    },
+    {
+      "depth": 7,
+      "gaussian_bias": false,
+      "networks": 128,
+      "regions_sum": 4,
+      "mean": "1/32"
+    },
+    {
+      "depth": 7,
+      "gaussian_bias": true,
+      "networks": 128,
+      "regions_sum": 382,
+      "mean": "191/64"
+    },
+    {
+      "depth": 8,
+      "gaussian_bias": false,
+      "networks": 256,
+      "regions_sum": 4,
+      "mean": "1/64"
+    },
+    {
+      "depth": 8,
+      "gaussian_bias": true,
+      "networks": 256,
+      "regions_sum": 766,
+      "mean": "383/128"
+    }
+  ],
+  "constants": [
+    {
+      "n": 1,
+      "kappa": "4",
+      "affine_limit": "3"
+    },
+    {
+      "n": 2,
+      "kappa": "8",
+      "affine_limit": "21"
+    },
+    {
+      "n": 3,
+      "kappa": "240/7",
+      "affine_limit": "279"
+    },
+    {
+      "n": 4,
+      "kappa": "1312/5",
+      "affine_limit": "66555/11"
+    },
+    {
+      "n": 5,
+      "kappa": "504256/155",
+      "affine_limit": "2578829/13"
+    },
+    {
+      "n": 6,
+      "kappa": "17600896/287",
+      "affine_limit": "1963702449/209"
+    },
+    {
+      "n": 7,
+      "kappa": "25442426112/15113",
+      "affine_limit": "271378901629/435"
+    },
+    {
+      "n": 8,
+      "kappa": "543344082836992/8325747",
+      "affine_limit": "191629674185181864479/3371093791"
+    }
+  ],
+  "source_hashes": {
+    "exact_region_transfer.py": "63b8106478ff346e9ce91429cb6937afa4f11fc992d0d97007d2f6e24a286b06",
+    "check_region_transfer.py": "2228eeb0913b832722fc517c0628f19d83f82aff2ce94939aa1e59a49a5d4508"
+  },
+  "limits": [
+    "Finite integer tuples and sign orbits do not prove Gaussian genericity.",
+    "Exact normal ranks and scalar compositions are distinct from transfer multiplication.",
+    "These are author controls, separate from independent referee derivations.",
+    "Only strict activation cells are counted; maximal output-affine regions may merge."
+  ]
+}
