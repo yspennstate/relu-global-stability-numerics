@@ -1,5 +1,26 @@
 # Revision of 5 September 2026
 
+## Fixed-width ratio theorem, after two further independent reviews
+
+Both existing referees separately voted YES on correctness and YES on inclusion
+of the frozen ratio proposal (SHA 3af94dff6c67c14f03f856f70988c0efda889b746a1614f05b41a43b4de41bdc).
+Their reports are independent of the earlier full-paper and logarithmic-rate votes.
+The integrated corollary now proves finite positive ratio limits for the mean
+strict-region count and whole-space survival probability at fixed width. It gives
+the exact convergent series for the mean constant and monotonicity of both ratios.
+The logarithmic rate becomes a consequence; the width-two proof is shortened by
+using the general first-rank-one decomposition. Scalar and width-two constants
+are explicit, while the general survival constant is left implicit. No survival
+convergence rate or joint-width limit is claimed. The bias-free core and the two
+separate, previously reviewed bias extensions are unchanged.
+
+The attribution acknowledges Lu's scalar-input bounds and rank-state argument,
+Rister/Rubin's finite-data ratio argument, and the elementary finite-dataset case.
+The abstract, introduction and AI-assistance disclosure describe the final result.
+This is source integration only: a rebuilt PDF, visual inspection and a new
+publication review of the final pinned package remain pending. The failed prior
+depth-only build is not presented as a release. No Monte Carlo outputs changed.
+
 ## Fixed-width depth corollary after separate independent reviews
 
 The same two referees independently voted YES on correctness and YES on inclusion

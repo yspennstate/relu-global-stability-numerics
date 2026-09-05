@@ -82,43 +82,69 @@ If $P:\R^d\to\R$ is a polynomial that is not identically zero, then $\{x:P(x)=0\
 Induction on $d$. For $d=1$ a nonzero polynomial has finitely many roots. For $d>1$ write $P=\sum_{k=0}^ma_k(x_1,\dots,x_{d-1})x_d^k$ with some $a_k$ not identically zero. By induction the set where all $a_k$ vanish has measure zero; for every other value of the first $d-1$ coordinates the polynomial in $x_d$ is nonzero and has finitely many roots, a one-dimensional null set. Fubini's theorem gives total measure zero.
 \end{proof}
 
-\subsection{The depth rate at fixed width}
+\subsection{Depth asymptotics at fixed width}
 \label{sec:fixed-width-depth}
 
-The same identity also controls the opposite order of limits: keep the width fixed and let the depth grow. Write $R_{n,L}=\#\{D:R_D\ne\varnothing\}$ for the strict-region count and $S_{n,L}=\{F^{(\alpha)}_{n,L}\not\equiv0\}$ for global survival. These are different objects: a strictly negative final preactivation can leave a nonempty strict region whose output is zero.
+The same identity also controls the opposite order of limits: keep the width fixed and let the depth grow. Write $R_{n,L}=\#\{D:R_D\ne\varnothing\}$ for the strict-region count and $S_{n,L}=\{F^{(\alpha)}_{n,L}\not\equiv0\}$ for global survival. A strictly negative final preactivation can leave a nonempty strict region whose output is zero, so these are different objects.
 
-\begin{corollary}[fixed-width depth rate]\label{cor:fixed-width-depth}
-Fix $n\ge1$ and $\alpha>0$, with independent Gaussian layers, no biases, input domain $\R^n$ and ReLU at the output as in \cref{eq:forward}. Put $\beta_n=1-2^{-n}$. Then
-\begin{align}
-n\beta_n^{L-2}\ \le\ \E R_{n,L}\ &\le\ C_{n,L}\beta_n^{L-1}, &&L\ge2,\label{eq:depth-strict}\\
-\beta_n^{L-1}\ \le\ \PP(S_{n,L})\ &\le\ \min\{1,C_{n,L}\beta_n^L\}, &&L\ge1.\label{eq:depth-survival}
-\end{align}
-At depth one, $R_{n,1}=2^n$ almost surely. In particular,
+\begin{corollary}[fixed-width depth asymptotics]\label{cor:fixed-width-depth}
+Fix $n\ge1$ and $\alpha>0$, with independent Gaussian layers, no biases, input domain $\R^n$ and ReLU at the output as in \cref{eq:forward}. Put $\beta_n=1-2^{-n}$. There are finite positive constants $\kappa_n$ and $\sigma_n$, independent of $\alpha$, such that
+\begin{equation}\label{eq:depth-ratios}
+\E R_{n,L}\sim\kappa_n\beta_n^L,
+\qquad \PP(S_{n,L})\sim\sigma_n\beta_n^L
+\qquad (L\to\infty).
+\end{equation}
+Both ratios on the left after division by $\beta_n^L$ are nondecreasing. Moreover $\kappa_n\ge n\beta_n^{-2}$ and $\beta_n^{-1}\le\sigma_n\le\kappa_n$. In particular,
 \begin{equation}\label{eq:depth-rate}
-\lim_{L\to\infty}\frac{\log\E R_{n,L}}{L}
-=\lim_{L\to\infty}\frac{\log\PP(S_{n,L})}{L}
+\lim_{L\to\infty}\frac{\log\E R_{n,L}}L
+=\lim_{L\to\infty}\frac{\log\PP(S_{n,L})}L
 =\log(1-2^{-n}).
 \end{equation}
 \end{corollary}
 
 \begin{proof}
-Sum \cref{eq:orbit} with functional $1$ over all masks. If $D_j=0$ at an intermediate layer $j<L$, then $H^D_{j+1}=0$ and $r(\im A_D)=0$. There remain $2^n(2^n-1)^{L-1}$ masks, since the final mask is arbitrary. Bounding each orthant count by $C_{n,L}$ gives the upper bound in \cref{eq:depth-strict}, also at $L=1$.
+Write $q=2^n$, $m=q-1$, $a=q-n-1$ and $\beta=m/q$. For every fixed sequence of nonzero intermediate masks, every row of every formal preactivation matrix is nonzero almost surely. Indeed, conditional on a nonzero retained product $B$, a fresh Gaussian row $w$ satisfies $w^TB\ne0$ almost surely: its zero set is a proper linear subspace. A nonzero mask retains at least one such row. Induction, followed by a finite union over rows and masks, proves the assertion at each depth. These are formal masks; no conditioning on realizability is involved.
 
-For the lower bound restrict to $\rank D_1=1$, all subsequent intermediate masks nonzero, and arbitrary $D_L$. The invertible first matrix gives $n$ independent row hyperplanes and hence $2^n$ regions. After $D_1$ selects one row, every later formal preactivation row is a nonzero multiple of that row almost surely. Indeed, conditional on the earlier layers, a fresh Gaussian row acts on a nonzero retained vector and has probability zero of giving zero; a nonzero mask retains a nonzero vector for the next step. A finite union over these rows and masks preserves the almost-sure statement. The later rows create no new hyperplane, so $r(\im A_D)=2^n$ for this family. Its $n(2^n-1)^{L-2}2^n$ masks contribute exactly
+Let $A_k$ be the scalar sum of $\E r(\im A_D)$ for the prefix stack $H^D_1,\ldots,H^D_k$, over all $k-1$ intermediate masks of rank at least two. The final mask is omitted because it does not enter the stack. There are $a^{k-1}$ prefixes, and the invertibility of $W_1$ gives
 \[
-2^{-nL}\,n(2^n-1)^{L-2}\,2^n\,2^n=n\beta_n^{L-2}.
+A_1=q,\qquad 0\le A_k\le a^{k-1}C_{n,k}.
 \]
+At $n=1$, use $0^0=1$: only the empty prefix exists, and $A_k=0$ for $k>1$.
 
-For survival, positive homogeneity gives $F(0)=0$, so $S_{n,L}=\{K_{n,L}(\alpha)>0\}$. By \cref{lem:reduction}, this event requires a realized strict mask with $J_D\ne0$. Apply \cref{prop:orbit} with the invariant functional $\one_{\{J_D\ne0\}}$ and take a union bound. A zero mask at any layer, including the last, kills $J_D$. At most $(2^n-1)^L$ masks contribute, giving $\PP(S_{n,L})\le C_{n,L}\beta_n^L$.
+Partition the nonzero intermediate-mask sequences by their first rank-one mask, at layer $k<L$. The selected row of $H^D_k$ already occurs in the prefix stack. Every later row is a nonzero multiple of it almost surely, so later layers add no new hyperplane and leave the orthant count unchanged. There are $n$ choices for the selected row, $m^{L-k-1}$ choices for the later intermediate masks, and $q$ choices for the final mask. This family contributes $nq m^{L-k-1}A_k$ to the formal orthant sum. The family with no rank-one intermediate mask contributes $qA_L$; a zero intermediate mask contributes zero because the next preactivation block vanishes. Summing \cref{eq:orbit} with functional $1$ therefore gives the exact identity
+\begin{equation}\label{eq:depth-prefix}
+\E R_{n,L}=q^{1-L}\left[A_L+n\sum_{k=1}^{L-1}m^{L-k-1}A_k\right],
+\qquad L\ge1.
+\end{equation}
+After division by $\beta^L$ this is
+\[
+\frac{\E R_{n,L}}{\beta^L}
+=\frac{qA_L}{m^L}+\frac{nq}{m^2}\sum_{k=1}^{L-1}\frac{A_k}{m^{k-1}}.
+\]
+For $n\ge2$, $\rho=a/m<1$, and $A_k/m^{k-1}\le C_{n,k}\rho^{k-1}$. At fixed $n$, $C_{n,k}$ is a polynomial in $k$ of degree $n-1$. The first term tends to zero and the series converges, proving
+\begin{equation}\label{eq:depth-constant}
+\kappa_n=\frac{nq}{m^2}\sum_{k\ge1}\frac{A_k}{m^{k-1}}\in(0,\infty).
+\end{equation}
+The first summand gives $\kappa_n\ge nq^2/m^2=n\beta^{-2}$. The same formula gives $\kappa_1=4$ directly. Extending any prefix by one of the $a$ admissible masks and a fresh layer only appends proper hyperplanes, so it cannot remove an old open region. Thus $A_{k+1}\ge aA_k$, and subtraction in \cref{eq:depth-prefix} yields
+\[
+\E R_{n,L+1}-\beta\E R_{n,L}
+=q^{-L}(A_{L+1}-aA_L)\ge0.
+\]
+This proves monotonicity of the normalized means.
 
-For the lower bound, $W_1$ is invertible almost surely. Choose the input $s=W_1^{-1}e_1$, which depends only on $W_1$ and gives $x_1(s)=e_1$. Conditional on any nonzero current state, the next independent layer has $n$ independent centered nondegenerate Gaussian preactivations, so its ReLU output survives with probability $\beta_n$. The matrices $W_2,\ldots,W_L$ are independent of the first-layer witness; the tower property therefore gives survival probability $\beta_n^{L-1}$ along this input. Its survival implies global survival. For comparison, a deterministic nonzero input survives all $L$ layers with probability exactly $\beta_n^L$.
-
-Finally, at fixed $n$, $C_{n,L}$ is a positive polynomial in $L$ of degree $n-1$ (the constant $2$ if $n=1$). Thus $L^{-1}\log C_{n,L}\to0$, and the positive lower and upper bounds give \cref{eq:depth-rate}.
+For survival, couple the depths by one infinite sequence of independent matrices and put $p_L=\PP(S_{n,L})$. On $S_{n,L}$, choose the first input in a fixed enumeration of $\mathbb Q^n$ at which $F^{(\alpha)}_{n,L}$ is nonzero. Such an input exists by continuity, and the choice is measurable with respect to $W_1,\ldots,W_L$ because the enumeration is countable. Conditional on this past, the next fresh Gaussian layer preserves its nonzero output with probability exactly $\beta$. Its survival implies global survival, so $p_{L+1}\ge\beta p_L$; equality is not asserted. Positive homogeneity gives $F(0)=0$, and \cref{lem:reduction} ensures that a nonzero network has a realized strict region. Consequently $p_L\le\E R_{n,L}$. The sequence $p_L/\beta^L$ is therefore nondecreasing and bounded above by $\kappa_n$. Since $p_1=1$ almost surely, it converges to $\sigma_n\in[\beta^{-1},\kappa_n]$. Finally, a positive common rescaling of Gaussian weights changes neither strict signs nor zero-output events, so both constants are independent of $\alpha>0$.
 \end{proof}
 
-At width one the two bounds coincide: $\E R_{1,L}=2^{2-L}$ and $\PP(S_{1,L})=2^{1-L}$. At $L=2$ there is one strict region for every nonzero scalar pair, but global survival has probability $1/2$. This small case explains why the final mask must be treated differently in the two upper bounds. The rate statement fixes $n$ and supplies neither a ratio asymptotic nor uniformity in a growing width.
+The finite bounds behind these asymptotics are also explicit:
+\begin{align}
+n\beta_n^{L-2}\ \le\ \E R_{n,L}\ &\le\ C_{n,L}\beta_n^{L-1}, &&L\ge2,\label{eq:depth-strict}\\
+\beta_n^{L-1}\ \le\ \PP(S_{n,L})\ &\le\ \min\{1,C_{n,L}\beta_n^L\}, &&L\ge1.\label{eq:depth-survival}
+\end{align}
+For the mean, the lower bound is the $k=1$ term in \cref{eq:depth-prefix}; the upper bound counts the $q m^{L-1}$ masks with nonzero intermediate masks and bounds each orthant count by $C_{n,L}$. For global survival, use \cref{prop:orbit} with the invariant functional $\one_{\{J_D\ne0\}}$: a zero mask at any layer, including the final one, kills the Jacobian, leaving at most $m^L$ contributors. For the lower bound choose $s=W_1^{-1}e_1$, so $x_1(s)=e_1$, and propagate this first-layer witness through the independent remaining layers. Its survival probability is $\beta_n^{L-1}$. A deterministic nonzero input instead survives with probability exactly $\beta_n^L$.
 
-Earlier work already establishes death at large depth. In the zero-bias square setting, Rister and Rubin~\cite{rister2021}, Sections~3--4, give a global survival upper bound with base $1-2^{-n^2}$ and a fixed-input lower bound with base $\beta_n$. Lu et al.~\cite{lu2020}, Theorem~3.5, already obtain bounds implying the rate $\log\beta_n$ for one-dimensional inputs, with a separate final affine readout. \Cref{cor:fixed-width-depth} controls the whole square input space $\R^n$ and also the mean strict-region count. The earlier geometric bounds already imply almost-sure eventual death and finite expected death depth; those qualitative consequences are not claimed as new here.
+At width one, direct sign enumeration gives $\E R_{1,L}=2^{2-L}$ and $\PP(S_{1,L})=2^{1-L}$, hence $(\kappa_1,\sigma_1)=(4,2)$. At $L=2$ there is one strict region for every nonzero scalar pair, while global survival has probability $1/2$. The constants at higher widths are left implicit, except for $\kappa_2=8$ below. These are fixed-width limits; no uniformity in a growing width or quantitative convergence rate for the survival ratio is asserted.
+
+Earlier work already establishes death at large depth. In the zero-bias square setting, Rister and Rubin~\cite{rister2021}, Sections~3--4, give a global survival upper bound with base $1-2^{-n^2}$ and a fixed-input lower bound with base $\beta_n$. Their Section~5.3 also studies a survival ratio for finite data as width grows, under a variance assumption. Lu et al.~\cite{lu2020}, Theorem~3.5 and Appendix~C, give two-exponential bounds and a one-ray state analysis for one-dimensional input, with a final affine readout. After accounting for that depth convention, their bounds and the past-measurable witness argument above also imply a finite positive survival-ratio limit in the scalar-input setting. For any fixed finite set of $M$ nonzero inputs, the simpler bound $p_L\le M\beta_n^L$ and the same monotonicity argument suffice. The additional geometric step here bounds the normalized mean strict count and hence survival on the entire square input space $\R^n$. Neither qualitative eventual death nor ratio arguments in general are claimed as new.
 
 \subsection{The mean strict-region count at width two}
 
@@ -129,19 +155,16 @@ For every $L\ge1$ and every $\alpha>0$,
 \begin{equation}\label{eq:width-two-mean}
 \E R_{2,L}=8\left[\left(\frac34\right)^L-\left(\frac14\right)^L\right].
 \end{equation}
+In particular, $\kappa_2=8$ in \cref{eq:depth-ratios}.
 \end{proposition}
 
 \begin{proof}
-Sum \cref{eq:orbit} with functional $1$ over all formal masks: $\E R_{2,L}=4^{-L}\sum_D\E r(\im A_D)$. If an intermediate mask $D_j$ is zero, $j<L$, the next preactivation matrix has a zero row and $r(\im A_D)=0$.
-
-Otherwise let $k$ be the first index $j<L$ for which $D_j$ has rank one, or put $k=L$ if all intermediate masks are $I_2$. Through layer $k$, the preactivation matrices are $Q_1,\dots,Q_k$, since all earlier masks are the identity. Their $2k$ row directions are distinct almost surely, by the joint-density argument used for \cref{eq:all-active}. If $k<L$, multiplication by the rank-one mask retains one row of $Q_k$; every later nonzero row is proportional to that row and creates no new direction. These later rows are nonzero almost surely: at each step a fresh Gaussian row acts on a nonzero retained vector, and its zero set has conditional probability zero. Thus in either case the arrangement in the input plane has $2k$ distinct lines, giving $r(\im A_D)=4k$ almost surely.
-
-For $k<L$ there are two choices for the first rank-one mask, three nonzero choices at each later intermediate layer, and four choices for the final mask. This gives $8\cdot3^{L-k-1}$ masks of type $k$. There are four masks of type $k=L$. Consequently
+At width two, the only intermediate mask of rank at least two is $I_2$. Thus the prefix in \cref{eq:depth-prefix} stacks the unmasked products $Q_1,\ldots,Q_k$. Their $2k$ row directions are distinct almost surely by the joint-density argument for \cref{eq:all-active}. They define $2k$ lines in the input plane, so $A_k=4k$. Substituting $q=4$, $m=3$ and $n=2$ in \cref{eq:depth-prefix} gives
 \[
 \E R_{2,L}=4^{-L}\left[32\sum_{k=1}^{L-1}k3^{L-k-1}+16L\right]
-=8\frac{3^L-1}{4^L},
+=8\frac{3^L-1}{4^L}.
 \]
-where the last finite-sum identity follows by differentiating a geometric sum (and also holds for $L=1$, when the sum is empty).
+The finite-sum identity follows by differentiating a geometric sum, including $L=1$ when the sum is empty. Dividing by $(3/4)^L$ gives the limit $8$.
 \end{proof}
 
 The first six means are $4,4,3.25,2.5,1.890625,1.421875$. Their decay at large depth concerns strict regions. Ordinary cells remain even when the network is identically zero, so \cref{eq:width-two-mean} must not be read as their mean count. No affine-bias version of this formula is asserted.
