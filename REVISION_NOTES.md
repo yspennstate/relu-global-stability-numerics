@@ -1,5 +1,22 @@
 # Revision of 5 September 2026
 
+## Fixed-width depth corollary after separate independent reviews
+
+The same two referees independently voted YES on correctness and YES on inclusion
+of the separate fixed-width proposal. This is distinct from their earlier full
+manuscript votes. The integrated corollary gives strict-region mean bounds and
+whole-space survival bounds with the common logarithmic rate log(1 - 2^-n).
+It uses the stronger first-layer witness lower bound beta^(L-1), retains the final
+ReLU and zero-bias hypotheses, and distinguishes intermediate and final zero masks.
+Lu's prior one-dimensional rate and Rister/Rubin's global geometric upper bound
+are credited. Eventual death is not presented as new. No new Monte Carlo is needed.
+
+Author rereading also corrected two remaining uses of "almost every input" in
+the comparison section to describe the actual small exceptional-set conclusion.
+The AI assistance disclosure now explicitly covers the added mathematical
+derivations. The prior 1d4d0fc PDF is retained in Git; the integrated source still
+requires a fresh build, page inspection and review of the final pinned version.
+
 ## Precision edits after the fresh reviews of cd9f302
 
 Two independent Codex referees voted YES on the optimized 42-page candidate

@@ -82,6 +82,44 @@ If $P:\R^d\to\R$ is a polynomial that is not identically zero, then $\{x:P(x)=0\
 Induction on $d$. For $d=1$ a nonzero polynomial has finitely many roots. For $d>1$ write $P=\sum_{k=0}^ma_k(x_1,\dots,x_{d-1})x_d^k$ with some $a_k$ not identically zero. By induction the set where all $a_k$ vanish has measure zero; for every other value of the first $d-1$ coordinates the polynomial in $x_d$ is nonzero and has finitely many roots, a one-dimensional null set. Fubini's theorem gives total measure zero.
 \end{proof}
 
+\subsection{The depth rate at fixed width}
+\label{sec:fixed-width-depth}
+
+The same identity also controls the opposite order of limits: keep the width fixed and let the depth grow. Write $R_{n,L}=\#\{D:R_D\ne\varnothing\}$ for the strict-region count and $S_{n,L}=\{F^{(\alpha)}_{n,L}\not\equiv0\}$ for global survival. These are different objects: a strictly negative final preactivation can leave a nonempty strict region whose output is zero.
+
+\begin{corollary}[fixed-width depth rate]\label{cor:fixed-width-depth}
+Fix $n\ge1$ and $\alpha>0$, with independent Gaussian layers, no biases, input domain $\R^n$ and ReLU at the output as in \cref{eq:forward}. Put $\beta_n=1-2^{-n}$. Then
+\begin{align}
+n\beta_n^{L-2}\ \le\ \E R_{n,L}\ &\le\ C_{n,L}\beta_n^{L-1}, &&L\ge2,\label{eq:depth-strict}\\
+\beta_n^{L-1}\ \le\ \PP(S_{n,L})\ &\le\ \min\{1,C_{n,L}\beta_n^L\}, &&L\ge1.\label{eq:depth-survival}
+\end{align}
+At depth one, $R_{n,1}=2^n$ almost surely. In particular,
+\begin{equation}\label{eq:depth-rate}
+\lim_{L\to\infty}\frac{\log\E R_{n,L}}{L}
+=\lim_{L\to\infty}\frac{\log\PP(S_{n,L})}{L}
+=\log(1-2^{-n}).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Sum \cref{eq:orbit} with functional $1$ over all masks. If $D_j=0$ at an intermediate layer $j<L$, then $H^D_{j+1}=0$ and $r(\im A_D)=0$. There remain $2^n(2^n-1)^{L-1}$ masks, since the final mask is arbitrary. Bounding each orthant count by $C_{n,L}$ gives the upper bound in \cref{eq:depth-strict}, also at $L=1$.
+
+For the lower bound restrict to $\rank D_1=1$, all subsequent intermediate masks nonzero, and arbitrary $D_L$. The invertible first matrix gives $n$ independent row hyperplanes and hence $2^n$ regions. After $D_1$ selects one row, every later formal preactivation row is a nonzero multiple of that row almost surely. Indeed, conditional on the earlier layers, a fresh Gaussian row acts on a nonzero retained vector and has probability zero of giving zero; a nonzero mask retains a nonzero vector for the next step. A finite union over these rows and masks preserves the almost-sure statement. The later rows create no new hyperplane, so $r(\im A_D)=2^n$ for this family. Its $n(2^n-1)^{L-2}2^n$ masks contribute exactly
+\[
+2^{-nL}\,n(2^n-1)^{L-2}\,2^n\,2^n=n\beta_n^{L-2}.
+\]
+
+For survival, positive homogeneity gives $F(0)=0$, so $S_{n,L}=\{K_{n,L}(\alpha)>0\}$. By \cref{lem:reduction}, this event requires a realized strict mask with $J_D\ne0$. Apply \cref{prop:orbit} with the invariant functional $\one_{\{J_D\ne0\}}$ and take a union bound. A zero mask at any layer, including the last, kills $J_D$. At most $(2^n-1)^L$ masks contribute, giving $\PP(S_{n,L})\le C_{n,L}\beta_n^L$.
+
+For the lower bound, $W_1$ is invertible almost surely. Choose the input $s=W_1^{-1}e_1$, which depends only on $W_1$ and gives $x_1(s)=e_1$. Conditional on any nonzero current state, the next independent layer has $n$ independent centered nondegenerate Gaussian preactivations, so its ReLU output survives with probability $\beta_n$. The matrices $W_2,\ldots,W_L$ are independent of the first-layer witness; the tower property therefore gives survival probability $\beta_n^{L-1}$ along this input. Its survival implies global survival. For comparison, a deterministic nonzero input survives all $L$ layers with probability exactly $\beta_n^L$.
+
+Finally, at fixed $n$, $C_{n,L}$ is a positive polynomial in $L$ of degree $n-1$ (the constant $2$ if $n=1$). Thus $L^{-1}\log C_{n,L}\to0$, and the positive lower and upper bounds give \cref{eq:depth-rate}.
+\end{proof}
+
+At width one the two bounds coincide: $\E R_{1,L}=2^{2-L}$ and $\PP(S_{1,L})=2^{1-L}$. At $L=2$ there is one strict region for every nonzero scalar pair, but global survival has probability $1/2$. This small case explains why the final mask must be treated differently in the two upper bounds. The rate statement fixes $n$ and supplies neither a ratio asymptotic nor uniformity in a growing width.
+
+Earlier work already establishes death at large depth. In the zero-bias square setting, Rister and Rubin~\cite{rister2021}, Sections~3--4, give a global survival upper bound with base $1-2^{-n^2}$ and a fixed-input lower bound with base $\beta_n$. Lu et al.~\cite{lu2020}, Theorem~3.5, already obtain bounds implying the rate $\log\beta_n$ for one-dimensional inputs, with a separate final affine readout. \Cref{cor:fixed-width-depth} controls the whole square input space $\R^n$ and also the mean strict-region count. The earlier geometric bounds already imply almost-sure eventual death and finite expected death depth; those qualitative consequences are not claimed as new here.
+
 \subsection{The mean strict-region count at width two}
 
 Let $R_{2,L}$ be the number of nonempty strict regions $R_D$ in a width-two network. This counts activation patterns with every preactivation nonzero; it excludes ordinary cells on which a preactivation is identically zero.
@@ -116,7 +154,7 @@ At $L=1$ the all-active mask is realized with probability one, $J_D=W_1$ for it,
 \]
 A depth-one network at $\alpha=1$ is expansive with probability tending to one, although $1<2$; there is no contradiction with \cref{thm:main}, whose part (i) only takes effect beyond $L_0(\alpha)$.
 
-\subsection{Why the proof never conditions on an input}
+\subsection{Why the global upper bound never conditions on an input}
 
 A tempting route would be to choose an input, condition on the activation masks it generates, and analyse the resulting Jacobian as if the masks were independent of the weights. The last step is false in general: the event that a mask is generated by an input carries information about the same weights that appear in the Jacobian. The gauge argument fixes a formal mask without choosing a witness input, multiplies the realizability indicator by a gauge-invariant Jacobian functional, and averages over a finite symmetry group exactly; only then does it sum over masks. The sphere net is used for tangent directions of a fixed linear map, not to search for regions, so a realizable cone of arbitrarily small angle is still counted.
 
