@@ -158,22 +158,34 @@ and Markov's inequality with threshold $e^{-cN/2}$ gives $\PP_W(M(W)>e^{-cN/2})\
 
 \subsection{With a bias vector}
 
-Let the dynamics carry a bias, $x_{t+1}=\phi(Wx_t+b)$, with $b\in\R^N$ a Gaussian vector of independent $\mathcal N(0,\sigma^2/N)$ coordinates, independent of $W$, so that $\norm b^2\approx\sigma^2$. The halving becomes a contraction toward the bias scale: the ideal sequence is now
+Let $x_{t+1}=\phi(Wx_t+b)$, with one bias vector reused at every step, independent of $W$, and $b_i\overset{\mathrm{ind}}{\sim}\mathcal N(0,\sigma^2/N)$. The reference profile is
 \[
 \bar q_0=1,\qquad\bar q_{t+1}=\tfrac12(\bar q_t+\sigma^2),\qquad\text{so}\qquad\bar q_t=\sigma^2+(1-\sigma^2)2^{-t},
 \]
-and the norm is pulled to $\sigma^2$ rather than to zero.
+whose fixed point is $\sigma^2$. The result below controls a fixed horizon; it makes no assertion about the infinite-time trajectory.
 
 \begin{theorem}[finite horizon, with a bias]\label{thm:fh-bias}
-Fix $T$, $\delta>0$ and $\sigma\ge0$. There are $C,c>0$ depending only on $T,\delta,\sigma$ such that for every $N$ and every deterministic $x_0\in S^{N-1}$,
+Fix an integer $T\ge0$, $\delta>0$ and $\sigma\ge0$. There are $C,c>0$ depending only on $T,\delta,\sigma$ such that for every $N\ge1$ and every deterministic $x_0\in S^{N-1}$,
 \[
 \PP_{W,b}\Bigl(\max_{0\le t\le T}\bigl|\norm{x_t}^2-\bar q_t\bigr|>\delta\Bigr)\le Ce^{-cN},
 \]
-and the random-start and almost-every-input statements hold as before. For $\sigma=0$ this is \cref{thm:fh} with $\delta$ replaced by $\delta2^{-T}$.
+The analogues of \cref{cor:fh-random,thm:fh-ae} hold for a random start or input measure independent of the pair $(W,b)$, with bad inputs defined by the displayed event.
 \end{theorem}
 
 \begin{proof}
-Condition on $b$; the law of $W$ is unchanged, so the innovation lemma applies to probes that are measurable in the transcript and $b$, and the Gram--Schmidt construction is the same with $x_{t+1}=\phi(Wx_t+b)$ a function of the exposed images and $b$. Write $\beta_i=\sqrt N\,b_i$, independent $\mathcal N(0,\sigma^2)$ and independent of the $\Gamma_i$. The one-step identity \cref{eq:onestep} becomes $\norm{x_{t+1}}^2=\frac1N\sum_i(a_t\cdot\Gamma_i+\beta_i)_+^2$, and with $\Gamma_i'=(\Gamma_i,\beta_i/\sigma)\sim\mathcal N(0,I_{d+1})$ and $a_t'=(a_t,\sigma)$ this is $\frac1N\sum_i(a_t'\cdot\Gamma_i')_+^2$ with $\norm{a_t'}^2=\norm{a_t}^2+\sigma^2$. On the operator-norm event and the event $\norm b^2\le2\sigma^2$ (\cref{lem:chisq} with $d=1$), $\norm{x_{t+1}}\le8\norm{x_t}+2\sigma$, so every $\norm{a_t'}$ is bounded by a constant $R'$ depending on $T$ and $\sigma$. \Cref{lem:ulln} in dimension $d+1$ with radius $R'$ and tolerance $\eta=\delta2^{-2}$ gives, on its event, $\abs{\norm{x_{t+1}}^2-\tfrac12(\norm{x_t}^2+\sigma^2)}\le\eta$ for every $t<T$; with $e_t=\abs{\norm{x_t}^2-\bar q_t}$ this is $e_{t+1}\le\eta+\tfrac12e_t$, so $e_t\le2\eta<\delta$. The three bad events have probability at most $Ce^{-cN}$, and the extensions to a random start and to almost every input are as in \cref{cor:fh-random,thm:fh-ae}, conditioning also on $b$.
+The case $\sigma=0$ follows from \cref{thm:fh}, and $T=0$ is immediate. Suppose $\sigma>0$, $T\ge1$ and $N\ge T+1$. Apply the innovation argument conditionally on $b$, taking $\sigma(b)$ as the initial information. Since $W$ is independent of $b$, the conditional law of the $d=T+1$ padded innovations is the same product Gaussian law for every $b$. Consequently those innovations are jointly independent of $b$ after removing the conditioning.
+
+Put $\beta_i=\sqrt N\,b_i$, $\Gamma_i'=(\Gamma_i,\beta_i/\sigma)$ and $a_t'=(a_t,\sigma)$. The vectors $\Gamma_i'$ are therefore independent $\mathcal N(0,I_{d+1})$, and the driving identity becomes
+\[
+\norm{x_{t+1}}^2=\frac1N\sum_{i=1}^N(a_t'\cdot\Gamma_i')_+^2,
+\qquad \norm{a_t'}^2=\norm{x_t}^2+\sigma^2.
+\]
+On $\{\op W\le8,\ \norm b^2\le2\sigma^2\}$, the recursion $\norm{x_{t+1}}\le8\norm{x_t}+2\sigma$ gives $\norm{a_t'}\le R':=8^T(1+3\sigma)$ for $t\le T$. The complement has probability at most $Ce^{-cN}$ by \cref{lem:opnorm,lem:chisq}. Apply \cref{lem:ulln} in dimension $d+1$ with radius $R'$ and tolerance $\eta=\delta/4$. Its uniformity permits the random coefficient $a_t'$ to depend on all the Gaussian vectors. Outside another event of probability at most $Ce^{-cN}$,
+\[
+\left|\norm{x_{t+1}}^2-\tfrac12(\norm{x_t}^2+\sigma^2)\right|\le\eta
+\quad(0\le t<T).
+\]
+Hence $e_t:=|\norm{x_t}^2-\bar q_t|$ satisfies $e_0=0$ and $e_{t+1}\le\eta+e_t/2$, so $e_t\le2\eta<\delta$. Enlarge $C$ for the finitely many $N<T+1$. Finally, integrate the deterministic-input bound over a start or measure independent of $(W,b)$ and apply Tonelli and Markov exactly as before, now over the joint randomness $(W,b)$.
 \end{proof}
 
 \subsection{What the theorem says and does not say}

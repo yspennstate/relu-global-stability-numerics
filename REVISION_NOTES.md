@@ -1,5 +1,46 @@
 # Revision of 5 September 2026
 
+## Bias extension revision following the two independent referee reports
+
+The owner asked to retain biases only if the theorems admit clean statements and
+proofs; otherwise return to the bias-free scope. The extensions are retained as
+optional results with the following precise changes:
+
+- The finite-width biased theorem now assumes mutual independence of all nL bias
+  coordinates, symmetry of each, and independence from the complete weight array.
+  Independent centred Gaussian biases of arbitrary variances are included. The
+  same sufficient exponential budget and expansive-side probability bound survive.
+  The old blanket transfer of every bias-free statement is removed; in particular,
+  exact pathwise scaling in alpha is not claimed for fixed nonzero biases.
+- The expansive-side proof uses a deterministic uniform estimate
+  sup_s ||F_b(s)-F_0(s)|| <= C_L, with C_0=0 and
+  C_l=||W_l|| C_{l-1}+||b_l||. Rescaling two inputs proves
+  Lip(F_b) >= Lip(F_0). It includes dead paths and requires no nonzero-preactivation
+  event. The full-input supremum is stronger than the earlier fixed-input argument.
+- The tied-weight Gaussian-bias proof makes the innovations' independence from b
+  explicit before adding one Gaussian coordinate. It treats sigma=0 and small N
+  separately, states independence from (W,b) for random starts and input measures,
+  and limits the result to fixed horizons.
+- Remaining review wording is corrected: diverging sufficient depth is not a
+  necessary-depth result; a packing maximal within sampled candidates is not a
+  certified sphere cover; h bounds g only on 0<theta<1/4. Table 3 retains its
+  original numbers with an explicit rounded-angle approximation qualification.
+  Its helper is renamed patterns_rounded without changing those legacy numerics.
+
+This is an author repair. The two NO AS WRITTEN votes concern commit 63d4637;
+they do not constitute approval of this revised manuscript. The original reports
+and their immutable evidence are preserved in the canonical audit repository.
+
+Author verification: all four checks in numerics/check_bias_extension.py passed,
+including exhaustive piecewise-affine enumeration of 729 scalar networks, a dead
+network revived by a bias, independently computed recession constants, affine
+sign-orbit identities, and the tied-bias profile recursion. The revised 41-page PDF
+was built in three LaTeX passes with no overfull boxes or undefined references;
+rendered theorem and numerical pages were inspected. No numerical data files or
+original Table 3 / finite-horizon Monte Carlo runs were changed or rerun here.
+
+## Earlier strict-region and numerical revision
+
 This implements the publication review. It is a repair with author verification;
 a separate publication re-review is still required.
 

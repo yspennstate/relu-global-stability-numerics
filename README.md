@@ -3,6 +3,11 @@
 LaTeX manuscript, numerical generators and fixed-seed outputs. The publication-review revision
 of 5 September 2026 separates strict activation regions from ordinary cells with zero
 preactivations. See REVISION_NOTES.md for changes and verification scope.
+The subsequent bias revision keeps the two main results bias-free and states
+independent symmetric layer biases and a reused Gaussian bias as optional
+extensions. Their joint independence assumptions and recession/innovation proofs
+are explicit. Table 3 remains a historical numerical check with rounded-angle
+approximation disclosed; it is not an exact-arithmetic certificate.
 
 ## Build the paper
 
@@ -54,3 +59,12 @@ example. verify_release.py checks every stored strict witness by actual forward 
 the analytic width-two/depth-two law and the corrected adjacent integer depths.
 Enumeration and LP use floating point, not exact arithmetic. Unresolved solver outcomes or
 invalid witnesses raise an error. Numerical checks are not a formal proof certification.
+
+## Verify the bias extension controls
+
+    python -B numerics/check_bias_extension.py
+
+Four finite author checks cover 729 scalar weight-and-bias combinations, an
+explicit bias-revived dead network, deterministic recession bounds, affine sign
+orbits, and the tied-bias reference recursion. These checks supplement the proofs;
+they are not an independent publication review.

@@ -5,7 +5,7 @@ The calculations in this section are released with their generators, row paramet
 
 \subsection{The orthant count}
 
-\Cref{tab:cover} draws a random subspace $U$ of dimension $d$ in $\R^M$ and counts the open orthants it meets. In the plane the count is exact, by enumerating the arcs between the angles at which the coordinate functionals vanish; for $d\ge3$ the count is a lower bound from sampled directions. The bound of \cref{lem:cover} is attained whenever the count is exact, in agreement with the general-position remark.
+\Cref{tab:cover} draws a random subspace $U$ of dimension $d$ in $\R^M$ and counts the open orthants it meets. In the plane the routine enumerates boundary arcs using floating-point arithmetic; for $d\ge3$ the count is a lower bound from sampled directions. The planar samples attain the bound of \cref{lem:cover}, in agreement with the general-position remark.
 
 \begin{table}[h]\centering
 \begin{tabular}{rrrrrl}
@@ -54,7 +54,7 @@ At fixed $L$ the per-width exponent of $C_{n,L}$ converges to $LH(1/L)$ (\cref{l
 
 \subsection{The realizable-mask identity}
 
-\Cref{tab:orbit} is the paired test of \cref{prop:orbit} at width $n=2$ described in \cref{sec:gauge}: for a fixed mask $D$, the same weight draws are used on both sides, $r(\im A_D)$ is computed exactly by arc enumeration, and the paired difference is compared with its standard error. Two functionals are used, $F\equiv1$ and $F=\min(\op{J_D},1)$, both bounded, so the standard error is meaningful.
+\Cref{tab:orbit} is the paired test of \cref{prop:orbit} at width $n=2$ described in \cref{sec:gauge}: for a fixed mask $D$, the same weight draws are used on both sides, $r(\im A_D)$ is evaluated numerically by boundary arcs, and the paired difference is compared with its standard error. Two functionals are used, $F\equiv1$ and $F=\min(\op{J_D},1)$, both bounded. The retained runs used a helper that rounded boundary angles to twelve decimal places; their standard errors quantify sampling variation, not errors from that geometric approximation. These rows are numerical checks of an exact identity, not exact-arithmetic certificates.
 
 \begin{table}[h]\centering
 \begin{tabular}{rlrrrrr}
@@ -69,7 +69,7 @@ $L$ & $F$ & draws & $\E[F\one_{\{R_D\ne\varnothing\}}]$ & $\E[F\,r(\im A_D)/2^{n
 4 & $\min(\op{J_D},1)$ & 150000 & 0.00492 & 0.00493 & 0.999 & $-0.03$\\
 \bottomrule
 \end{tabular}
-\caption{The exact orbit identity \cref{eq:orbit} at width 2, $D_\ell=\diag(1,0)$ for odd $\ell$ and $D_\ell=I_2$ for even $\ell$ in every row; seed 8081 in \texttt{s7b\_gauge\_bounded.py}. The open orthants of $\im A_D$ are enumerated by boundary arcs.}
+\caption{Paired numerical checks of \cref{eq:orbit} at width 2, $D_\ell=\diag(1,0)$ for odd $\ell$ and $D_\ell=I_2$ for even $\ell$ in every row; seed 8081 in \texttt{s7b\_gauge\_bounded.py}. Retained outputs use the rounded-angle routine described above.}
 \label{tab:orbit}
 \end{table}
 
@@ -100,7 +100,7 @@ identity & parameters & Monte Carlo & exact & ratio\\
 
 The master inequality \cref{eq:master} is far from tight at small width, and the table says by how much: at $(n,L,\alpha,p)=(2,2,1,1)$ the left side $\E K^{2p}$ is $1.517$ against a bound of $200$; at $(2,3,1,1.5)$, $1.948$ against $557$; at $(2,2,0.6,2)$, $0.882$ against $318$. The slack is the product of the net factor $5^n4^p$ and of $C_{n,L}$ counting every orthant a subspace could meet rather than the ones it does. The inequality is designed for the exponential scale, where these factors cost a fixed rate per unit width, and it is there that it is used.
 
-The $\tfrac12$-net of \cref{lem:net} is also loose by a fixed exponential factor: a greedy maximal $\tfrac12$-separated set on $S^{n-1}$ had $2,9,34,102,279,676$ points for $n=1,\dots,6$ against the bound $5^n$; the ratio behaves like $e^{-0.5n}$. Neither slack affects the threshold, which is decided by the $L$-fold radial factor.
+A finite-candidate greedy search produced $\tfrac12$-separated sets of sizes 2, 9, 34, 102, 279 and 676 in dimensions $n=1,\dots,6$, respectively. Maximality within a candidate pool does not establish coverage of the whole sphere. These empirical packing sizes provide no certified improvement to the $5^n$ covering bound in \cref{lem:net}; the proof continues to use that deterministic bound.
 
 \subsection{The finite-width bound}
 

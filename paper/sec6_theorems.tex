@@ -88,7 +88,7 @@ The reverse direction needs no largest singular value, no rare activation patter
 Part (ii) says that no $\alpha>2$ belongs to the set in \cref{eq:alphaL} for any $L$, so $\alpha_L\le2$ for every $L$. Fix $\alpha<2$; by part (i), for every $L\ge L_0(\alpha)$, $\PP(K_{n,L}(\alpha)\le1)\to1$, so $\alpha$ belongs to the set and $\alpha_L\ge\alpha$ for all such $L$. Hence $\liminf_L\alpha_L\ge\alpha$ for every $\alpha<2$, so $\liminf_L\alpha_L\ge2\ge\limsup_L\alpha_L$.
 \end{proof}
 
-Reading the statement carefully: for every $\alpha<2$ there is a depth $L_0(\alpha)$, inside the choice of $\alpha$, such that for every $L\ge L_0(\alpha)$ the probability statement holds as $n\to\infty$. The order of the quantifiers cannot be exchanged: no single depth works for every $\alpha<2$ at once, because $L_0(\alpha)\to\infty$ as $\alpha\uparrow2$.
+Reading the statement carefully: for every $\alpha<2$ there is a depth $L_0(\alpha)$, inside the choice of $\alpha$, such that for every $L\ge L_0(\alpha)$ the probability statement holds as $n\to\infty$. The sufficient depth supplied by this budget diverges as $\alpha\uparrow2$. This does not prove that a diverging depth is necessary for the network itself.
 
 \subsection{The quantitative rate}
 
@@ -137,30 +137,44 @@ The positive scalar changes no activation sign, so every mask is unchanged under
 \subsection{Biases}
 \label{sec:biases}
 
-Add bias vectors to the network: $h_\ell(s)=W_\ell x_{\ell-1}(s)+b_\ell$, with $b_1,\dots,b_L\in\R^n$ random, independent of the weights, and each with independent coordinates whose laws are symmetric about zero (Gaussian biases of any variance are the standard case). Everything above goes through with the changes listed here, and the bound of \cref{thm:finite} holds word for word.
+The global probability bounds extend to independent symmetric biases. Write $F_b$ for the network with $h_\ell(s)=W_\ell x_{\ell-1}(s)+b_\ell$ and $K^{(b)}_{n,L}(\alpha)=\operatorname{Lip}(F_b)$.
 
 \begin{theorem}[finite width, with biases]\label{thm:bias}
-For the biased network, for every $n\ge1$, $L\ge2$, $\alpha>0$ and $\theta\in(0,1/4)$, $\PP(K_{n,L}(\alpha)>1)\le2\exp(nB_L(\alpha,\theta))$ with the same budget $B_L$ as in \cref{thm:finite}; and for $\alpha>2$, $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$. Consequently \cref{thm:main} holds for the biased network.
+Suppose all $nL$ coordinates of $(b_1,\dots,b_L)$ are mutually independent, each is symmetric about zero, and the entire bias array is independent of the weights. For every $n\ge1$, $L\ge2$, $\alpha>0$ and $0<\theta<1/4$,
+\[
+\PP\bigl(K^{(b)}_{n,L}(\alpha)>1\bigr)\le2e^{nB_L(\alpha,\theta)}.
+\]
+For $\alpha>2$,
+\[
+\PP\bigl(K^{(b)}_{n,L}(\alpha)\le1\bigr)\le\frac{5\alpha^2L}{n(\alpha-2)^2}.
+\]
+No moment or size bound on the biases is required. In particular, independent centred Gaussian biases of arbitrary variances are allowed.
 \end{theorem}
 
 \begin{proof}
-\emph{Regions.} For a formal mask sequence $D$ the formal preactivations are affine: $h^D_\ell(s)=H^D_\ell s+c^D_\ell$ with the same matrices $H^D_\ell$ as in \cref{eq:HD} and offsets $c^D_1=b_1$, $c^D_\ell=W_\ell D_{\ell-1}c^D_{\ell-1}+b_\ell$. The strict region $R_D=\{s:E^D_\ell(H^D_\ell s+c^D_\ell)>0\ \forall\ell\}$ is an open convex polyhedron, no longer a cone. \Cref{lem:consistency} holds with $F(s)=J_Ds+D_Lc^D_L$ on $R_D$: the induction is unchanged, and the derivative on $R_D$ is still $J_D$, because the biases do not enter the Jacobian. \Cref{lem:pl} is stated for linear pieces, but its proof uses only that $F$ agrees with an affine map $x\mapsto M_Cx+m_C$ on each cell: the telescoped differences $F(\gamma(u_j))-F(\gamma(u_{j-1}))=M_{C_j}(\gamma(u_j)-\gamma(u_{j-1}))$ do not see $m_C$. The nondegeneracy argument is unchanged, since each preactivation functional is affine with the same random linear part, and a dead formal piece now has a constant output and Jacobian zero. So \cref{eq:reduction} holds: $K_{n,L}(\alpha)=\max(\{0\}\cup\{\op{J_D}:R_D\ne\varnothing\})$.
+\emph{Affine regions and symmetry.} For a formal mask $D$, the preactivations are $H^D_\ell s+c^D_\ell$, where $c^D_1=b_1$ and $c^D_\ell=W_\ell D_{\ell-1}c^D_{\ell-1}+b_\ell$. The Jacobian is still $J_D$. The proof of \cref{lem:pl} applies to affine pieces, since their constant terms cancel in differences. The same conditional Gaussian row argument as in \cref{sec:regions} shows that every full-dimensional nonconstant piece has strict preactivation signs on its interior, almost surely. If a formal linear part vanishes, every later linear part vanishes as well; such a piece has zero Jacobian. Thus the reduction to nonempty strict regions still holds.
 
-\emph{Realizability.} With $c_D$ the stacked offsets, $R_D\ne\varnothing$ if and only if the affine subspace $\im(A_D)+c_D$ meets the orthant $O_D$. Under the gauge, extended to the biases by $b_\ell\mapsto\Sigma_\ell b_\ell$, one checks by the induction of \cref{lem:covariance} that $c^D_\ell(W^\Sigma,b^\Sigma)=\Sigma_\ell c^D_\ell(W,b)$, so the affine subspace transforms to $S_\Sigma(\im A_D+c_D)$; and the joint law of $(W,b)$ is preserved, because each bias coordinate is symmetric and independent of everything else. The proof of \cref{prop:orbit} then gives
+With $c_D$ the stacked offsets, realizability means that $\im A_D+c_D$ meets $O_D$. Extend the gauge by $b_\ell\mapsto\Sigma_\ell b_\ell$. Induction gives $c^D_\ell(W^\Sigma,b^\Sigma)=\Sigma_\ell c^D_\ell(W,b)$, while \cref{lem:covariance} gives the same transformation of the linear parts. The assumed independence across \emph{all layers and coordinates} preserves the joint law of $(W,b)$ under every such sign change. Hence, for every nonnegative gauge-invariant functional $G$, \cref{prop:orbit} gives
 \[
-\E\bigl[F\one_{\{R_D\ne\varnothing\}}\bigr]=\E\Bigl[F\,\frac{r(\im A_D+c_D)}{2^{nL}}\Bigr]
+\E\bigl[G\one_{\{R_D\ne\varnothing\}}\bigr]=\E\Bigl[G\,\frac{r(\im A_D+c_D)}{2^{nL}}\Bigr].
 \]
-for every nonnegative gauge-invariant $F$, with $r$ counting the orthants met by the affine subspace.
-
-\emph{Counting.} An affine subspace $A\subseteq\R^M$ of dimension $d\le n$ meets at most $\sum_{j=0}^d\binom Mj$ open orthants. Indeed the coordinate hyperplanes restrict to at most $M$ affine hyperplanes in $A$ (a coordinate that is constant on $A$ contributes none), the orthants met correspond to the regions of that arrangement as in \cref{sec:gauge}, and the number of regions of $M$ affine hyperplanes in dimension $d$ satisfies $R(M,d)\le R(M-1,d)+R(M-1,d-1)$ with $R(M,0)=1$ and $R(0,d)=1$, the same recurrence as \cref{eq:recur} with new boundary values, whose solution is $\sum_{j\le d}\binom Mj$ by Pascal's identity. With $M=nL$ and $d\le n$, \cref{lem:entropy} (with $k=n$, $N=nL$, $k/N=1/L\le\tfrac12$) gives $\sum_{j\le n}\binom{nL}j\le e^{nLH(1/L)}$, which is no larger than the bound $2e^{nLH(1/L)}$ used for $C_{n,L}$. For $L=1$ the count is $2^n$ as before.
-
-\emph{The rest.} The net, the radial moments and the scalar bound concern $J_D$ only, so \cref{prop:master} and \cref{thm:finite} follow with the same budget.
-
-\emph{The expansive side.} Homogeneity is lost, so \cref{eq:K-lower} is replaced by a ray argument. Let $F_0$ be the bias-free network with the same weights and fix $s\ne0$ at which every bias-free preactivation coordinate is nonzero (almost surely). For $c$ large enough the preactivations at the input $cs$ have the same signs as the bias-free preactivations at $s$, because $W_\ell(c\,x)+b_\ell=c\,(W_\ell x)+b_\ell$ and the bias is eventually dominated; so $cs$ lies in one region, on which $F$ is affine with linear part $J=DF$ equal to the bias-free Jacobian at $s$, and $F(cs)=cJs+\kappa$ with $\kappa$ independent of $c$. Since $Js=F_0(s)$ by homogeneity of $F_0$,
+\emph{Counting and moments.} An affine subspace of dimension $d\le n$ in $\R^M$ meets at most $\sum_{j=0}^d\binom Mj$ open orthants. Restrict the coordinate hyperplanes to that subspace: their regions satisfy the arrangement recurrence of \cref{eq:recur}, now with boundary values $R(M,0)=R(0,d)=1$. Pascal's identity gives the stated bound. A coordinate identically zero gives no open orthants and causes no exception. With $M=nL$, \cref{lem:entropy} gives
 \[
-K_{n,L}(\alpha)\ge\lim_{c\to\infty}\frac{\norm{F(cs)-F(0)}}{c\norm s}=\frac{\norm{F_0(s)}}{\norm s},
+r(\im A_D+c_D)\le\sum_{j=0}^n\binom{nL}j\le e^{nLH(1/L)}.
 \]
-and the proof of \cref{thm:above2} applies to $F_0$ unchanged.
+The net and radial-moment estimates concern $J_D$ alone. Substituting this count into the proof of \cref{prop:master,thm:finite} gives the stated upper bound with the same budget $B_L$.
+
+\emph{The expansive side.} A deterministic argument handles every bias realization, including paths that die. Let $F_0$ have the same weights and zero biases. Set $C_0=0$ and $C_\ell=\op{W_\ell}C_{\ell-1}+\norm{b_\ell}$. The $1$-Lipschitz property of ReLU gives, by induction,
+\[
+\sup_s\norm{F_b(s)-F_0(s)}\le C_L<\infty.
+\]
+Since $F_0(cs)=cF_0(s)$ for $c>0$, it follows that $F_b(cs)/c\to F_0(s)$. For any $x\ne y$,
+\[
+K^{(b)}_{n,L}(\alpha)\ge\lim_{c\to\infty}
+\frac{\norm{F_b(cx)-F_b(cy)}}{c\norm{x-y}}
+=\frac{\norm{F_0(x)-F_0(y)}}{\norm{x-y}}.
+\]
+Taking the supremum proves $K^{(b)}_{n,L}(\alpha)\ge K_{n,L}(\alpha)$ for these coupled networks. The second probability bound follows from \cref{thm:above2}.
 \end{proof}
 
-The biases play no role in the threshold because the Lipschitz constant is a statement about differences, and the only place they could enter, the realizability of a pattern, is handled by the same symmetry average with the same count. Deterministic or asymmetric biases are a different matter: the sign symmetry of the law is what the orbit identity uses, and without it the argument does not apply as written.
+Thus the same sufficient depth and width certificates apply: for each $\alpha<2$, sufficiently large fixed depth gives exponentially small failure probability as width grows; for $\alpha>2$, every fixed depth is expansive with probability tending to one. The exact variance-scaling identity \cref{eq:scaling} remains a bias-free statement. The contraction bound requires the joint bias symmetry above; symmetry within each layer alone does not suffice.

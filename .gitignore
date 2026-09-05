@@ -5,3 +5,4 @@ paper/*.log
 paper/*.out
 paper/*.toc
 paper/main.pdf
+paper/qa_bias/

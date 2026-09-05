@@ -27,7 +27,14 @@ def stack_and_jac(Ws, D):
     return np.vstack(rows), np.diag(D[-1].astype(float)) @ rows[-1]
 
 
-def patterns_exact(A):
+def patterns_rounded(A):
+    """Legacy twelve-decimal boundary routine used by the retained Table 3 runs.
+
+    This is a floating-point approximation, not an exact orthant certificate.
+    It can merge narrow wedges and does not reject identically zero rows.
+    Its numerical behavior is retained here to reproduce the historical output.
+    Use region_geometry.planar_patterns for strict planar controls.
+    """
     ang = []
     for row in A:
         a = math.atan2(row[0], -row[1])
@@ -58,7 +65,7 @@ for (L, kind, trials) in ((2, "one", 200000), (3, "one", 200000), (4, "one", 150
     for t in range(trials):
         Ws = [rng.normal(0.0, s, size=(n, n)) for _ in range(L)]
         A, J = stack_and_jac(Ws, D)
-        pats = patterns_exact(A)
+        pats = patterns_rounded(A)
         F = 1.0 if kind == "one" else min(1.0, float(np.linalg.norm(J, 2)))
         lhs[t] = F if tau in pats else 0.0
         rhs[t] = F * len(pats) / 2.0 ** M
