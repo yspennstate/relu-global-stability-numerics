@@ -22,7 +22,7 @@ If $X_0$ is a random unit vector independent of $W$, the same bound holds for $\
 
 For a fixed matrix $W$ let $\mathcal B(W)=\{x_0\in S^{N-1}:\max_{t\le T}|2^t\norm{x_t}^2-1|>\delta\}$ be its set of bad starting points.
 
-\begin{theorem}[almost every input]\label{thm:fh-ae}
+\begin{theorem}[small exceptional set of inputs]\label{thm:fh-ae}
 Fix $T$ and $\delta$ and let $\mu_N$ be a probability measure on $S^{N-1}$, deterministic or random but independent of $W$. With the constants of \cref{thm:fh}, conditionally on $\mu_N$,
 \[
 \PP_W\bigl(\mu_N(\mathcal B(W))>e^{-cN/2}\bigr)\le Ce^{-cN/2}.
@@ -142,7 +142,7 @@ For $T=0$ the bad event is empty. Let $T\ge1$ and first $N\ge T+1$. On the event
 Write $q_t=\norm{x_t}^2$ and $e_t=\abs{q_t-2^{-t}}$; then $e_0=0$ and $e_{t+1}\le\abs{q_{t+1}-\tfrac12q_t}+\tfrac12\abs{q_t-2^{-t}}\le\eta+\tfrac12e_t$, so $e_t\le\eta(1+\tfrac12+\dots)\le2\eta$, and $\abs{2^tq_t-1}=2^te_t\le2^{T+1}\eta=\delta/2<\delta$ for every $t\le T$. The bad event is therefore contained in $\mathcal O^c\cup\mathcal E^c$, of probability at most $Ce^{-cN}$ with constants depending on $T,\delta$ only. For the finitely many $N<T+1$ the probability is at most $1$, and enlarging $C$ makes $Ce^{-cN}\ge1$ there.
 \end{proof}
 
-\subsection{A random start, and almost every input}
+\subsection{A random start, and a small exceptional set of inputs}
 
 \begin{proof}[Proof of \cref{cor:fh-random}]
 Condition on $X_0=x$. Independence leaves the law of $W$ unchanged, so \cref{eq:fh-main} holds with the same constants for every $x$, and taking the expectation over $X_0$ gives the bound.

@@ -1,5 +1,33 @@
 # Revision of 5 September 2026
 
+## Copyedits following the two YES recommendations
+
+Two independent reviewers recommended publication of commit 46b10b8, with minor
+editorial corrections and no blocking mathematical defect identified. Those votes
+apply to that pinned version. The following subsequent changes are author edits:
+
+- The abstract specifies a deterministic unit start and an exponentially small
+  exceptional set under an input distribution independent of the matrix. The
+  corresponding theorem heading now uses the same precise description. Its
+  hypotheses and probability bound are unchanged.
+- Table 8 rounds the recorded N=20 tied-trajectory 90th percentile,
+  12.924515103505582, to 12.92 rather than 12.93.
+- The gauge discussion no longer infers standard-error undercoverage from one
+  paired difference near 2.5 estimated standard errors. The historical generator's
+  explanatory docstring is qualified consistently.
+- Auxiliary gauge and norm checks are described as 50 spot checks per
+  configuration, matching the source, rather than checks on every draw.
+
+The two main results remain bias-free. The proved bias extensions remain optional,
+with their joint independence assumptions explicit. Numerical data are unchanged.
+Author verification compared all 38 formal statement bodies and all 10 released
+JSON data files with the frozen referee source; they are unchanged. The edited
+generator has the same executable syntax tree after excluding its docstring.
+Decimal rounding and every recorded 50-check count agree with the corrected
+text. The 41-page PDF was rebuilt in three LaTeX passes with no overfull boxes or
+unresolved references, and all eight pages whose extracted text changed were
+rendered and visually inspected.
+
 ## Bias extension revision following the two independent referee reports
 
 The owner asked to retain biases only if the theorems admit clean statements and

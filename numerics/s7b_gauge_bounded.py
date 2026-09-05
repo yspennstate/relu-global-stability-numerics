@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 """Proposition 8.1 again, with a BOUNDED gauge-invariant functional.
 
-With F = ||J_D||^r the estimator is dominated by rare large draws, so a normal-theory z on the paired
-difference is not trustworthy - that is what produced a z of -2.6 with no bug behind it.  Two bounded
-choices fix that:
+An unbounded F = ||J_D||^r can make an estimator sensitive to rare large draws.
+A paired z near -2.6 alone establishes neither a bug nor undercoverage by the
+standard-error estimate. Two bounded choices provide additional checks:
 
     F = 1                    identity becomes  P(R_D != 0) = E[ r(im A_D) ] / 2^{nL}
     F = min(||J_D||, 1)      still gauge invariant, still non-negative, and bounded by one
 
-Both give a paired difference of bounded variables, where the standard error means what it says.
+Both give a paired difference of bounded variables. The estimated standard error
+describes sampling variation; it does not cover the rounded-angle approximation
+used by this historical generator.
 """
 import io, json, math, os
 import numpy as np

@@ -73,7 +73,7 @@ $L$ & $F$ & draws & $\E[F\one_{\{R_D\ne\varnothing\}}]$ & $\E[F\,r(\im A_D)/2^{n
 \label{tab:orbit}
 \end{table}
 
-Two more checks that the proof leans on directly were run alongside: summing the indicator $\one_{\{S_\Sigma U\cap O_D\ne\varnothing\}}$ over the whole gauge group returned exactly $r(U)$ in every draw, and $\op{J_D}$ was unchanged by a random gauge in every draw, to machine precision.
+Two auxiliary checks in \texttt{s7\_gauge.py} used the first 50 draws of each configuration. In each of those spot checks, summing the indicator $\one_{\{S_\Sigma U\cap O_D\ne\varnothing\}}$ over the whole gauge group returned $r(U)$, and $\op{J_D}$ was unchanged by a random gauge to machine precision. These checks did not cover every Monte Carlo draw.
 
 The all-active formula \cref{eq:all-active} gives $\PP(R_D\ne\varnothing)=\tfrac12$ at $(n,L)=(2,2)$ and $(3,2)$, $0.1445$ at $(3,3)$, $0.0898$ at $(5,3)$, $0.0307$ at $(10,3)$, $0.00432$ at $(20,3)$ and $3.0\times10^{-18}$ at $(10,10)$: the chance that a deep random network has an input at which every unit fires at every layer is exactly computable and small.
 
@@ -183,7 +183,7 @@ Two features of \cref{tab:small} are worth reading against the theorem. At width
  & \multicolumn{3}{c}{one matrix} & \multicolumn{3}{c}{fresh matrix per step}\\
 $N$ & median & 90\% & frac.\ $>\tfrac12$ & median & 90\% & frac.\ $>\tfrac12$\\
 \midrule
-20 & 0.983 & 12.93 & 0.935 & 0.917 & 2.663 & 0.965\\
+20 & 0.983 & 12.92 & 0.935 & 0.917 & 2.663 & 0.965\\
 50 & 0.861 & 4.734 & 0.865 & 0.749 & 1.903 & 0.835\\
 100 & 0.719 & 2.556 & 0.685 & 0.512 & 1.159 & 0.545\\
 500 & 0.348 & 0.789 & 0.270 & 0.274 & 0.547 & 0.125\\
