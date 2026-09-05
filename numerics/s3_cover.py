@@ -20,16 +20,10 @@ def cover(M, n):
     return 2 * sum(math.comb(M - 1, j) for j in range(n))
 
 
-def orthants_met_exact_n2(A, ngrid=200000):
-    """A is M x 2.  Exact: sweep the circle of directions."""
-    th = np.linspace(0, 2 * np.pi, ngrid, endpoint=False)
-    Y = A @ np.stack([np.cos(th), np.sin(th)])                 # M x ngrid
-    S = (Y > 0)
-    keys = set()
-    packed = np.packbits(S, axis=0).T
-    for row in packed:
-        keys.add(row.tobytes())
-    return len(keys)
+def orthants_met_exact_n2(A, ngrid=None):
+    """Enumerate all open boundary arcs; ngrid is ignored for compatibility."""
+    from region_geometry import planar_patterns
+    return len(planar_patterns(A))
 
 
 def orthants_met_sampled(A, npts=400000):
@@ -41,7 +35,7 @@ def orthants_met_sampled(A, npts=400000):
     return len({row.tobytes() for row in packed})
 
 
-res = {"note": "measured; n=2 exact by angle sweep, n>=3 sampled (lower bound)"}
+res = {"note": "measured; n=2 all boundary arcs (floating point), n>=3 sampled (lower bound)"}
 
 res["subspace_counts"] = []
 for (M, n, exact) in ((6, 2, True), (8, 2, True), (10, 2, True), (20, 2, True),

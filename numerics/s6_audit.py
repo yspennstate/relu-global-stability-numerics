@@ -68,26 +68,10 @@ for (n, p, alpha) in ((6, 1.0, 1.3), (6, 2.5, 1.3), (12, 1.7, 2.0)):
                            "ratio": rhs_emp / lhs})
 
 # ---- (c) the master inequality, both sides ------------------------------------------------------
-def K_sweep_n2(Ws, ngrid=20000):
-    th = np.linspace(0.0, 2 * np.pi, ngrid, endpoint=False)
-    X = np.stack([np.cos(th), np.sin(th)])
-    masks = []
-    for W in Ws:
-        H = W @ X
-        masks.append((H > 0).astype(np.int8))
-        X = np.maximum(H, 0.0)
-    code = np.zeros(ngrid, dtype=np.int64)
-    for m in masks:
-        for r in range(m.shape[0]):
-            code = code * 2 + m[r]
-    _, first = np.unique(code, return_index=True)
-    best = 0.0
-    for idx in first:
-        J = np.eye(Ws[0].shape[1])
-        for l, W in enumerate(Ws):
-            J = np.diag(masks[l][:, idx].astype(float)) @ W @ J
-        best = max(best, float(np.linalg.norm(J, 2)))
-    return best
+def K_sweep_n2(Ws, ngrid=None):
+    """Enumerate planar cells; ngrid is ignored for compatibility."""
+    from region_geometry import planar_network
+    return planar_network(Ws)["K"]
 
 
 res["master"] = []

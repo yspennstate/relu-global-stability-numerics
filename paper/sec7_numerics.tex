@@ -1,7 +1,7 @@
 \section{Numerics}
 \label{sec:numerics}
 
-Every number in this section was computed for this paper: the exact quantities by evaluating the formulas, the Monte Carlo quantities by simulating the network with a fixed seed and comparing with the formulas they are supposed to obey. Where a quantity was sampled rather than enumerated the table says so, since a sampled supremum is a lower bound.
+The calculations in this section are released with their generators, row parameters and outputs. Tables~1--7 are typeset directly from the JSON by \texttt{export\_tables.py}: the exact quantities by evaluating the formulas, the Monte Carlo quantities by simulating the network with a fixed seed and comparing with the formulas they are supposed to obey. Where a quantity was sampled rather than enumerated the table says so, since a sampled supremum is a lower bound.
 
 \subsection{The orthant count}
 
@@ -12,10 +12,10 @@ Every number in this section was computed for this paper: the exact quantities b
 \toprule
 $M$ & $d$ & $2^M$ & $2\sum_{j<d}\binom{M-1}j$ & observed $r(U)$, mean (max) & method\\
 \midrule
-6 & 2 & 64 & 12 & 12.0 (12) & exact\\
-8 & 2 & 256 & 16 & 16.0 (16) & exact\\
-10 & 2 & 1024 & 20 & 20.0 (20) & exact\\
-20 & 2 & 1048576 & 40 & 40.0 (40) & exact\\
+6 & 2 & 64 & 12 & 12.0 (12) & arcs\\
+8 & 2 & 256 & 16 & 16.0 (16) & arcs\\
+10 & 2 & 1024 & 20 & 20.0 (20) & arcs\\
+20 & 2 & 1048576 & 40 & 40.0 (40) & arcs\\
 6 & 3 & 64 & 32 & 31.9 (32) & sampled\\
 9 & 3 & 512 & 74 & 73.4 (74) & sampled\\
 12 & 3 & 4096 & 134 & 131.8 (134) & sampled\\
@@ -26,25 +26,27 @@ $M$ & $d$ & $2^M$ & $2\sum_{j<d}\binom{M-1}j$ & observed $r(U)$, mean (max) & me
 \label{tab:cover}
 \end{table}
 
-For the network itself, the identity \cref{eq:orbit} with $F=1$, summed over all masks, says that the expected number of nonempty strict regions is $\sum_D\E\,r(\im A_D)/2^{nL}\le C_{n,L}$. \Cref{tab:regions} compares the number of realized masks with $C_{n,L}$ and with the number $2^{nL}$ of formal masks. Even at width two the realized count stays far below the formal count, and below $C_{n,L}$.
+For the network itself, \cref{eq:orbit} with $F=1$, summed over all masks, bounds the \emph{expected} number of nonempty strict regions by $C_{n,L}$. This is not a deterministic bound on the number of regions of each network. \Cref{tab:regions} counts only masks with every preactivation nonzero at every layer. The separate zero column counts full-dimensional ordinary cells with at least one identically zero preactivation; boundary-only patterns enter neither count. At width two all cell boundaries are enumerated recursively. For $n=3,4$ every formal mask is tested by the homogeneous strict feasibility problem $A s\ge\mathbf1$, after normalizing nonzero signed rows; zero rows exclude strict feasibility. Calculations use floating point, and returned LP witnesses are checked directly.
 
-\begin{table}[h]\centering
-\begin{tabular}{rrrrrl}
+There is a useful exact check at $n=L=2$. In coordinates $y=W_1s$, the negative quadrant dies before layer two, each mixed quadrant contributes one strict cell, and the positive quadrant contributes one plus the number of rows of $W_2$ whose entries have opposite signs. Thus the strict count has law $3+\mathrm{Binomial}(2,1/2)$, with support $\{3,4,5\}$ and mean four. With $W_1=I_2$ and $W_2=\left(\begin{smallmatrix}1&-1\\-1&2\end{smallmatrix}\right)$, boundary enumeration and a separate all-mask LP both give five strict cells and six ordinary cells. This control prevents the dead quadrant from entering the strict count.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{rrrrrrl}
 \toprule
-$n$ & $L$ & formal masks $2^{nL}$ & $C_{n,L}$ & realized masks, mean (min--max) & method\\
+$n$ & $L$ & formal masks $2^{nL}$ & $C_{n,L}$ & strict, mean (range) & zero, mean & method\\
 \midrule
-2 & 1 & 4 & 4 & 4.0 (4--4) & exact\\
-2 & 2 & 16 & 8 & 4.9 (4--6) & exact\\
-2 & 3 & 64 & 12 & 5.0 (4--7) & exact\\
-2 & 4 & 256 & 16 & 5.5 (4--8) & exact\\
-2 & 5 & 1024 & 20 & 5.3 (4--8) & exact\\
-2 & 6 & 4096 & 24 & 5.5 (4--10) & exact\\
-3 & 2 & 64 & 32 & 15.5 (8--20) & sampled\\
-3 & 3 & 512 & 74 & 20.3 (11--28) & sampled\\
-4 & 2 & 256 & 128 & 47.1 (24--71) & sampled\\
+2 & 1 & 4 & 4 & 4.00 (4--4) & 0.00 & arcs\\
+2 & 2 & 16 & 8 & 3.93 (3--5) & 1.00 & arcs\\
+2 & 3 & 64 & 12 & 3.57 (0--7) & 1.72 & arcs\\
+2 & 4 & 256 & 16 & 3.17 (0--8) & 2.47 & arcs\\
+2 & 5 & 1024 & 20 & 1.68 (0--6) & 3.78 & arcs\\
+2 & 6 & 4096 & 24 & 1.77 (0--8) & 3.97 & arcs\\
+3 & 2 & 64 & 32 & 15.16 (10--19) & 1.00 & LP\\
+3 & 3 & 512 & 74 & 17.52 (6--35) & 3.04 & LP\\
+4 & 2 & 256 & 128 & 52.32 (22--68) & 1.00 & LP\\
 \bottomrule
 \end{tabular}
-\caption{Nonempty strict regions of the random network (60 draws per row at $n=2$, 25 otherwise).}
+\caption{Strict regions and excluded forced-zero cells (60 draws per row at $n=2$, 25 otherwise). Arcs enumerate planar cells; LP exhausts all formal masks. Row seeds, weights, accepted masks and strict witnesses are released.}
 \label{tab:regions}
 \end{table}
 
@@ -59,7 +61,7 @@ At fixed $L$ the per-width exponent of $C_{n,L}$ converges to $LH(1/L)$ (\cref{l
 \toprule
 $L$ & $F$ & draws & $\E[F\one_{\{R_D\ne\varnothing\}}]$ & $\E[F\,r(\im A_D)/2^{nL}]$ & ratio & paired $z$\\
 \midrule
-2 & $1$ & 200000 & 0.24878 & 0.25000 & 0.995 & $-1.27$\\
+2 & $1$ & 200000 & 0.24877 & 0.25000 & 0.995 & $-1.27$\\
 3 & $1$ & 200000 & 0.06283 & 0.06250 & 1.005 & $+0.59$\\
 4 & $1$ & 150000 & 0.01589 & 0.01563 & 1.017 & $+0.83$\\
 5 & $1$ & 120000 & 0.00390 & 0.00391 & 0.998 & $-0.04$\\
@@ -67,7 +69,7 @@ $L$ & $F$ & draws & $\E[F\one_{\{R_D\ne\varnothing\}}]$ & $\E[F\,r(\im A_D)/2^{n
 4 & $\min(\op{J_D},1)$ & 150000 & 0.00492 & 0.00493 & 0.999 & $-0.03$\\
 \bottomrule
 \end{tabular}
-\caption{The exact orbit identity \cref{eq:orbit} at width 2, the mask $D$ fixed, the subspace $\im A_D$ enumerated exactly.}
+\caption{The exact orbit identity \cref{eq:orbit} at width 2, $D_\ell=\diag(1,0)$ for odd $\ell$ and $D_\ell=I_2$ for even $\ell$ in every row; seed 8081 in \texttt{s7b\_gauge\_bounded.py}. The open orthants of $\im A_D$ are enumerated by boundary arcs.}
 \label{tab:orbit}
 \end{table}
 
@@ -84,19 +86,19 @@ The all-active formula \cref{eq:all-active} gives $\PP(R_D\ne\varnothing)=\tfrac
 \toprule
 identity & parameters & Monte Carlo & exact & ratio\\
 \midrule
-\cref{eq:radial} & $n=4$, $L=3$, $p=1$, $\alpha=1.3$, masks $1101,1001,1110$ & 0.6247 & 0.6179 & 1.011\\
-\cref{eq:radial} & $n=4$, $L=3$, $p=2$, same masks & 2.063 & 2.121 & 0.973\\
-\cref{eq:radial} & $n=6$, $L=2$, $p=1.5$, $\alpha=1.3$, masks $101101,011011$ & 0.9022 & 0.8987 & 1.004\\
-\cref{eq:mixture} & $n=6$, $p=1$, $\alpha=1.3$ & 41.65 & 41.60 & 1.001\\
+\cref{eq:radial} & $n=4$, $L=3$, $p=1$, $\alpha=1.3$, 1101,1001,1110 & 0.6247 & 0.6179 & 1.011\\
+\cref{eq:radial} & $n=4$, $L=3$, $p=2$, $\alpha=1.3$, 1101,1001,1110 & 2.063 & 2.121 & 0.973\\
+\cref{eq:radial} & $n=6$, $L=2$, $p=1.5$, $\alpha=1.3$, 101101,011011 & 0.9022 & 0.8987 & 1.004\\
+\cref{eq:mixture} & $n=6$, $p=1$, $\alpha=1.3$ & 41.65 & 41.6 & 1.001\\
 \cref{eq:mixture} & $n=6$, $p=2.5$, $\alpha=1.3$ & 61.99 & 61.93 & 1.001\\
 \cref{eq:mixture} & $n=12$, $p=1.7$, $\alpha=2$ & 5087 & 5079 & 1.002\\
 \bottomrule
 \end{tabular}
-\caption{The fixed-vector radial moments and the scalar mixture identity, $2\times10^5$ draws each; the masks are the diagonals of $D_1,\dots,D_L$; for \cref{eq:mixture} both sides are multiplied by $2^n$.}
+\caption{The fixed-vector radial moments and the scalar mixture identity, $2\times10^5$ draws for each radial row and $4\times10^5$ for each mixture row; the masks are the diagonals of $D_1,\dots,D_L$; for \cref{eq:mixture} both sides are multiplied by $2^n$.}
 \label{tab:radial}
 \end{table}
 
-The master inequality \cref{eq:master} is far from tight at small width, and the table says by how much: at $(n,L,\alpha,p)=(2,2,1,1)$ the left side $\E K^{2p}$ is $1.51$ against a bound of $200$; at $(2,3,1,1.5)$, $1.94$ against $557$; at $(2,2,0.6,2)$, $0.88$ against $318$. The slack is the product of the net factor $5^n4^p$ and of $C_{n,L}$ counting every orthant a subspace could meet rather than the ones it does. The inequality is designed for the exponential scale, where these factors cost a fixed rate per unit width, and it is there that it is used.
+The master inequality \cref{eq:master} is far from tight at small width, and the table says by how much: at $(n,L,\alpha,p)=(2,2,1,1)$ the left side $\E K^{2p}$ is $1.517$ against a bound of $200$; at $(2,3,1,1.5)$, $1.948$ against $557$; at $(2,2,0.6,2)$, $0.882$ against $318$. The slack is the product of the net factor $5^n4^p$ and of $C_{n,L}$ counting every orthant a subspace could meet rather than the ones it does. The inequality is designed for the exponential scale, where these factors cost a fixed rate per unit width, and it is there that it is used.
 
 The $\tfrac12$-net of \cref{lem:net} is also loose by a fixed exponential factor: a greedy maximal $\tfrac12$-separated set on $S^{n-1}$ had $2,9,34,102,279,676$ points for $n=1,\dots,6$ against the bound $5^n$; the ratio behaves like $e^{-0.5n}$. Neither slack affects the threshold, which is decided by the $L$-fold radial factor.
 
@@ -115,16 +117,16 @@ $L$ & $\alpha^*_L$ (exact budget) & $2e^{-\sqrt{10\log L/L}}$ & $2e^{-\sqrt{10(\
 300 & 1.0822 & 1.2932 & 1.1457\\
 1000 & 1.4261 & 1.5378 & 1.4461\\
 3000 & 1.6390 & 1.6986 & 1.6428\\
-$10^4$ & 1.7875 & 1.8170 & 1.7859\\
-$10^5$ & 1.9254 & 1.9333 & 1.9237\\
-$10^6$ & 1.9744 & 1.9766 & 1.9738\\
+10000 & 1.7875 & 1.8170 & 1.7859\\
+100000 & 1.9254 & 1.9333 & 1.9237\\
+1000000 & 1.9744 & 1.9766 & 1.9738\\
 \bottomrule
 \end{tabular}
 \caption{The threshold the finite theorem delivers at depth $L$, against the large-$L$ formula.}
 \label{tab:threshold}
 \end{table}
 
-The other reading of the same budget is the depth $L_0(\alpha)$ at which it first turns negative: $237$ for $\alpha=1$, $897$ for $1.4$, $4590$ for $1.7$, $52\,841$ for $1.9$, $237\,405$ for $1.95$ and $7.35\times10^6$ for $1.99$. The convergence $\alpha_L\to2$ is proved, and it is slow.
+The other reading of the same budget is the depth $L_0(\alpha)$ at which it first turns negative: $237$ for $\alpha=1$, $897$ for $1.4$, $4590$ for $1.7$, $52\,841$ for $1.9$, $237\,381$ for $1.95$ and $7.35\times10^6$ for $1.99$. The certified lower bound $\alpha_L^*$ approaches two slowly. These computations neither give a matching rate for the true threshold $\alpha_L$ nor prove that $L_0(\alpha)$ is a necessary depth.
 
 \Cref{tab:rate} gives the width rate $c_L(\alpha)$ of \cref{cor:width} and, in parentheses, the width at which the bound $2e^{-c_L(\alpha)n}$ drops below $0.01$. Once the depth is past $L_0(\alpha)$ the rate grows linearly in $L$, and a width of one or two already makes the bound tiny; at $\alpha=1$, $L=300$ the bound is $5.6\times10^{-9}$ at $n=10$ and $3.4\times10^{-43}$ at $n=50$, at $L=1000$ it is $3.8\times10^{-109}$ at $n=10$. The finite-width statement is therefore not weak once it applies; what limits it is the depth $L_0(\alpha)$, not the width.
 
@@ -133,9 +135,9 @@ The other reading of the same budget is the depth $L_0(\alpha)$ at which it firs
 \toprule
 $\alpha\backslash L$ & 100 & 300 & 1000 & 3000 & $10^4$ & $10^5$\\
 \midrule
-0.5 & 3.63 (2) & 24.5 (1) & 100.4 (1) & 319.5 (1) & 1089 (1) & 10996 (1)\\
-1.0 & -- & 1.97 (3) & 25.0 (1) & 93.3 (1) & 334.8 (1) & 3453 (1)\\
-1.5 & -- & -- & -- & 10.6 (1) & 59.2 (1) & 696.5 (1)\\
+0.5 & 3.63 (2) & 24.5 (1) & 100 (1) & 320 (1) & 1.09e+03 (1) & 1.1e+04 (1)\\
+1.0 & -- & 1.97 (3) & 25 (1) & 93.3 (1) & 335 (1) & 3.45e+03 (1)\\
+1.5 & -- & -- & -- & 10.6 (1) & 59.2 (1) & 696 (1)\\
 1.8 & -- & -- & -- & -- & -- & 90.5 (1)\\
 1.9 & -- & -- & -- & -- & -- & 11.4 (1)\\
 \bottomrule
@@ -144,32 +146,32 @@ $\alpha\backslash L$ & 100 & 300 & 1000 & 3000 & $10^4$ & $10^5$\\
 \label{tab:rate}
 \end{table}
 
-On the other side, \cref{thm:above2} gives $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$: at $\alpha=3$ and $L=10$ this is $0.45$ at $n=1000$ and $0.045$ at $n=10^4$; at $\alpha=4$, $L=10$, it is $0.2$ and $0.02$. The Chebyshev bound decays like $1/n$; the Chernoff form would decay exponentially.
+On the other side, \cref{thm:above2} gives $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$: at $\alpha=3$ and $L=10$ this is $0.45$ at $n=1000$ and $0.045$ at $n=10^4$; at $\alpha=4$, $L=10$, it is $0.2$ and $0.02$. The Chebyshev bound decays like $1/n$; the Chernoff form in \cref{sec:together} decays exponentially.
 
 \subsection{What small networks do}
 
-\Cref{tab:small} reports the measured Lipschitz constant $K_{n,L}(1)$ at small width. By the scaling identity \cref{eq:scaling}, $K_{n,L}(\alpha)\le1$ exactly when $\alpha\le K_{n,L}(1)^{-2/L}$, so the median of $K_{n,L}(1)^{-2/L}$ is the variance parameter at which half the networks are non-expansive. At $n=2$ the constant is exact, by sweeping all directions of the plane; for $n\ge3$ it is a sampled lower bound, so the threshold column is an upper bound. At depth one the operator norm of $W_1$ approaches $2$ at $\alpha=1$ (measured $1.995$ at $n=2000$), so the threshold approaches $\tfrac14$.
+\Cref{tab:small} reports the measured Lipschitz constant $K_{n,L}(1)$ at small width. By the scaling identity \cref{eq:scaling}, $K_{n,L}(\alpha)\le1$ exactly when $\alpha\le K_{n,L}(1)^{-2/L}$, and the table reports $\widetilde K^{-2/L}$, the inverse transform of the sample median $\widetilde K$. This is a descriptive finite-sample statistic, not the width-limit threshold $\alpha_L$. At $n=2$ the constant is computed by enumerating all planar cells; for $n\ge3$ it is a sampled lower bound, so the threshold column is an upper bound. At depth one the operator norm of $W_1$ approaches $2$ at $\alpha=1$ (measured $1.995$ at $n=2000$), so the threshold approaches $\tfrac14$.
 
 \begin{table}[h]\centering
 \begin{tabular}{rrrrrl}
 \toprule
-$n$ & $L$ & median $K_{n,L}(1)$ & 10\%--90\% & median threshold $K^{-2/L}$ & method\\
+$n$ & $L$ & median $K_{n,L}(1)$ & 10\%--90\% & $\widetilde K^{-2/L}$ & method\\
 \midrule
-2 & 1 & 1.253 & 0.72--1.84 & 0.64 & exact\\
-2 & 2 & 0.851 & 0.25--1.78 & 1.18 & exact\\
-2 & 3 & 0.336 & 0.00--1.52 & 2.07 & exact\\
-2 & 4 & 0.065 & 0.00--1.02 & 3.93 & exact\\
-3 & 2 & 1.336 & 0.65--2.36 & 0.75 & sampled\\
-3 & 3 & 0.876 & 0.24--1.91 & 1.09 & sampled\\
-5 & 3 & 1.442 & 0.97--2.25 & 0.78 & sampled\\
-8 & 3 & 2.067 & 1.50--2.81 & 0.62 & sampled\\
+2 & 1 & 1.277 & 0.69--1.85 & 0.61 & arcs\\
+2 & 2 & 0.893 & 0.19--1.97 & 1.12 & arcs\\
+2 & 3 & 0.362 & 0.00--1.55 & 1.97 & arcs\\
+2 & 4 & 0.076 & 0.00--0.87 & 3.63 & arcs\\
+3 & 2 & 1.247 & 0.71--2.18 & 0.80 & sampled\\
+3 & 3 & 1.031 & 0.35--2.04 & 0.98 & sampled\\
+5 & 3 & 1.597 & 0.98--2.48 & 0.73 & sampled\\
+8 & 3 & 2.023 & 1.53--2.80 & 0.63 & sampled\\
 \bottomrule
 \end{tabular}
-\caption{The global Lipschitz constant at $\alpha=1$ for small networks (400 draws at $n=2$, fewer at larger $n$).}
+\caption{Small-network Lipschitz constants at $\alpha=1$. There are 400 draws for the first three rows, then 300, 150, 120, 60 and 40. Higher-dimensional rows use 40000 sampled directions per network; seeds and all measured $K$ values are released.}
 \label{tab:small}
 \end{table}
 
-Two features of \cref{tab:small} are worth reading against the theorem. At width two, deeper networks die: with probability growing in $L$ some layer maps everything to zero, $K=0$, and the median threshold rises above $2$ for that reason alone, which is a small-width effect the theorem says nothing about. At width eight and depth three the median threshold is about $0.6$, well below $2$, in keeping with the depth $L_0$ the budget demands before the bound takes effect. The theorem is about the joint regime of large width first and large depth after; the table is a reminder of what it does not say.
+Two features of \cref{tab:small} are worth reading against the theorem. At width two, deeper networks die: with probability growing in $L$ some layer maps everything to zero, $K=0$, and the reported inverse-median statistic can exceed $2$, which is a small-width effect the theorem says nothing about. At width eight and depth three the median threshold is about $0.6$, well below $2$, in keeping with the depth $L_0$ the budget demands before the bound takes effect. The theorem takes the width limit first and the depth limit second; the table is a reminder of what it does not say.
 
 \subsection{One matrix, many steps}
 

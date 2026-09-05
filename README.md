@@ -1,36 +1,56 @@
-# Numerics for "Global Stability of Deep Gaussian ReLU Networks"
+# Global Stability of Deep Gaussian ReLU Networks
 
-Everything measured or computed in the paper comes from the scripts in this repository, and each script
-writes the JSON file that the corresponding table was typeset from. Random seeds are fixed in the code.
+LaTeX manuscript, numerical generators and fixed-seed outputs. The publication-review revision
+of 5 September 2026 separates strict activation regions from ordinary cells with zero
+preactivations. See REVISION_NOTES.md for changes and verification scope.
 
-## Layout
+## Build the paper
 
-    numerics/          the simulations and exact computations
-    numerics/data/     their outputs (JSON), as used for the tables
-    paper/             the manuscript (PDF and LaTeX sources)
+Install requirements.txt. From this directory:
 
-## What each script computes
+    python numerics/export_tables.py
+    cd paper
+    pdflatex -interaction=nonstopmode -halt-on-error main.tex
+    pdflatex -interaction=nonstopmode -halt-on-error main.tex
+    pdflatex -interaction=nonstopmode -halt-on-error main.tex
 
-| script | paper | content |
+The distributed PDF is paper/relu_global_stability.pdf. In Overleaf, select paper/main.tex
+as the main document. The source archive preserves this directory layout.
+
+## Reproduce the tables
+
+| Table | Generator in numerics/ | Released output in numerics/data/ |
 |---|---|---|
-| `numerics/s1_forward.py` | §1.5, §9 | one-layer forward norms, the summand $Y = BZ^2$ and its moments |
-| `numerics/s2_regions.py` | Table 2, Table 7 | realized activation regions at small width; the Lipschitz constant $K_{n,L}(1)$ by exact angle sweep ($n=2$) and by sampling ($n\ge3$) |
-| `numerics/s3_cover.py` | Table 1 | orthants met by a random subspace against the central-arrangement bound; the entropy rate of $C_{n,L}$ |
-| `numerics/s4_rates.py` | §6, §10 | the scalar moment exponent $h_\alpha$, the exact rate $g_\alpha$, the budget rows and the depths $L_0(\alpha)$ |
-| `numerics/s5_misc.py` | §9 | depth one ($\alpha_1 = 1/4$), greedy nets, chi-square checks, the deterministic inequality, the moment-generating function |
-| `numerics/s6_audit.py` | Table 4 | brute-force checks of the radial factors, the mixture identity and the master inequality |
-| `numerics/s7_gauge.py`, `numerics/s7b_gauge_bounded.py` | Table 3 | the exact orbit identity at width two, with exact arc enumeration and a paired test |
-| `numerics/s8_horizon.py` | Tables 8 and 9 | the shared-matrix dynamics against fresh matrices; the Chernoff rates $I(1/\alpha)$ |
-| `numerics/budget.py` | Table 5, Table 6 | the exponent budget $B_L(\alpha,\theta)$, the thresholds $\alpha^*_L$ and the depths $L_0(\alpha)$ |
-| `numerics/paper_numbers.py` | Tables 5 and 6 | prints the rows of the finite-width tables |
+| 1: subspace orthants | s3_cover.py | s3_cover.json; planar boundary arcs, sampled higher-dimensional rows |
+| 2: strict regions | s2_regions.py | s2_regions.json; planar cells or all-mask LP; weights, strict masks and witnesses |
+| 3: paired gauge identity | s7b_gauge_bounded.py | s7b_gauge_bounded.json; seed 8081; odd masks diag(1,0), even I2 |
+| 4: radial/mixture moments | s6_audit.py | s6_audit.json; seed 90210; 200000 radial and 400000 mixture draws |
+| 5: sufficient thresholds | finite_budget.py | finite_budget.json; derivative-root optimization |
+| 6: finite-width rates | finite_budget.py | same file; integer widths from the exponential bound |
+| 7: small-network K | s2_regions.py | same s2 JSON; all measured K values and independent row seeds |
+| 8: horizon norms | s8_horizon.py | s8_horizon.json; tied versus fresh matrices |
+| 9: Chernoff rates | s8_horizon.py | same s8 JSON; scalar rate optimizer |
 
-## Running
+Tables 1--7 are typeset directly from JSON by export_tables.py; generated fragments are also
+distributed. Tables 8--9 retain their supplied source and recorded results. Seeds and trial
+counts are in each generator; s2 additionally records independent row seeds. Recomputing the
+experiments is optional for building the paper from the released results.
+The old paper_numbers.py and budget.py grids remain as comparison implementations;
+finite_budget.py reproduces the current printed Tables 5--6 efficiently.
 
-Python 3 with NumPy. Each script is standalone and writes its JSON next to it:
+For limited CPU use set OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1 before running scripts.
+The larger original experiments may take appreciable time. This revision reran s2, s3 and s6,
+and recalculated Tables 5--6; it did not rerun the full original s7b or s8 Monte Carlo runs.
+Table 3 masks and seed were checked against source and added as metadata to retained output.
 
-    cd numerics
-    python s8_horizon.py
-    python budget.py
-    python paper_numbers.py
+## Verify strict membership
 
-The larger simulations take a few minutes on a laptop.
+    python -B -m unittest discover -s numerics -p test_region_geometry.py -v
+    python -B numerics/verify_release.py
+
+Tests compare independent LP and planar algorithms, include dead networks and a narrow cell
+missed by a uniform grid, and recover five strict versus six ordinary cells in the review
+example. verify_release.py checks every stored strict witness by actual forward evaluation,
+the analytic width-two/depth-two law and the corrected adjacent integer depths.
+Enumeration and LP use floating point, not exact arithmetic. Unresolved solver outcomes or
+invalid witnesses raise an error. Numerical checks are not a formal proof certification.

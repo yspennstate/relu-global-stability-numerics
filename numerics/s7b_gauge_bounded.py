@@ -66,7 +66,7 @@ for (L, kind, trials) in ((2, "one", 200000), (3, "one", 200000), (4, "one", 150
     se = d.std(ddof=1) / math.sqrt(trials)
     C = 2 * sum(math.comb(M - 1, j) for j in range(n))
     res["L%d_%s" % (L, kind)] = {
-        "L": L, "F": kind, "trials": trials,
+        "L": L, "F": kind, "trials": trials, "seed": 8081, "masks": [d.tolist() for d in D],
         "lhs_mean": float(lhs.mean()), "rhs_mean": float(rhs.mean()),
         "paired_diff": float(d.mean()), "paired_se": float(se),
         "paired_z": float(d.mean() / se) if se else None,

@@ -3,12 +3,12 @@
 
 \subsection{The same object, two questions}
 
-Both results are about a Gaussian matrix with independent $\mathcal N(0,\alpha/n)$ entries followed by ReLU, and both live at the scale where a layer keeps a squared norm of order one. Both rest on the same elementary fact, $\E(\xi_+)^2=\tfrac12\E\xi^2$ for a symmetric $\xi$: ReLU discards half of the expected squared magnitude, so a layer multiplies a typical squared norm by $\alpha/2$. In \cref{sec:horizon} this is the number $\tfrac12$ at $\alpha=1$; in \cref{sec:theorems} it is the reason the critical variance is $2$. Both face the same obstacle. The input to a layer is a function of the matrices before it, so the vector a layer acts on is not independent of the layer; in the tied case the vector is a function of the very matrix that acts on it. Neither proof pretends otherwise. Both replace an infinite supremum by a finite net and pay a fixed exponential price for it, both produce failure probabilities exponentially small in the width, and both fix the number of layers first and let the width grow, with the horizon $T$ or the depth $L$ entering the constants.
+Both results are about a Gaussian matrix with independent $\mathcal N(0,\alpha/n)$ entries followed by ReLU, and both live at the scale where a layer keeps a squared norm of order one. Both rest on the same elementary fact, $\E(\xi_+)^2=\tfrac12\E\xi^2$ for a symmetric $\xi$: ReLU discards half of the expected squared magnitude, so a layer multiplies a typical squared norm by $\alpha/2$. In \cref{sec:horizon} this is the number $\tfrac12$ at $\alpha=1$; in \cref{sec:theorems} it is the reason the critical variance is $2$. Both must handle dependence, but at different points. For a fixed forward input, the next independent layer is independent of the current activation. In the global problem the worst input and its masks are selected after all weights are seen. In the tied problem even a fixed start produces later states that depend on the reused matrix. Each proof treats the dependence relevant to its own quantifiers. Both replace an infinite supremum by a finite net and pay a fixed exponential price for it, both produce failure probabilities exponentially small in the width, and both fix the number of layers first and let the width grow, with the horizon $T$ or the depth $L$ entering the constants.
 
 The questions are different, and the difference decides the method.
 
 \begin{center}
-\begin{tabular}{p{0.28\textwidth}p{0.32\textwidth}p{0.32\textwidth}}
+\begin{tabular}{p{0.28\textwidth}p{0.318\textwidth}p{0.318\textwidth}}
 \toprule
  & global stability (\cref{thm:finite,thm:main}) & finite horizon (\cref{thm:fh,thm:fh-ae})\\
 \midrule
@@ -19,7 +19,7 @@ quantity controlled & the Lipschitz constant, a derivative & the norm of the tra
 conclusion & $K_{n,L}(\alpha)\le1$ w.h.p. for $\alpha<2$, $L\ge L_0(\alpha)$ & $\norm{x_t}^2\approx2^{-t}$ for $t\le T$\\
 the obstacle & the worst input's masks depend on the weights & $x_t$ depends on $W$\\
 the treatment & never condition: average the realizability event over the sign gauges & condition exactly: Gram--Schmidt probes give independent innovations\\
-the counting & orthants met by an $n$-dimensional subspace of $\R^{nL}$, $\le e^{nLH(1/L)}$ & a net of a ball in $\R^{T+1}$, size independent of $N$\\
+the counting & orthants met by an $n$-dimensional subspace of $\R^{nL}$, $\le 2e^{nLH(1/L)}$ & a net of a ball in $\R^{T+1}$, size independent of $N$\\
 the moment & one exact radial moment per layer, order $2\theta n$ & a Bernstein bound for each net point\\
 failure probability & $2e^{-c_L(\alpha)n}$ beyond $L_0(\alpha)$ & $Ce^{-cN}$ for every $N$\\
 \bottomrule

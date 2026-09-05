@@ -1,5 +1,5 @@
 {
- "note": "measured; n=2 exact by angle sweep, n>=3 sampled (lower bound)",
+ "note": "measured; n=2 all boundary arcs (floating point), n>=3 sampled (lower bound)",
  "subspace_counts": [
   {
    "M": 6,
