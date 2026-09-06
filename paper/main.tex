@@ -9,6 +9,11 @@
 \usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
 \usepackage{cleveref}
 
+% Leave a clear gap after two-digit subsection numbers in the contents.
+\makeatletter
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{3em}}
+\makeatother
+
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -58,7 +63,7 @@ A bias-free ReLU network of width $n$ and depth $L$ with independent $\mathcal N
 \[
 \PP\bigl(K_{n,L}(\alpha)>1\bigr)\le2\exp\!\bigl(n\,B_L(\alpha,\theta)\bigr),\qquad B_L=L\,H(1/L)+\log5+\theta\log4+L\,g_\alpha(\theta),
 \]
-with $H$ the binary entropy and $g_\alpha$ elementary, and for $\alpha>2$ the converse bound $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$. The fixed-depth threshold $\alpha_L$ therefore tends to $2$, with $\alpha_L\ge2\exp[-(\sqrt{10}+o(1))\sqrt{\log L/L}]$. The proof turns on an exact identity for realizable activation patterns: averaging over the $2^{nL}$ sign gauges, which preserve the law of the weights, turns the realizability event into a deterministic orthant count divided by $2^{nL}$. The same identity gives an exact finite matrix formula for mean strict-region counts. At fixed width, the zero-bias mean and global survival probability are asymptotic to positive constants times $(1-2^{-n})^L$; with independent nondegenerate Gaussian biases, the mean count instead tends to a finite limit.
+with $H$ the binary entropy and $g_\alpha$ elementary, and for $\alpha>2$ the converse bound $\PP(K_{n,L}(\alpha)\le1)\le5\alpha^2L/(n(\alpha-2)^2)$. The fixed-depth threshold $\alpha_L$ therefore tends to $2$, with $\alpha_L\ge2\exp[-(\sqrt{10}+o(1))\sqrt{\log L/L}]$. The proof turns on an exact identity for realizable activation patterns: averaging over the $2^{nL}$ sign gauges, which preserve the law of the weights, turns the realizability event into a deterministic orthant count divided by $2^{nL}$. The same identity gives an exact finite matrix formula for mean strict-region counts. At fixed width, the zero-bias mean and global survival probability are asymptotic to positive constants times $(1-2^{-n})^L$; with independent centred nondegenerate Gaussian biases, the mean count instead tends to a finite limit.
 
 The second result ties the layers: for one matrix $W$ applied repeatedly, $x_{t+1}=\phi(Wx_t)$, and any fixed horizon $T$, $\max_{t\le T}|2^t\norm{x_t}^2-1|\le\delta$ with probability at least $1-Ce^{-cN}$ for every deterministic unit start. For a typical matrix, the bound holds outside a set of exponentially small measure under any prescribed input distribution independent of the matrix. Here the dependence of the trajectory on the matrix is handled by conditioning, made exact by a Gaussian innovation lemma for adaptive orthogonal queries. The two results share their object and their obstacle and resolve it in opposite ways; the paper explains why each method fits its question, and uses the second to sharpen the expansive side of the first to an exponential rate. Selected identities, bounds and norm statistics are checked numerically at small width.
 \end{abstract}

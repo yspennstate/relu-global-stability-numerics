@@ -48,7 +48,11 @@ their outputs are comparison material and do not supply the current printed rate
 
 For limited CPU use set OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1 before running scripts.
 The larger original experiments may take appreciable time. This revision reran s2, s3 and s6,
-and recalculated Tables 5--6 with the optimized bound; it did not rerun the full original s7b or s8 Monte Carlo runs.
+and recalculated Tables 5--6 with the optimized bound. A subsequent checkpointed replay
+completed all 2,000 original s8 horizon draws and reproduced Table 8; independent
+aggregation agreed to floating-point precision. All five Table 9 grid calculations
+were replayed and compared with an 80-digit stationary-point calculation. The full
+original s7b Monte Carlo run has not been rerun.
 Table 3 masks and seed were checked against source and added as metadata to retained output.
 
 ## Verify strict membership

@@ -14,9 +14,25 @@ calculation paths are distributed with retained results: 3,072 rank cases,
 The cited hyperplane-arrangement formulas and nearby prior work are identified
 with their different objects and limits.
 
-Two independent referees approved the separate new mathematical proposal. The
-integrated manuscript still needs its own compiled-PDF verification and fresh
-publication votes. Earlier votes recorded below belong to earlier frozen bytes.
+Two independent referees approved the separate new mathematical proposal and then
+each issued a fresh YES publication vote on the integrated 46-page manuscript,
+commit 38e166f9befde3ebebdbe4dda665c07bb83e3db1. The clean source ZIP rebuilt with
+all 57 distributed file bytes unchanged and matching text and 120-DPI rasters on
+all 46 pages. Those votes and checks belong to that frozen version.
+
+The subsequent copyedits explicitly add centering to three Gaussian-bias summaries,
+describe an affine preactivation's zero set precisely, and rename Section 10 to
+give its exact region counts appropriate prominence. No theorem or numerical
+data is changed. The edited package needs its own PDF and source comparison.
+
+The checkpointed replay of all 2,000 original horizon draws completed on 6 September.
+Independent standard-library and NumPy aggregation reproduced all 30 Table 8
+statistics, with maximum absolute difference below 3e-16. The pinned older generator
+and current generator differ only in CRLF versus LF line endings. All five Table 9
+grid calculations also reproduced their retained values and were checked against
+an independent 80-digit stationary-point calculation. The full historical Table 3
+Monte Carlo has not been rerun; its rounded-angle limitation remains disclosed.
+
 The following sections preserve the revision history and historical test scope.
 
 ## Fixed-width ratio theorem, after two further independent reviews

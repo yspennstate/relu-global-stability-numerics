@@ -1,7 +1,7 @@
 \subsection{An exact finite formula for the mean region count}
 \label{sec:region-transfer}
 
-The gauge identity gives more than an upper bound on the number of strict regions. Their mean can be computed from a triangular matrix whose size depends only on the width. The same matrix treats independent nondegenerate Gaussian biases by restoring one extra index.
+The gauge identity gives more than an upper bound on the number of strict regions. Their mean can be computed from a triangular matrix whose size depends only on the width. The same matrix treats independent centred nondegenerate Gaussian biases by restoring one extra index.
 
 Fix $n\ge1$, put $q=2^n$, and define the binomial tails
 \[
@@ -166,7 +166,7 @@ On one infinite independent-layer sequence the geometric open strict cells event
 \begin{proof}
 The eigenvalues of $M$ are the distinct tails $\mathcal B_n(0),\ldots,\mathcal B_n(n)$. The largest is $q=2^n$, with right eigenvector $z$; since $d_0=z_0=1$, its spectral coefficient is $1$. All remaining eigenvalues are at most $q-1$, so \cref{eq:region-transfer-affine} gives the limit and remainder.
 
-With nondegenerate independent biases, each new preactivation is either a proper affine hyperplane on an old open cell or a nonzero constant there, almost surely. Thus the strict partitions refine: their counts are nondecreasing, and any change of their geometric open cells increases the count. Monotone convergence and the finite mean limit imply a finite integer limiting count almost surely, so only finitely many refinements occur and its expectation is $\rho_n$.
+With nondegenerate independent biases, each new preactivation on an old open cell is almost surely either a nonconstant affine function, whose zero set is the intersection of the cell with a proper affine hyperplane, or a nonzero constant. Thus the strict partitions refine: their counts are nondecreasing, and any change of their geometric open cells increases the count. Monotone convergence and the finite mean limit imply a finite integer limiting count almost surely, so only finitely many refinements occur and its expectation is $\rho_n$.
 \end{proof}
 
 The first limits are $\rho_1=3$, $\rho_2=21$ and $\rho_3=279$. The finite expectation is stronger than qualitative stabilization alone. After the first layer, a layer with all weights and biases negative maps the whole nonnegative image to zero; it has probability $2^{-n^2-n}$ independently at each depth. Once this happens, later layers cannot recover input dependence. This elementary dropout mechanism also appears in the discussion of Wang~\cite{wang2022}, Section~4.1. The stabilized objects here are geometric activation cells. Their depth-indexed labels and the constant output may keep changing. The exact affine mean requires nondegenerate biases and must not be obtained by substituting zero variance.
