@@ -1,5 +1,29 @@
 # Revision of 6 September 2026
 
+## Current Table 3 correction
+
+The original seed-8081 stream has now been replayed through all 1,020,000 draws.
+The fixed alternating width-two masks imply exactly four strict formal-stack
+orthants almost surely. Interval arithmetic with exact rational fallback checks
+this geometry and the target mask for the represented binary64 weights. The
+historical rounded-angle routine disagreed on 210 draws; two target indicators
+changed. All six current table rows come from the corrected output, with the
+old generator and JSON preserved separately.
+
+A second full-stream pass regenerated the random weights and checked all chunk
+boundaries, raw arrays and aggregate statistics. Exact rational matrix products
+and witnesses verified all 210 disagreements. Independently formed full matrix
+intervals certified an absolute error at most 1e-12 for all 350,000 clipped
+norms, including the final mask. These checks assume IEEE binary64 basic
+arithmetic and distinguish represented-weight error from Monte Carlo variation.
+The portable generator, two certificate modules, corrected JSON and provenance
+record are distributed with numerics/README_TABLE3.md.
+
+No theorem statement changes in this correction. The preceding copyedited
+46-page manuscript, commit 1fadc03e2c464932b47342a25b7c12a9373970b0,
+received two independent YES publication votes. Those votes belong to that
+version; the corrected Table 3 package requires its own frozen review.
+
 ## Current finite-transfer revision
 
 The exact triangular region-count theorem is integrated with its backward-rank
@@ -30,8 +54,8 @@ Independent standard-library and NumPy aggregation reproduced all 30 Table 8
 statistics, with maximum absolute difference below 3e-16. The pinned older generator
 and current generator differ only in CRLF versus LF line endings. All five Table 9
 grid calculations also reproduced their retained values and were checked against
-an independent 80-digit stationary-point calculation. The full historical Table 3
-Monte Carlo has not been rerun; its rounded-angle limitation remains disclosed.
+an independent 80-digit stationary-point calculation. The Table 3 correction
+and completed replay are described in the current entry above.
 
 The following sections preserve the revision history and historical test scope.
 

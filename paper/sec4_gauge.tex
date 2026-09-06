@@ -139,7 +139,7 @@ The left side of \cref{eq:bridge-tail} is the full adaptive supremum over every 
 
 \subsection{Testing the identity}
 
-An exact identity can be tested, and \cref{eq:orbit} was, at width two, by numerical boundary enumeration. In the plane the sign pattern of $A_Ds$ is constant on each arc between the angles at which a row of $A_D$ vanishes, so an exact enumeration would recover $r(\im A_D)$ and the realizability indicator. The retained calculations used rounded boundary angles; the geometric approximation and its limitations are described in \cref{sec:numerics}. \Cref{tab:orbit} reports the paired Monte Carlo test over the weights for $F\equiv 1$, which turns \cref{eq:orbit} into
+An exact identity can be tested, and \cref{eq:orbit} was, at width two. In the plane the sign pattern of $A_Ds$ is constant on each arc between consecutive boundary directions. The initial rounded-angle enumeration was subsequently replaced by a complete replay using the exact row dependencies of the fixed masks. \Cref{sec:numerics} describes its certified represented-weight geometry and clipped-norm error bound. \Cref{tab:orbit} reports the corrected paired Monte Carlo test over the weights for $F\equiv 1$, which turns \cref{eq:orbit} into
 \[
 \PP(R_D\ne\varnothing)=\E\,r(\im A_D)/2^{nL},
 \]

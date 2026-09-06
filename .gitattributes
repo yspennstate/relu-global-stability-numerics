@@ -1,1 +1,6 @@
-*.pdf binary
+# These replay artifacts are hash-bound; preserve their exact line-ending bytes.
+numerics/s7b_gauge_certified.py -text
+numerics/table3_certified_geometry.py -text
+numerics/table3_norm_error_certificate.py -text
+numerics/data/s7b_gauge_certified.json -text
+numerics/data/s7b_gauge_certified_verification.json -text
