@@ -4,3 +4,6 @@ numerics/table3_certified_geometry.py -text
 numerics/table3_norm_error_certificate.py -text
 numerics/data/s7b_gauge_certified.json -text
 numerics/data/s7b_gauge_certified_verification.json -text
+
+# A PDF can have no NUL byte in Git's detection prefix. Preserve it as binary.
+paper/relu_global_stability.pdf binary

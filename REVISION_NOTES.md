@@ -1,5 +1,24 @@
 # Revision of 6 September 2026
 
+## Minor presentation edits after the corrected-packet review
+
+The independent F2 referee recommended publication of the corrected frozen V1
+packet (commit 47f3f9876a099f730c8e63b1ae81ddf53322deb5), with two minor edits.
+Both Lu citations now use Theorem 3.3 and Appendix C, matching the numbered
+theorem in the arXiv v3 PDF of 1903.06733. The HTML conversion labels the same
+statement Theorem 3.5 because it also numbers proof environments. The PDF is
+the citation locator used here. The Table 3 discussion now explicitly says
+that its F=1 rows test the realizability frequency 4^(1-L), while the clipped
+rows also test the dependence of the Jacobian weight on realizability.
+
+No theorem statement, numerical record, or table value changes. V1 and its
+referee report remain immutable; this edited version requires a fresh build,
+archive verification, and an explicit reassessment of the changed bytes.
+
+The release PDF is explicitly marked binary in Git. Its valid padding had
+triggered text-whitespace diagnostics; the attribute also prevents line-ending
+conversion. This packaging rule does not alter the compiled PDF bytes.
+
 ## Current Table 3 correction
 
 The original seed-8081 stream has now been replayed through all 1,020,000 draws.
