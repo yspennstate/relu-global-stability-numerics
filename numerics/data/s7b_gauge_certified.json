@@ -1,0 +1,250 @@
+{
+  "schema": "relu-table3-corrected-v1",
+  "status": "COMPLETE",
+  "seed": 8081,
+  "numpy_version": "2.4.3",
+  "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "norm_absolute_error_bound": 1e-12,
+  "geometry_scope": "Strict formal-stack orthants for the exact real values represented by binary64 weights, with the fixed alternating width-two masks only.",
+  "numerical_scope": "Clipped functional error at most 1e-12, certified for represented weights under IEEE binary64 basic arithmetic; paired standard errors measure Monte Carlo variation.",
+  "draws": 1020000,
+  "rows": {
+    "L2_one": {
+      "L": 2,
+      "F": "one",
+      "trials": 200000,
+      "seed": 8081,
+      "masks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "strict_orthants_per_draw": 4,
+      "exact_unweighted_probability": "1/4",
+      "geometry_rational_fallbacks": 0,
+      "norm_rational_fallbacks": 0,
+      "functional_absolute_error_bound": 0.0,
+      "functional_binary64_sha256": "bc0d265790066669a8329a7f844a9197cc21c87d9db0e8fb886f29da72036f47",
+      "target_uint8_sha256": "9556ee8db4ee7ec7ab6bdf39f05ca4f513d3f908184b6b2d9d35019da9b0ed1b",
+      "lhs_mean": 0.248775,
+      "rhs_mean": 0.25,
+      "paired_diff": -0.001225,
+      "paired_se": 0.0009666616104140814,
+      "paired_z": -1.2672480077855333,
+      "ratio": 0.9951,
+      "functional_mean": 1.0,
+      "functional_second_moment": 1.0,
+      "target_successes": 49755
+    },
+    "L3_one": {
+      "L": 3,
+      "F": "one",
+      "trials": 200000,
+      "seed": 8081,
+      "masks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "strict_orthants_per_draw": 4,
+      "exact_unweighted_probability": "1/16",
+      "geometry_rational_fallbacks": 0,
+      "norm_rational_fallbacks": 0,
+      "functional_absolute_error_bound": 0.0,
+      "functional_binary64_sha256": "bc0d265790066669a8329a7f844a9197cc21c87d9db0e8fb886f29da72036f47",
+      "target_uint8_sha256": "d516414530eb8bd29140cdfb89088dbd16c78ad2cdb9c62f55d50b1993771c7d",
+      "lhs_mean": 0.06282,
+      "rhs_mean": 0.0625,
+      "paired_diff": 0.00032,
+      "paired_se": 0.0005425584851871264,
+      "paired_z": 0.5897981669010912,
+      "ratio": 1.00512,
+      "functional_mean": 1.0,
+      "functional_second_moment": 1.0,
+      "target_successes": 12564
+    },
+    "L4_one": {
+      "L": 4,
+      "F": "one",
+      "trials": 150000,
+      "seed": 8081,
+      "masks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "strict_orthants_per_draw": 4,
+      "exact_unweighted_probability": "1/64",
+      "geometry_rational_fallbacks": 0,
+      "norm_rational_fallbacks": 0,
+      "functional_absolute_error_bound": 0.0,
+      "functional_binary64_sha256": "10ba18783f21f495b08f0dd25b6d11bd17ea60a628b73195ef6152d1b46c14a7",
+      "target_uint8_sha256": "8d4b5859cf470dfa68cd82e5eca760a0327abfdb76e670a2d2da8a11aac9ed94",
+      "lhs_mean": 0.015893333333333332,
+      "rhs_mean": 0.015625,
+      "paired_diff": 0.0002683333333333333,
+      "paired_se": 0.00032291216102992704,
+      "paired_z": 0.8309793365399595,
+      "ratio": 1.0171733333333333,
+      "functional_mean": 1.0,
+      "functional_second_moment": 1.0,
+      "target_successes": 2384
+    },
+    "L5_one": {
+      "L": 5,
+      "F": "one",
+      "trials": 120000,
+      "seed": 8081,
+      "masks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "strict_orthants_per_draw": 4,
+      "exact_unweighted_probability": "1/256",
+      "geometry_rational_fallbacks": 0,
+      "norm_rational_fallbacks": 0,
+      "functional_absolute_error_bound": 0.0,
+      "functional_binary64_sha256": "f49ced7b9960c15b5f3138295bf6050673448d3060ee92f08382132b1ebabec6",
+      "target_uint8_sha256": "d5d49a5ee0b736e268b6d0eb181c01fb3aca38aa5a2ab33d777df32a63413e1b",
+      "lhs_mean": 0.0039,
+      "rhs_mean": 0.00390625,
+      "paired_diff": -6.25e-06,
+      "paired_se": 0.0001799264287961374,
+      "paired_z": -0.03473642000131875,
+      "ratio": 0.9984,
+      "functional_mean": 1.0,
+      "functional_second_moment": 1.0,
+      "target_successes": 468
+    },
+    "L3_clip": {
+      "L": 3,
+      "F": "clip",
+      "trials": 200000,
+      "seed": 8081,
+      "masks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "strict_orthants_per_draw": 4,
+      "exact_unweighted_probability": "1/16",
+      "geometry_rational_fallbacks": 0,
+      "norm_rational_fallbacks": 0,
+      "functional_absolute_error_bound": 1e-12,
+      "functional_binary64_sha256": "13578e5bbdfa92308000354f04a98a0c26243c603acd260d77febe2d5a71a09e",
+      "target_uint8_sha256": "433fca345867252cecdd7f957dc4bee6ebd78198da066080217869a155b5dc22",
+      "lhs_mean": 0.023071343619694807,
+      "rhs_mean": 0.022960058241890305,
+      "paired_diff": 0.00011128537780450405,
+      "paired_se": 0.0002669355967173033,
+      "paired_z": 0.41689972852275764,
+      "ratio": 1.0048469118254004,
+      "functional_mean": 0.3673609318702449,
+      "functional_second_moment": 0.24238622882273073,
+      "target_successes": 12603
+    },
+    "L4_clip": {
+      "L": 4,
+      "F": "clip",
+      "trials": 150000,
+      "seed": 8081,
+      "masks": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "strict_orthants_per_draw": 4,
+      "exact_unweighted_probability": "1/64",
+      "geometry_rational_fallbacks": 0,
+      "norm_rational_fallbacks": 0,
+      "functional_absolute_error_bound": 1e-12,
+      "functional_binary64_sha256": "735710a2eedb2d0ecba41807195c4238b0b6e0288c6e3578611c6bc76be0649d",
+      "target_uint8_sha256": "5fc52bc5913a2bc748829f64ed63167873ff776f2447ddebb030f36c29720d67",
+      "lhs_mean": 0.004922430950604833,
+      "rhs_mean": 0.004926236928768871,
+      "paired_diff": -3.805978164038312e-06,
+      "paired_se": 0.0001452491621778906,
+      "paired_z": -0.02620309891617156,
+      "ratio": 0.999227406594715,
+      "functional_mean": 0.31527916344120777,
+      "functional_second_moment": 0.20129898367734145,
+      "target_successes": 2309
+    }
+  },
+  "rng_state_after": {
+    "bit_generator": "PCG64",
+    "state": {
+      "state": 109171777418616497981252667340604422901,
+      "inc": 307790980221023048703276680906094244627
+    },
+    "has_uint32": 0,
+    "uinteger": 0
+  }
+}

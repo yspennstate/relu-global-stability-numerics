@@ -6,8 +6,9 @@ preactivations. See REVISION_NOTES.md for changes and verification scope.
 The subsequent bias revision keeps the two main results bias-free and states
 independent symmetric layer biases and a reused Gaussian bias as optional
 extensions. Their joint independence assumptions and recession/innovation proofs
-are explicit. Table 3 remains a historical numerical check with rounded-angle
-approximation disclosed; it is not an exact-arithmetic certificate.
+are explicit. Table 3 now uses a complete replay with certified strict geometry
+for the represented weights and an independently checked error bound for every
+clipped norm. The earlier rounded-angle results remain as historical data.
 
 ## Build the paper
 
@@ -28,7 +29,7 @@ as the main document. The source archive preserves this directory layout.
 |---|---|---|
 | 1: subspace orthants | s3_cover.py | s3_cover.json; planar boundary arcs, sampled higher-dimensional rows |
 | 2: strict regions | s2_regions.py | s2_regions.json; planar cells or all-mask LP; weights, strict masks and witnesses |
-| 3: paired gauge identity | s7b_gauge_bounded.py | s7b_gauge_bounded.json; seed 8081; odd masks diag(1,0), even I2 |
+| 3: paired gauge identity | s7b_gauge_certified.py | s7b_gauge_certified.json; seed 8081; odd masks diag(1,0), even I2 |
 | 4: radial/mixture moments | s6_audit.py | s6_audit.json; seed 90210; 200000 radial and 400000 mixture draws |
 | 5: sufficient thresholds | finite_budget.py | finite_budget.json; derivative-root optimization |
 | 6: finite-width rates | finite_budget.py | same file; integer widths from the exponential bound |
@@ -52,8 +53,13 @@ and recalculated Tables 5--6 with the optimized bound. A subsequent checkpointed
 completed all 2,000 original s8 horizon draws and reproduced Table 8; independent
 aggregation agreed to floating-point precision. All five Table 9 grid calculations
 were replayed and compared with an 80-digit stationary-point calculation. The full
-original s7b Monte Carlo run has not been rerun.
-Table 3 masks and seed were checked against source and added as metadata to retained output.
+original Table 3 stream was subsequently replayed through all 1,020,000 draws.
+Independent regeneration and aggregation checked every retained chunk. The old
+geometry disagreed on 210 draws, including two target-membership decisions;
+the corrected six rows supply the current table. All 350,000 clipped values have
+a certified absolute error of at most 1e-12 for the represented weights under
+IEEE binary64 basic arithmetic. This bound is separate from Monte Carlo error.
+See numerics/README_TABLE3.md for the geometry, error bound and reproduction command.
 
 ## Verify strict membership
 
