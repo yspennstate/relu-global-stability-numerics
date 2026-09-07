@@ -5,7 +5,7 @@ The network of \cref{sec:intro} uses a fresh matrix at every layer. This section
 \begin{equation}\label{eq:fh-dyn}
 x_{t+1}=\phi(Wx_t),\qquad t=0,1,2,\dots,\qquad W\in\R^{N\times N},\quad W_{ij}\overset{\text{ind}}{\sim}\mathcal N(0,1/N),
 \end{equation}
-started from a unit vector $x_0\in S^{N-1}$. In the notation of \cref{sec:intro} this is width $n=N$ and variance parameter $\alpha=1$, with the $L$ independent matrices replaced by a single one. The question is no longer the worst input but the ordinary one: what does the norm of the trajectory do? At $\alpha=1$ an independent Gaussian layer halves the conditional expected squared norm. The theorem shows that the tied iteration follows the same norm profile for a fixed number of steps with exponentially small failure probability, for every deterministic unit input and outside a set of exponentially small measure for one typical matrix. The proof is due to the same author as the global theorem and is given here in a condensed form; nothing is omitted from the logic, only from the commentary.
+started from a unit vector $x_0\in S^{N-1}$. In the notation of \cref{sec:intro} this is width $n=N$ and variance parameter $\alpha=1$, with the $L$ independent matrices replaced by a single one. The question is no longer the worst input but the ordinary one: what does the norm of the trajectory do? At $\alpha=1$ an independent Gaussian layer halves the conditional expected squared norm. The theorem shows that the tied iteration follows the same norm profile for a fixed number of steps with exponentially small failure probability, for every deterministic unit input and outside a set of exponentially small measure for one typical matrix. 
 
 \subsection{Statements}
 

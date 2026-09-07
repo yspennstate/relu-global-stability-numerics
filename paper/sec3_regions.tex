@@ -86,7 +86,7 @@ Let $F:\R^n\to\R^m$ be continuous, and suppose a finite polyhedral complex cover
 \]
 \end{lemma}
 
-Why this is not obvious: the Lipschitz constant compares two points that may be far apart, with many cells between them, while the operator norms are local statements about single cells. Nothing in the definition says a journey across a hundred cells cannot accumulate more stretching than any one cell allows. The proof shows it cannot, and the reason is that the pieces of a straight segment add up to exactly the length of the segment.
+The Lipschitz constant compares points that may lie in different cells, while the operator norms are local to single cells. The proof shows that no stretching accumulates across cells, because the pieces of a straight segment add up to exactly its length.
 
 \begin{proof}
 Let $M=\max_C\op{M_C}$. Fix $s,t$ and parameterize the segment $\gamma(u)=s+u(t-s)$, $0\le u\le 1$. A finite complex has finitely many faces, each cut out by finitely many linear equations and inequalities. Thus the parameter interval has a finite subdivision on whose open subintervals the minimal face containing the segment is constant: $[0,1]$ splits as $0=u_0<u_1<\dots<u_r=1$ with the interior of each $\gamma([u_{j-1},u_j])$ inside one face. Choose a full-dimensional cell $C_j$ whose closure contains that face. On the interior of $C_j$, $F=M_{C_j}$; both sides are continuous, so they agree on the closure, in particular at the two endpoints of the subsegment. Therefore
