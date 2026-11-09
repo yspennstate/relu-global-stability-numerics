@@ -50,6 +50,7 @@
 \small \texttt{yitzchak.shmalo@gmail.com}}
 \date{}
 
+\usepackage{xurl}
 \begin{document}
 \maketitle
 
@@ -79,6 +80,8 @@ The second result ties the layers: for one matrix $W$ applied repeatedly, $x_{t+
 \section*{Acknowledgments and funding}
 The research presented in this paper was supported by the European Research Council (ERC) under the European Union's Horizon Europe research and innovation programme (grant agreement No.~101041711), by the Simons Foundation as part of the Collaboration on the Mathematical and Scientific Foundations of Deep Learning, by Heights Labs, by Convex Nexus Capital, by the Israel Science Foundation (grant number 2258/19), and by the Israel Science Foundation (ISF Grant 4101/25).
 
+This work was done by multiple AI agents, Claude (Anthropic) and Codex (OpenAI), connected to Math Brain~\cite{MathBrainRepo} and working together inside the Brain framework~\cite{BrainFramework}, a shared, persistent memory in which the agents record claims, proofs, failed attempts and methods, retrieve one another's results, coordinate who works on what, and audit each other's work. For more on the details behind the Brain and Math Brain, see the Math Brain paper~\cite{MathBrainPaper}, the Math Brain repository~\cite{MathBrainRepo} and the Brain framework repository~\cite{BrainFramework}.
+
 \section*{Declaration of competing interest}
 The author holds equity in Heights Labs and in Convex Nexus Capital and has a management role at Convex Nexus Capital; both entities supported this work and are named above. Neither had a role in the design of the study, the analysis, the writing, or the decision to publish. The public funders had no role in those either.
 
@@ -87,6 +90,8 @@ During the preparation of this work the author made substantial use of generativ
 
 \section*{Data and code availability}
 The code behind every table, the fixed-seed simulation outputs, and the scripts that evaluate the exponent budget, the thresholds $\alpha^*_L$ and the rates $I(1/\alpha)$ are included in the source archive and available at \url{https://github.com/yspennstate/relu-global-stability-numerics}.
+
+The paper is part of the Math Brain project, whose public repository is \url{https://github.com/yspennstate/math-brain-public}~\cite{MathBrainRepo}.
 
 \begin{thebibliography}{9}
 \bibitem{geuchen2025} P. Geuchen, D. St\"oger, T. Telaar and F. Voigtlaender, Upper and lower bounds for the Lipschitz constant of random neural networks, \href{https://arxiv.org/abs/2311.01356v4}{arXiv:2311.01356v4}, 2025.
@@ -97,6 +102,12 @@ The code behind every table, the fixed-seed simulation outputs, and the scripts 
 \bibitem{vershynin} R. Vershynin, \emph{High-Dimensional Probability}, Cambridge University Press, 2018; sphere nets and operator norms.
 \bibitem{cover-thomas} T.~M. Cover and J.~A. Thomas, \emph{Elements of Information Theory}, 2nd ed., Wiley, 2006; the entropy bound for binomial sums.
 \bibitem{baiyin} Z.~D. Bai and Y.~Q. Yin, Necessary and sufficient conditions for almost sure convergence of the largest eigenvalue of a Wigner matrix, \emph{Ann. Probab.} 16 (1988), 1729--1741; and Limit of the smallest eigenvalue of a large dimensional sample covariance matrix, \emph{Ann. Probab.} 21 (1993), 1275--1294.
+\bibitem{MathBrainRepo} Y.~Shmalo, \emph{Math Brain: public snapshot, code and tests}, 2026, \url{https://github.com/yspennstate/math-brain-public}.
+
+\bibitem{MathBrainPaper} Y.~Shmalo, \emph{Math Brain: shared, auditable memory for multi-agent mathematical research}, October 2026, \url{https://github.com/yspennstate/math-brain-public/tree/main/papers/math-brain-2026-10-24}.
+
+\bibitem{BrainFramework} Y.~Shmalo, \emph{Brain Framework}, public software repository, 2026, \url{https://github.com/yspennstate/brain-framework-public}.
+
 \end{thebibliography}
 
 \end{document}
