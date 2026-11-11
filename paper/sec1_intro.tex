@@ -46,7 +46,7 @@ B_L(\alpha,\theta)=L\,H(1/L)+\log 5+\theta\log 4+L\,h_\alpha(\theta).
 For $L=1$ the same holds with $L H(1/L)$ replaced by $\log 2$.
 \end{theorem}
 
-The four terms of the budget $B_L$ have four separate origins, listed in \cref{sec:budget}: the entropy term counts realizable activation patterns, $\log 5$ pays for a net of the sphere, $\theta\log 4$ for replacing an operator norm by a maximum over that net, and $L\,h_\alpha(\theta)$ bounds the radial moment exponent over $L$ layers. The first three do not depend on $\alpha$; the last is the only one that carries a factor $L$ with a sign that can be negative. When $\alpha<2$ the function $h_\alpha$ is negative on an interval $(0,\theta_0)$, because its derivative at zero is $\log(\alpha/2)<0$, so the last term is a negative multiple of $L$ while the positive terms grow like $\log L$. Beyond a computable depth the budget is negative.
+The four terms of the budget $B_L$ have four separate origins, listed in \cref{sec:budget}: the entropy term counts realizable activation patterns, $\log 5$ pays for a net of the sphere \cite{vershynin}, $\theta\log 4$ for replacing an operator norm by a maximum over that net, and $L\,h_\alpha(\theta)$ bounds the radial moment exponent over $L$ layers. The first three do not depend on $\alpha$; the last is the only one that carries a factor $L$ with a sign that can be negative. When $\alpha<2$ the function $h_\alpha$ is negative on an interval $(0,\theta_0)$, because its derivative at zero is $\log(\alpha/2)<0$, so the last term is a negative multiple of $L$ while the positive terms grow like $\log L$. Beyond a computable depth the budget is negative.
 
 \begin{corollary}[fixed depth, growing width]\label{cor:width}
 Let $\alpha<2$ and $L\ge 2$, and suppose $c_L(\alpha):=\max_{0<\theta<1/4}\bigl[-B_L(\alpha,\theta)\bigr]>0$. Then for every width $n$,
@@ -89,7 +89,7 @@ For a fixed nonzero $x$, each coordinate of $W_\ell x$ is Gaussian with variance
 \[
 \E\bigl[\norm{\phi(W_\ell x)}^2\ \big|\ x\bigr]=\frac{\alpha}{2}\norm x^2.
 \]
-A forward pass multiplies a typical squared norm by $\alpha/2$ per layer, and $\alpha=2$ is where that factor is one. The content of the theorem is that the same number governs the global Lipschitz constant in the deep limit, although the supremum in \cref{eq:Kdef} may hunt for rare activation regions and rare directions, and although the region an input lands in is decided by the very matrices whose stretching is being measured.
+A forward pass multiplies a typical squared norm by $\alpha/2$ per layer, and $\alpha=2$ is where that factor is one. This is the variance $2/n$ of the initialization of He, Zhang, Ren and Sun~\cite{he2015}, and the critical point of the signal-propagation analyses of Poole et al.~\cite{poole2016} and Schoenholz et al.~\cite{schoenholz2017}; Hanin~\cite{hanin2018} studied how gradients explode or vanish around it at finite width. The content of the theorem is that the same number governs the global Lipschitz constant in the deep limit, although the supremum in \cref{eq:Kdef} may hunt for rare activation regions and rare directions, and although the region an input lands in is decided by the very matrices whose stretching is being measured.
 
 \subsection{The second result: one matrix, many steps}
 
